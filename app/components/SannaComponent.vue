@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Sanna Sida</h1>
+    <h1 class="titel">Sanna Sida</h1>
     <p>Detta är Sannas speciella sida.</p>
   </div>
 </template>
 
-<style>
-h1 {
+<style scoped>
+.titel {
   color: blue;
 }
 p {
