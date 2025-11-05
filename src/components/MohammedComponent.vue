@@ -7,7 +7,7 @@
 
 <style scoped>
 h1 {
-  color: green;
+  color: rgb(255, 0, 72);
 }
 p {
   font-weight: bold;
