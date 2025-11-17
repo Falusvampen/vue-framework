@@ -1,4 +1,20 @@
 <script>
+export default{
+    name:"RecipeDescription",
+    props:{
+        recipe:{
+            type:Object,
+            required:true,
+            default:()=>({
+                title:'',
+                description:'',
+                prepTime: '',
+                image:''
+
+            })
+        }
+    }
+}
 </script>
 
 <template>
@@ -15,6 +31,20 @@
         </p>
 
     </div>
+
+      <div class="recipe-footer">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <div class="cooking-time">
+            <span class="time-text">{{ recipe.prepTime }} minuter</span>
+          </div>
+        </div>
+      
 
     <div class="recipeimg">
 
