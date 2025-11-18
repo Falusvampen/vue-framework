@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/kim',
       name: 'kim',
-      component:KimView,
+      component: KimView,
     },
     {
       path: '/about',
