@@ -11,7 +11,6 @@ const getViews = () => {
 
 const convertNameToPath = (name) => {
   const cleanName = name.replace(/View$/, '')
-  console.log('nice', name, 'odfasd', cleanName)
   return (
     '/' +
     cleanName
