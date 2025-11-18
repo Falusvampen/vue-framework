@@ -1,0 +1,171 @@
+<template>
+
+  <div class="Text">
+    <h1>{{ title }}</h1>
+  </div>
+  <div class="carousel">
+    <button @click="prevSlide" class="nav prev" :disabled="currentIndex === 0">‹</button>
+
+    <div class="carousel-window">
+      <div
+        class="carousel-track"
+        :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
+      >
+        <div
+          class="card"
+          v-for="(card, index) in cards"
+          :key="card.title + index"
+        >
+          <img :src="card.imageSrc" :alt="card.altText" />
+
+          <div class="card-content">
+            <h2>{{ card.title }}</h2>
+            <p>{{ card.description }}</p>
+          </div>
+
+          <div class="card-footer">
+            <span>{{ card.ingredients }} | {{ card.time }}</span>
+            <span class="stars">{{ card.rating }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      @click="nextSlide"
+      class="nav next"
+      :disabled="currentIndex + visibleCount >= cards.length"
+    >›</button>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    title: String,
+    cards: {
+      type: Array,
+      required: true
+    },
+    visibleCount: {
+      type: Number,
+      default: 3
+    }
+  },
+  data() {
+    return {
+      currentIndex: 0,
+      cardWidth: 368,
+      gap: 16 
+    }
+  },
+  methods: {
+    nextSlide() {
+      if (this.currentIndex + this.visibleCount < this.cards.length) {
+        this.currentIndex++
+      }
+    },
+    prevSlide() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+.Text {
+  display: flex;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  margin-left: 6%;
+}
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.carousel-window {
+  width: calc(23rem * 3 + 2 * 1rem); 
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.5s ease;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  width: 23rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.card img {
+  width: 100%;
+  height: 17rem;
+  display: block;
+  border-bottom: 1px solid #eee;
+  border-radius: 2vh;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.card:hover {
+  transform: scale(1.04);
+}
+
+.card-content {
+  padding: 16px 20px 20px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.card p {
+  margin-top: 5%;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff9e6;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #555;
+  border-top: 1px solid #eee;
+}
+
+.stars {
+  color: #f5c04f;
+  font-size: 1.6rem;
+}
+
+.nav {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #333;
+}
+</style>
