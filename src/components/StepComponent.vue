@@ -2,8 +2,7 @@
 export default {
   props: {
     title: String,
-    tutorial: String,
-    number: Number
+    steps: Array 
   }
 }
 </script>
@@ -14,12 +13,18 @@ export default {
       <h2>{{ title }}</h2>
     </div>
 
-    <div class="step">
-      <div class="step-number">{{ number }}</div>
-      <div class="step-text">{{ tutorial }}</div>
+    <div
+      class="step"
+      v-for="(step, index) in steps"
+      :key="index"
+    >
+      <div class="step-number">{{ step.number }}</div>
+      <div class="step-text">{{ step.tutorial }}</div>
     </div>
   </div>
 </template>
+
+
 
 <style scoped>
 .görsåhär-card {
