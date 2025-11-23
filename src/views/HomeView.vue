@@ -3,6 +3,7 @@ import AxelComponent from '@/components/AxelComponent.vue'
 import KimComponent from '@/components/KimComponent.vue'
 import MohammedComponent from '@/components/MohammedComponent.vue'
 import SannaComponent from '@/components/SannaComponent.vue'
+
 </script>
 
 <template>
@@ -11,5 +12,6 @@ import SannaComponent from '@/components/SannaComponent.vue'
     <SannaComponent />
     <KimComponent />
     <MohammedComponent />
+    
   </main>
 </template>
