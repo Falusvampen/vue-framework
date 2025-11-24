@@ -19,16 +19,21 @@ export default {
 
   methods: {
     extractUniqueCategories() {
-      if (!this.recipes || !Array.isArray(this.recipes)) {
-        console.error("Recipe data is missing or not an array. Cannot extract categories.");
-        return;
-      }
-      const allCategories = this.recipes.map(recipe => recipe.category);
-      this.categories = [...new Set(allCategories)];
-      console.log(this.categories);
+      const categorySet = new Set();
+
+      this.recipies.forEach(recipe => {
+        if (recipe.category) {
+          categorySet.add(recipe.category);
+        }
+      });
+
+      this.categories = Array.from(categorySet);
+    },
+
+    switchCategory(category) {
+      this.$emit('categorySelected', category);
     }
   }
-
 }
 
 </script>
@@ -37,8 +42,10 @@ export default {
   <nav>
     <h2>Kategorier</h2>
     <ol>
-      <li v-for="category in categories" :key="category">
+      <li>
+        <button @click="switchCategory(category)" v-for="category in categories" :key="category">
         {{ category }}
+        </button>
       </li>
     </ol>
   </nav>
@@ -61,7 +68,22 @@ ol {
   list-style-type: none;
 }
 
-li:hover {
+li {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  background: none;
+  border: none;
+  color: black;
+  text-align: left;
+  padding: 5px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 </style>
