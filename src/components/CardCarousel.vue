@@ -81,7 +81,7 @@ export default {
   font-size: 1rem;
   font-weight: bold;
   color: white;
-  margin-left: 6%;
+  margin-left: 13%;
   margin-bottom: 1rem;
 }
 .carousel {

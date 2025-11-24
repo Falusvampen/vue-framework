@@ -67,10 +67,11 @@ export default {
 }
 
 .text-section h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-family: "Holtwood One SC";
   margin-bottom: 1rem;
-    color: #4A4040;
+  color: #4A4040;
+
 }
 
 .text-section button {
