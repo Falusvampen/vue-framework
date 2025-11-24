@@ -1,117 +1,25 @@
 <script setup>
-import CardCarousel from '../components/CardCarousel.vue';
+import StepComponent from '../components/StepComponent.vue';
+import Gebetyg from '@/components/Gebetyg.vue';
+
 </script>
 
 <template>
   <main>
-    <CardCarousel { title="Favoriter" }, :cards="[
-      {
-        title: 'Pasta',
-        description: 'Krämig pastasallad med pesto och kyckling.',
-        imageSrc: 'berry.png',
-        altText: 'Pastasallad',
-        ingredients: '5 ingredienser',
-        time: '30 minuter',
-        rating: '★★★☆☆'
+
+    <StepComponent title="Så här fungerar det" :steps="[
+      { number: 1, tutorial: 'Bläddra igenom våra recept och välj din favorit.' },
+      { number: 2, tutorial: 'Lägg till receptet i din veckomeny med ett klick.' },
+      { number: 3, tutorial: 'Få en inköpslista baserad på dina val.' }
+    ]"
+    />
+
+    
+
+    <Gebetyg title="Vad tycker du om vår app?" />
 
 
-      },
-      {
-        title: 'Pizza',
-        description: 'Krämig pastasallad med pesto och kyckling.',
-        imageSrc: 'berry.png',
-        altText: 'Pastasallad',
-        ingredients: '5 ingredienser',
-        time: '30 minuter',
-        rating: '★★★☆☆'
-
-
-      },
-      {
-        title: 'Pastasallad',
-        description: 'Krämig pastasallad med pesto och kyckling.',
-        imageSrc: 'berry.png',
-        altText: 'Pastasallad',
-        ingredients: '5 ingredienser',
-        time: '30 minuter',
-        rating: '★★★☆☆'
-
-
-      },
-      {
-        title: 'Halloumi sallad',
-        description: 'En fräsch sallad med grillad halloumi.',
-        imageSrc: 'berry.png',
-        altText: 'Halloumi sallad',
-        ingredients: '6 ingredienser',
-        time: '74 minuter',
-        rating: '★★★★★'
-      },
-      {
-        title: 'Halloumi sallad',
-        description: 'En fräsch sallad med grillad halloumi.',
-        imageSrc: 'berry.png',
-        altText: 'Halloumi sallad',
-        ingredients: '6 ingredienser',
-        time: '74 minuter',
-        rating: '★★★★★'
-      }
-    ]" :visibleCount="3" />
-
-
-    <CardCarousel { title="Senaste Nytt" }, :cards="[
-      {
-        title: 'Pasta',
-        description: 'Krämig pastasallad med pesto och kyckling.',
-        imageSrc: 'berry.png',
-        altText: 'Pastasallad',
-        ingredients: '5 ingredienser',
-        time: '30 minuter',
-        rating: '★★★☆☆'
-
-
-      },
-      {
-        title: 'Pizza',
-        description: 'Krämig pastasallad med pesto och kyckling.',
-        imageSrc: 'berry.png',
-        altText: 'Pastasallad',
-        ingredients: '5 ingredienser',
-        time: '30 minuter',
-        rating: '★★★☆☆'
-
-
-      },
-      {
-        title: 'Pastasallad',
-        description: 'Krämig pastasallad med pesto och kyckling.',
-        imageSrc: 'berry.png',
-        altText: 'Pastasallad',
-        ingredients: '5 ingredienser',
-        time: '30 minuter',
-        rating: '★★★☆☆'
-
-
-      },
-      {
-        title: 'Halloumi sallad',
-        description: 'En fräsch sallad med grillad halloumi.',
-        imageSrc: 'berry.png',
-        altText: 'Halloumi sallad',
-        ingredients: '6 ingredienser',
-        time: '74 minuter',
-        rating: '★★★★★'
-      },
-      {
-        title: 'Halloumi sallad',
-        description: 'En fräsch sallad med grillad halloumi.',
-        imageSrc: 'berry.png',
-        altText: 'Halloumi sallad',
-        ingredients: '6 ingredienser',
-        time: '74 minuter',
-        rating: '★★★★★'
-      }
-    ]" :visibleCount="3" />
+    
     
   </main>
 </template>
