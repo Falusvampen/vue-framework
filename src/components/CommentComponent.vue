@@ -8,15 +8,21 @@
     </div>
 
    <div class="comment-header-stars">
-          <div class="stars">
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
+          <div class="stars" @mouseleave="hoveredRating = 0">
+            <span 
+              v-for="star in 5" 
+              :key="star"
+              class="star"
+              :class="{ 
+                'filled': star <= (hoveredRating || newComment.rating),
+                'hovered': star <= hoveredRating
+              }"
+              @click="newComment.rating = star"
+              @mouseover="hoveredRating = star"
+            >★</span>
 
           </div>
-
+          <p v-if="newComment.rating" class="rating-text">{{ newComment.rating }} av 5</p>
           </div>
 
         <br>
@@ -44,7 +50,7 @@
 
         <button
         @click="submitComment"
-        :disabled="!isFormValid"
+        :disabled="newComment.text.trim() === '' || newComment.name.trim() === ''"
         class="submit-btn">
 
         Skicka kommentar
@@ -57,7 +63,12 @@
 
     <div class="comments-list" v-if="comments.length > 0">
       <div class="comment-item" v-for="(comment, index) in comments" :key="index">
-        <p class="comment-name">{{ comment.name }} - {{ comment.date }}</p>
+        <div class="comment-header">
+          <p class="comment-name">{{ comment.name }} - {{ comment.date }}</p>
+          <div class="comment-rating">
+            <span v-for="star in 5" :key="star" class="comment-star" :class="{ 'filled': star <= comment.rating }">★</span>
+          </div>
+        </div>
         <p class="comment-text">{{ comment.text }}</p>
       </div>
     </div>
@@ -80,9 +91,11 @@ export default {
     return {
       newComment: {
         text: '',
-        name: ''
+        name: '',
+        rating: 0
       },
-      comments: []
+      comments: [],
+      hoveredRating: 0
     }
   },
   computed: {
@@ -95,11 +108,13 @@ export default {
       if (this.isFormValid) {
         this.comments.push({
           text: this.newComment.text,
-          name: this.newComment.name,
+          name: this.newComment.name.toUpperCase(),
+          rating: this.newComment.rating,
           date: new Date().toLocaleDateString('sv-SE')
         });
         this.newComment.text = '';
         this.newComment.name = '';
+        this.newComment.rating = 0;
       }
     }
   }
@@ -116,8 +131,18 @@ export default {
 }
 .star {
   font-size: 50px;
-  color: gold;
+  color: #ccc;
   margin: 0 2px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.star.hovered {
+  color: gold;
 }
 
 .comment-section {
@@ -191,6 +216,34 @@ export default {
   margin-bottom: 20px;
   
   
+}
+
+.rating-text {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.comment-rating {
+  display: flex;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.comment-star {
+  font-size: 18px;
+  color: #ccc;
+}
+
+.comment-star.filled {
+  color: gold;
 }
 
 
