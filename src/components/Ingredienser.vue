@@ -2,9 +2,18 @@
 export default {
   props: {
     title: String,
-    ingredients: String,
-    Antal: String
+    ingredients: Array,
     
+  },
+  data() {
+    return {
+
+    }
+  },
+  computed: {
+    ingredientsTotal() {
+      return this.ingredients.length;
+    }
   }
 }
 </script>
@@ -14,12 +23,17 @@ export default {
 
     <div class="ingredienser-heading">
       <h2>{{ title }}</h2>
-      <p>{{ Antal }}</p>
+      <p>{{ ingredientsTotal }} st</p>
 
     </div>
 
     <div class="ingredienser-content">
-      <p>{{ ingredients }}</p>
+      <ul class="ingredienser-list">
+      <li v-for="(item, index) in ingredients" :key="index">
+        {{ item }}
+      </li>
+    </ul>
+    
     </div>
 
   </div>
@@ -75,5 +89,3 @@ export default {
   }
 
 </style>
-
-<script></script>
