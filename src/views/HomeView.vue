@@ -1,5 +1,7 @@
 <script setup>
 import CardCarousel from '../components/CardCarousel.vue'
+import Textimagesplit from '@/components/Textimagesplit.vue'
+import Textimagesplit1 from '@/components/Textimagesplit1.vue'
 </script>
 
 <template>
@@ -112,5 +114,22 @@ import CardCarousel from '../components/CardCarousel.vue'
         rating: '★★★★★'
       }
     ]" :visibleCount="3" />
+
+
+   <Textimagesplit
+    title="ENKELT, SNABBT OCH SUPERGOTT."
+    subtitle="Recept och tips"
+    buttonText="Läs mer"
+    imageSrc="Hallumisallad.jpg"
+    
+  />
+
+  <Textimagesplit1
+    title="Nya Produkter på ingång!"
+    subtitle="Recept och inspiration"
+    buttonText="Utforska"
+    imageSrc="Colaburkar.png"
+
+    />
   </main>
 </template>
