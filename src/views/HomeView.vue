@@ -1,3 +1,4 @@
+
 <script>
 import CardCarousel from '@/components/CardCarousel.vue'
 import RecipeService from '@/services/RecipeService'
@@ -79,7 +80,7 @@ export default {
 
 <style scoped>
 .dashboard {
-  /* En mörk bakgrund så din vita text "Senaste Recepten" syns */
+
   background-color: #bd4848;
   min-height: 100vh;
   padding-top: 2rem;
