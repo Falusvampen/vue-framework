@@ -1,78 +1,84 @@
 <script>
 export default {
+  name: "ingredienserComponent", 
   props: {
     title: String,
-    ingredients: String,
-    Antal: String
-    
+    Antal: String,
+    ingredients: Array
   }
 }
 </script>
 
 <template>
-  <div class="Ingredienser-card">
-
+  <div class="ingredienser-card">
     <div class="ingredienser-heading">
       <h2>{{ title }}</h2>
-      <p>{{ Antal }}</p>
-
+      <span class="antal">{{ Antal }}</span>
     </div>
 
-    <div class="ingredienser-content">
-      <p>{{ ingredients }}</p>
-    </div>
-
+    <ul class="ingredienser-list">
+      <li v-for="(item, index) in ingredients" :key="index">
+        {{ item }}
+      </li>
+    </ul>
   </div>
 </template>
 
 
+
+
 <style scoped>
 
-.Ingredienser-card {
-    background-color:#ECEBEB;
-    width: 20rem;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    margin-top: 5%;
-  }
+.ingredienser-card {
+  background-color: #fff8f0;
+  width: 25rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  border-radius: 16px;
+}
 
-  .ingredienser-heading {
-    padding: 16px 27px 5px;
-    display: flex;
-    justify-content: space-between;
-  }
+.ingredienser-heading {
+  padding: 16px 27px 5px;
+  display: flex;
+  justify-content: space-between;
+}
 
-  .ingredienser-heading h2 {
-    margin-bottom: 3%;
-    font-size: 1.5rem;
-    color: black;
-  }
+.ingredienser-heading h2 {
+  margin-bottom: 3%;
+  font-size: 1.5rem;
+  color: black;
+}
 
-  .ingredienser-heading p {
-    margin: 0;
-    font-size: 1.3rem;
-    color: black;
-    align-self: center;
-  }
+.antal {
+  font-size: 1.3rem;
+  color: black;
+  align-self: center;
+}
 
-  .ingredienser-content {
-    background-color: white;
-    padding: 10px 20px 20px;
-    Height:30rem;
-    width: 18em;
-    margin: auto;
-    border-radius: 8px;
-    margin-bottom: 2%;
-  }
+.ingredienser-list {
+  background: #fff;
+  padding: 2rem 1rem 4rem;
+  width: 23em;
+  margin: auto;
+  border-radius: 8px;
+  margin-bottom: 2%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  list-style: none;
+}
 
-  .ingredienser-content p {
-    margin: 0;
-    color: #444;
-    font-size: 14px;
-    line-height: 1.5;
-  }
+.ingredienser-list li {
+  margin: 0;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 4px 0;
+}
+
+
+
 
 </style>
 
