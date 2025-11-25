@@ -1,5 +1,4 @@
 <template>
-
   <div class="Text">
     <h1>{{ title }}</h1>
   </div>
@@ -11,10 +10,11 @@
         class="carousel-track"
         :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
       >
-        <div
+        <router-link
           class="card"
           v-for="(card, index) in cards"
           :key="card.title + index"
+          :to="`/recept/${card.id}/${card.slug}`"
         >
           <img :src="card.imageSrc" :alt="card.altText" />
 
@@ -27,7 +27,7 @@
             <span>{{ card.ingredients }} | {{ card.time }}</span>
             <span class="stars">{{ card.rating }}</span>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
 
@@ -35,7 +35,9 @@
       @click="nextSlide"
       class="nav next"
       :disabled="currentIndex + visibleCount >= cards.length"
-    >›</button>
+    >
+      ›
+    </button>
   </div>
 </template>
 
@@ -45,18 +47,18 @@ export default {
     title: String,
     cards: {
       type: Array,
-      required: true
+      required: true,
     },
     visibleCount: {
       type: Number,
-      default: 3
-    }
+      default: 3,
+    },
   },
   data() {
     return {
       currentIndex: 0,
       cardWidth: 368,
-      gap: 16 
+      gap: 16,
     }
   },
   methods: {
@@ -69,20 +71,19 @@ export default {
       if (this.currentIndex > 0) {
         this.currentIndex--
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-
 .Text {
   display: flex;
   font-size: 1rem;
   font-weight: bold;
   color: white;
   margin-left: 6%;
-  margin-bottom:1.5rem;
+  margin-bottom: 1.5rem;
 }
 .carousel {
   display: flex;
@@ -92,7 +93,7 @@ export default {
 }
 
 .carousel-window {
-  width: calc(23rem * 3 + 2 * 1rem); 
+  width: calc(23rem * 3 + 2 * 1rem);
   overflow: hidden;
 }
 
@@ -100,7 +101,7 @@ export default {
   display: flex;
   gap: 1rem;
   transition: transform 0.5s ease;
-  margin-bottom:4rem;
+  margin-bottom: 4rem;
 }
 
 .card {
@@ -109,7 +110,7 @@ export default {
   width: 23rem;
   flex-shrink: 0;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
@@ -123,7 +124,6 @@ export default {
   border-radius: 2vh;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 
 .card:hover {
   transform: scale(1.04);
