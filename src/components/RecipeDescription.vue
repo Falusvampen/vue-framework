@@ -57,16 +57,10 @@ export default {
       <span class="star">★</span>
       <span class="star">★</span>
     </div>
-
-    <div class="recipe-header">
-        <h1 class="recipe-title">
-            {{ recipe.title }}
-        </h1>
-        <p class="recipe-description">
-            {{ recipe.description }}
-        </p>
-
+    <div class="cooking-time">
+      <span class="time-text">{{ recipe.prepTime }} 15 minuter⏱️</span>
     </div>
+  </div>
 
       <div class="recipe-footer">
           <div class="stars">
