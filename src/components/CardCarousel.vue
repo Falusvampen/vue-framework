@@ -81,7 +81,8 @@ export default {
   font-size: 1rem;
   font-weight: bold;
   color: white;
-  margin-left: 6%;
+  margin-left: 13%;
+  margin-bottom: 1rem;
 }
 .carousel {
   display: flex;
@@ -99,6 +100,7 @@ export default {
   display: flex;
   gap: 1rem;
   transition: transform 0.5s ease;
+  margin-bottom: 2rem;
 }
 
 .card {
