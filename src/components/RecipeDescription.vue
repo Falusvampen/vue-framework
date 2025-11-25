@@ -1,184 +1,153 @@
 <script>
-export default{
-    name:"RecipeDescription",
-    props:{
-        recipe:{
-            type:Object,
-            required:true,
-            default:()=>({
-                title:'',
-                description:'',
-                prepTime: '',
-                image:''
-
-            })  
-        }
+export default {
+  name: "RecipeDescription",
+  props: {
+    recipe: {
+      type: Object,
+      required: true,
+      default: () => ({
+        title: '',
+        description: '',
+        prepTime: '',
+        image: ''
+      })
     }
+  },
+  computed: {
+    imageSrc() {
+      if (this.recipe && this.recipe.image) return this.recipe.image
+      const title = (this.recipe && this.recipe.title) ? this.recipe.title.toLowerCase() : ''
+      if (title.includes('halloumi')) return '/image.png'
+      if (title.includes('pasta')) return '/pasta.png'
+      if (title.includes('salad') || title.includes('sallad')) return '/salad.png'
+      return '/placeholder.png'
+    }
+  }
 }
 </script>
 
 <template>
+  <div class="recipe-container">
     
-    <div class="recipe-card">
-    </div>
+    <div class="recipe-content">
+      <header class="recipe-header">
+        <h1 class="recipe-title">{{ recipe.title }}</h1>
+      </header>
 
-    <div class="recipe-header">
-        <h1 class="recipe-title">
-            {{ recipe.title }}
-        </h1>
-        <p class="recipe-description">
-            {{ recipe.description }}
-        </p>
+      <section class="recipe-body">
+        <p class="recipe-description">{{ recipe.description }}</p>
+      </section>
 
-    </div>
-
-      <div class="recipe-footer">
-          <div class="stars">
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-          </div>
-          <div class="cooking-time">
-            <span class="time-text">{{ recipe.prepTime }} minuter</span>
-          </div>
+      <footer class="recipe-footer">
+        <div class="stars">
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
         </div>
-      
-
-    <div class="recipeimg">
-
-    <img src="C:\Users\rowno\Desktop\receptprojekt\image.png" alt="recipe.title" />
+        <div class="cooking-time">
+          <span class="time-text">{{ recipe.prepTime }} minuter</span>
+        </div>
+      </footer>
     </div>
+
+    
+    <div class="recipe-image-column">
+      <img :src="imageSrc" :alt="recipe.title || 'Recipe image'" class="recipe-image" />
+    </div>
+  </div>
 </template>
 
 
-<style>
-.recipe-card {
-  max-width: 964px;
+<style >
+* {
+  background-color: white;
+}
+
+.recipe-container {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+  max-width: 1200px;
   margin: 0 auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #333;
-  background: white;
-  padding: 20px;
+  padding: 2rem;
 }
 
 .recipe-content {
-  display: flex;
-  gap: 40px;
-  align-items: flex-start;
-}
-.text-section {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 400px;
+  min-width: 0;
 }
 
 .recipe-header {
-  margin-bottom: 30px;
+  margin-bottom: 1.5rem;
 }
 
 .recipe-title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin: 0 0 20px 0;
+  margin: 0 0 1rem 0;
   line-height: 1.2;
   color: #1a1a1a;
+  font-family: Arial, Helvetica, sans-serif;
 }
+
+.recipe-body {
+  margin-bottom: 2rem;
+}
+
 .recipe-description {
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.6;
   margin: 0;
-  color: #666;
-  white-space: pre-line;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .recipe-footer {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-top: auto;
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .stars {
   display: flex;
-  gap: 4px;
-}
-
-.star {
-  color: #FFD700;
-  font-size: 1.5rem;
-}.recipe-description {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  gap: 0.25rem;
   margin: 0;
-  color: #666;
-  white-space: pre-line;
-}
-
-.recipe-footer {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-top: auto;
-}
-
-.stars {
-  display: flex;
-  gap: 4px;
 }
 
 .star {
-  color: #FFD700;
-  font-size: 1.5rem;
-}.recipe-description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin: 0;
-  color: #666;
-  white-space: pre-line;
-}
-
-.recipe-footer {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-top: auto;
-}
-
-.stars {
-  display: flex;
-  gap: 4px;
-}
-
-.star {
-  color: #FFD700;
+  color: #ffd700;
   font-size: 1.5rem;
 }
+
 .cooking-time {
-  background: #f8f9fa;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 600;
-  border: 1px solid #e9ecef;
+  margin: 0;
 }
 
 .time-text {
   font-size: 1rem;
-  color: #495057;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.image-section {
+.recipe-image-column {
   flex: 0 0 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.recipe-img {
+
+.recipe-image {
   width: 100%;
-  height: 400px;
+  height: auto;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+
 
 </style>
