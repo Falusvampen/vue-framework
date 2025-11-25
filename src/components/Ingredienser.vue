@@ -60,7 +60,7 @@ export default {
 
 .ingredienser-list {
   background: #fff;
-  padding: 10px 20px 20px;
+  padding: 2rem 1rem 4rem;
   width: 23em;
   margin: auto;
   border-radius: 8px;

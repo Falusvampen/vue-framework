@@ -5,12 +5,17 @@
           <StepComponent title="Gör så här" :steps="steps" />
         </div>
     </div>
+
+    <Gebetyg title="Betygsätt receptet" />
+
+
 </template>
 
 <script>
 
 import Ingredienser from '../components/Ingredienser.vue';
 import StepComponent from '../components/StepComponent.vue';
+import Gebetyg from '../components/Gebetyg.vue';
 
     export default {
         name: 'RecipeView',
@@ -48,5 +53,12 @@ import StepComponent from '../components/StepComponent.vue';
 </script>
 
 <style  scoped>
+
+.recipe-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-direction: row;
+}
 
 </style>
