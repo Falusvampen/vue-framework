@@ -1,5 +1,5 @@
 
-<script setup>
+<script>
     import Ingredienser from '../components/Ingredienser.vue';
     import StepComponent from '../components/StepComponent.vue';
     import Gebetyg from '../components/Gebetyg.vue';
