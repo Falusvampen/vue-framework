@@ -1,4 +1,3 @@
-
 <script>
 import CardCarousel from '@/components/CardCarousel.vue'
 import RecipeService from '@/services/RecipeService'
@@ -24,6 +23,7 @@ export default {
           imageSrc: recipe.imageUrl,
           altText: recipe.title,
           title: recipe.title,
+          slug: recipe.slug,
           // description: this.truncateText(recipe.description, 80),
           description: recipe.description,
           ingredients: `${recipe.ingredients.length} ingredienser`,
@@ -80,7 +80,6 @@ export default {
 
 <style scoped>
 .dashboard {
-
   background-color: #bd4848;
   min-height: 100vh;
   padding-top: 2rem;
