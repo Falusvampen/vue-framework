@@ -39,7 +39,7 @@ export default {
 </script>
 
 <template>
-  <nav>
+  <nav class="category-nav">
     <h2>Kategorier</h2>
     <ol>
       <li>
@@ -52,13 +52,30 @@ export default {
 </template>
 
 <style scoped>
-nav {
+.category-nav {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   background-color: rgb(189, 187, 187);
   color: black;
   padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 20%;
+  min-width: 200px;
+  align-self: flex-start;
 }
+
+@media (min-width: 1024px) {
+    .category-nav {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+}
+/* fungerar inte :( */
 
 h2 {
   font-weight: bold;
@@ -85,5 +102,6 @@ button {
 
 button:hover {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  font-weight: bold;
 }
 </style>
