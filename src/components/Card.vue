@@ -33,7 +33,7 @@ export default {
 .card {
     background: #fff;
     border-radius: 16px;
-    width: 23rem;
+    width: 30rem;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: flex;

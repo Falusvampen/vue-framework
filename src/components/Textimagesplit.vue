@@ -48,7 +48,7 @@ export default {
 }
 
 .text-section {
-  flex: 1;
+  flex: 1.1;
   padding: 4rem;
   display: flex;
   flex-direction: column;
