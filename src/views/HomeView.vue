@@ -3,7 +3,7 @@ import CardCarousel from '@/components/CardCarousel.vue'
 import RecipeService from '@/services/RecipeService'
 import Textimagesplit1 from '@/components/Textimagesplit1.vue'
 import Textimagesplit from '@/components/Textimagesplit.vue'
-import TitleAndDescription from '@/components/TitleAndDescription.vue'
+import TitleAndDescription from '@/components/titleAndDescription.vue'
 
 export default {
   name: 'HomeView',
