@@ -1,8 +1,22 @@
 <script>
 import RecipeData from '@/recipes.json';
+import Searchbar from './Searchbar.vue';
 
 export default {
   name: 'TitleAndDescriptionComponent',
+
+  props: {
+
+    title: {
+      type: String,
+      default: 'Recept proteinrika snacks'
+    },
+    description: {
+      type: String,
+      default: 'Upptäck våra läckra och näringsrika proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!'
+    }
+
+  },
 
   data() {
     return {
@@ -45,8 +59,15 @@ export default {
 
 <template>
   <div id="title-and-description">
-    <h1>Gym-snacks</h1>
-    <p>Välkommen till denna recept sida med gym snacks för alla tillfällen! </p>
+    <div class="titleAndDescriotion">
+    <h1>{{ title }}</h1>
+    <p>{{ description }}</p>
+    </div>
+
+    <div class="searchbar">
+      <Searchbar />
+    </div>
+
     <ol>
       <li v-for="category in categories" :key="category">
         <button @click="switchCategory(category)">
@@ -55,7 +76,7 @@ export default {
       </li>
       <li v-if="categories.length > 3 && !showAllCategories">
         <button @click="showAllCategories = true">
-          Visa alla
+          Visa alla kategorier
         </button>
       </li>
     </ol>
@@ -75,6 +96,8 @@ export default {
   color: white;
   text-align: center;
   max-width: 100%;
+  margin-bottom: 50px;
+  height: 30em;
 }
 
 h1 {
