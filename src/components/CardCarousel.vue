@@ -1,45 +1,48 @@
-<template>
-  <div class="Text">
-    <h1>{{ title }}</h1>
-  </div>
-  <div class="carousel">
-    <button @click="prevSlide" class="nav prev" :disabled="currentIndex === 0">‹</button>
 
-    <div class="carousel-window">
-      <div
-        class="carousel-track"
-        :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
-      >
-        <router-link
-          class="card"
-          v-for="(card, index) in cards"
-          :key="card.title + index"
-          :to="`/recept/${card.id}/${card.slug}`"
-        >
-          <img :src="card.imageSrc" :alt="card.altText" />
 
-          <div class="card-content">
-            <h2>{{ card.title }}</h2>
-            <p>{{ card.description }}</p>
-          </div>
-
-          <div class="card-footer">
-            <span>{{ card.ingredients }} | {{ card.time }}</span>
-            <span class="stars">{{ card.rating }}</span>
-          </div>
-        </router-link>
-      </div>
+  <template>
+  <div class="carousel-section">
+    <div class="Text">
+      <h1>{{ title }}</h1>
     </div>
 
-    <button
-      @click="nextSlide"
-      class="nav next"
-      :disabled="currentIndex + visibleCount >= cards.length"
-    >
-      ›
-    </button>
+    <div class="carousel">
+      <button @click="prevSlide" class="nav prev" :disabled="currentIndex === 0">‹</button>
+
+      <div class="carousel-window">
+        <div
+          class="carousel-track"
+          :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
+        >
+          <div
+            class="card"
+            v-for="(card, index) in cards"
+            :key="card.title + index"
+          >
+            <img :src="card.imageSrc" :alt="card.altText" />
+
+            <div class="card-content">
+              <h2>{{ card.title }}</h2>
+              <p>{{ card.description }}</p>
+            </div>
+
+            <div class="card-footer">
+              <span>{{ card.ingredients }} | {{ card.time }}</span>
+              <span class="stars">{{ card.rating }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        @click="nextSlide"
+        class="nav next"
+        :disabled="currentIndex + visibleCount >= cards.length"
+      >›</button>
+    </div>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -77,14 +80,49 @@ export default {
 </script>
 
 <style scoped>
-.Text {
+
+.carousel-section {
+  width: calc(24rem * 3 + 2 * 1rem); 
+  margin: 0 auto;                    
   display: flex;
-  font-size: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+
+
+  
+           
+}
+
+.Text {
+  font-family: "Holtwood One SC";
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
   font-weight: bold;
   color: white;
-  margin-left: 6%;
   margin-bottom: 1.5rem;
+  margin-left: 3rem;
 }
+
+.Text h1::after {
+  content: "";
+  display: block;
+  width: 22rem;
+  height: 3.5px;
+  background-color: #818181;
+  margin-top: 0.4rem;
+  border-radius: 2px;
+}
+
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+
+
 .carousel {
   display: flex;
   align-items: center;
@@ -105,9 +143,10 @@ export default {
 }
 
 .card {
-  background: #fff;
+  background: #D9D9D9;
   border-radius: 16px;
   width: 23rem;
+  height: fit-content;
   flex-shrink: 0;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -145,13 +184,17 @@ export default {
   color: #444;
   font-size: 14px;
   line-height: 1.5;
+  max-height: 5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }
 
 .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff9e6;
+  background: #b3b3b1;
   padding: 10px 16px;
   font-size: 13px;
   color: #555;
@@ -166,8 +209,20 @@ export default {
 .nav {
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: 2.5rem;
   cursor: pointer;
-  color: #333;
+  color: white;
 }
+
+
+@media (max-width: 800px) {
+  .carousel-wrapper {
+    width: calc(23rem * 2 + 1rem); 
+  }
+
+  .carousel-window {
+    width: calc(23rem * 2 + 1rem); 
+  }
+}
+
 </style>

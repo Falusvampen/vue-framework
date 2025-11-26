@@ -90,7 +90,18 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+ 
 }
+.image-section img {
+  max-width: 70%;
+  max-height: 70%;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+
+}
+
+
 
 
 
