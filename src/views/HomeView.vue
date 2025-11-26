@@ -3,13 +3,15 @@ import CardCarousel from '@/components/CardCarousel.vue'
 import RecipeService from '@/services/RecipeService'
 import Textimagesplit1 from '@/components/Textimagesplit1.vue'
 import Textimagesplit from '@/components/Textimagesplit.vue'
+import TitleAndDescription from '@/components/TitleAndDescription.vue'
 
 export default {
   name: 'HomeView',
   components: {
     CardCarousel,
     Textimagesplit,
-    Textimagesplit1
+    Textimagesplit1,
+    TitleAndDescription
   },
   data() {
     return {
@@ -70,10 +72,16 @@ export default {
 
 <template>
   <main class="dashboard">
-    
+
 
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
+
+    <div>
+      <TitleAndDescription
+      />
+    </div>
+
     <div class="Cards">
     <CardCarousel
       v-if="!loading && recipes.length > 0"
@@ -96,7 +104,7 @@ export default {
     buttonText="Läs mer"
     imageSrc="berry.png"
     imageSrc1="Pasta.jpg"
-    
+
   />
 
   <Textimagesplit1
@@ -113,18 +121,17 @@ export default {
 
 <style scoped>
 .dashboard {
-  background-image: url('../assets/Gymbakgrundsbild.jpg'); 
-  background-size: cover;       
+  background-image: url('../assets/Gymbakgrundsbild.jpg');
+  background-size: cover;
   background-position: center;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
   background-attachment: fixed;
   background-color: #1a1a1a;
   min-height: 100vh;
-  padding-top: 2rem;
   width: 100%;
   justify-content: center;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: darken;
 
