@@ -27,9 +27,17 @@ export default {
 </script>
 
 <template>
-  <div class="recipe-card">
-  </div>
+  
+  <div class="recipe-page-wrapper">
+  <div class="recipe-container">
+    <div class="recipe-grid">
 
+    
+  
+  
+  <div class="recipe-left">
+
+  
   <div class="recipe-header">
     <h1 class="recipe-title">
       Halloumi Airfryer
@@ -53,66 +61,119 @@ export default {
       <span class="time-text">{{ recipe.prepTime }} 15 minuter⏱️</span>
     </div>
   </div>
-
-  <div class="recipeimg">
-    <img :src="imageSrc" :alt="recipe.title || 'Recipe image'" width="400" height="300"/>
   </div>
+  </div>
+  
+  <div class="recipe-right">
+  <div class="recipe-image">
+   <img :src="imageSrc":alt="recipe.title || 'Recipe image'" width="600" height="400"/>
+
+
+  </div>
+  </div>
+  </div>
+  </div>
+  
 </template>
 
 <style>
- *{
+
+#app{
+  grid-template-columns: auto;
+}
+ body{
   background-color: white;
   
  }
 
- .recipe-footer{
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   gap: 1.5rem;
-   margin-top: 20px;
- }
+ .recipe-page-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+ 
 
- .recipe-title{
-   padding-top: 50px;
+ .recipe-container {
+  display: flex;
+    max-width: 1100px;
+    width: 100%;
+  margin: 40px auto;
+  background: #F7F7F7;
+  padding: 40px;
+  border-radius: 20px;
   
-   font-size: 3em;
-   margin-bottom: 10px;
-   font-weight: bold;
-   font-family: Arial, Helvetica, sans-serif;
-   color: black;
-   text-align: center;
- }
 
- .recipe-description{
-   font-size:1em;
-   margin-bottom: 20px;
-   font-family: Arial, Helvetica, sans-serif;
-   color: black; 
-   text-align: center;
- }
+}
 
- .stars{
-   font-size: 2em;
-   color: gold;
-   margin: 0;
- }
+.recipe-grid {
+  display: grid;
+  grid-template-columns: auto;
+  align-items: center;
+  gap: 40px;
+  
+}
 
- .cooking-time{
-   font-size: 1em;
-   color: black;
-   margin: 0;
- }
+.recipe-left {
+ text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
 
-  .recipeimg{
-    display: grid;
-    
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    border-radius: 25px;
-   
+.recipe-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 40px;
+  
+}
+
+.recipe-image {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
+}
+
+.recipe-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+.recipe-description {
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.recipe-footer {
+  box-sizing: border-box;
+  align-items: center;
+  
+}
+
+.stars {
+  color: gold;
+  font-size: 1.8rem;
+  gap: 20px;
+}
+
+.cooking-time {
+  font-size: 1rem;
+  color: #000;
+}
 
 
 
