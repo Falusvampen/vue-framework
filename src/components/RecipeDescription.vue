@@ -90,7 +90,7 @@ export default {
   </div>
   </div>
   </div>
-  </div>
+ 
   
 </template>
 
@@ -200,6 +200,39 @@ export default {
     padding: 15px;
     border-radius: 12px;
   }
+}
+
+.recipe-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+.recipe-description {
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.recipe-footer {
+  box-sizing: border-box;
+  align-items: center;
+  
+}
+
+.stars {
+  color: gold;
+  font-size: 1.8rem;
+  gap: 20px;
+}
+
+.cooking-time {
+  font-size: 1rem;
+  color: #000;
+}
 
   .recipe-grid {
     grid-template-columns: 1fr;
@@ -256,7 +289,7 @@ export default {
   .time-text {
     font-size: 0.85rem;
   }
-}
+
 
 
 @media (min-width: 481px) and (max-width: 768px) {
