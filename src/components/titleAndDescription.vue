@@ -1,6 +1,7 @@
 <script>
-import RecipeData from '@/recipes.json';
 import Searchbar from '@/components/Searchbar.vue';
+import RecipeService from '@/services/RecipeService';
+
 
 export default {
   name: 'TitleAndDescriptionComponent',
@@ -27,28 +28,26 @@ export default {
 
   data() {
     return {
-      recipies: RecipeData,
       categories: [],
       showAllCategories: false,
-      selectedCategory: null
+      selectedCategory: null,
+      teamId: import.meta.env.VITE_TEAM_ID
     };
   },
 
-  created() {
-    this.extractUniqueCategories();
+  async created() {
+    await this.loadCategories();
   },
 
   methods: {
-    extractUniqueCategories() {
-      const categorySet = new Set();
-
-      this.recipies.forEach(recipe => {
-        if (recipe.category) {
-          categorySet.add(recipe.category);
-        }
-      });
-
-      this.categories = Array.from(categorySet).sort();
+    async loadCategories() {
+    try {
+      const apiCategories = await RecipeService.getCategories(this.teamId)
+      // The API returns objects { id, name }, we just need the names
+      this.categories = apiCategories.map(cat => cat.name).sort()
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
+    }
     },
 
     switchCategory(category) {
@@ -59,10 +58,8 @@ export default {
 
   computed: {
     visibleCategories() {
-      return this.showAllCategories
-        ? this.categories
-        : this.categories.slice(0, 3);
-    }
+    return this.showAllCategories ? this.categories : this.categories.slice(0, 3)
+  }
   }
 }
 </script>
@@ -79,19 +76,21 @@ export default {
       <Searchbar />
     </div>
 
-    <transition-group name="fade" tag="ol">
-      <li v-for="category in visibleCategories" :key="category">
-        <button @click="switchCategory(category)" :class="{ active: selectedCategory === category }">
-          {{ category }}
-        </button>
-      </li>
+    <div class="category-container">
+      <transition-group name="fade" tag="ol">
+        <li v-for="category in visibleCategories" :key="category">
+          <button @click="switchCategory(category)" :class="{ active: selectedCategory === category }">
+            {{ category }}
+          </button>
+        </li>
 
-      <li v-if="categories.length > 3" key="toggle-btn">
-        <button class="toggle-button" @click="showAllCategories = !showAllCategories">
-          {{ showAllCategories ? 'Visa färre' : 'Visa alla' }}<span class="icon">{{ showAllCategories ? ' −' : ' +' }}</span>
-        </button>
-      </li>
-    </transition-group>
+        <li v-if="categories.length > 3" key="toggle-btn">
+          <button class="toggle-button" @click="showAllCategories = !showAllCategories">
+            {{ showAllCategories ? 'Visa färre' : 'Visa alla' }}<span class="icon">{{ showAllCategories ? ' −' : ' +' }}</span>
+          </button>
+        </li>
+      </transition-group>
+    </div>
   </div>
 
 </template>
@@ -102,11 +101,9 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 300px;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
     url('https://cdn.prod.website-files.com/6361dc271a3e49d685fe418b/64b69c1d8fc68c419373a2bb_Untitled%20design%20-%202023-07-18T100512.462.png');
   background-size: cover;
-  padding: 0px;
   color: white;
   text-align: center;
   max-width: 100%;
@@ -130,16 +127,25 @@ p {
   font-weight: 400;
 }
 
-ol {
-  list-style-type: none;
+.category-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+  min-height: 50px;
+  max-height: 120px;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+.category-container ol {
+  list-style: none;
   padding: 0;
+  margin: 0;
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 70%;
-  min-height: 50px;
-  transition: height 0.3s ease;
 }
 
 .fade-enter-active,
@@ -194,11 +200,10 @@ button.active {
 }
 
 .toggle-button:hover {
-  background-color: #666666; /* slightly darker grey on hover */
+  background-color: #666666;
 }
 
 .toggle-button .icon {
-  font-size: 18px; /* size of the + sign */
-  line-height: 1;
+  font-size: 18px;
 }
 </style>
