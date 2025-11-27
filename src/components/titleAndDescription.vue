@@ -1,9 +1,13 @@
 <script>
 import RecipeData from '@/recipes.json';
-import Searchbar from './Searchbar.vue';
+import Searchbar from '@/components/Searchbar.vue';
 
 export default {
   name: 'TitleAndDescriptionComponent',
+
+  components: {
+    Searchbar
+  },
 
   props: {
 
@@ -14,6 +18,14 @@ export default {
     description: {
       type: String,
       default: 'Upptäck våra läckra och näringsrika proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!'
+    },
+    category: {
+      type: String,
+      default: ''
+    },
+    showAllCategories: {
+      type: Boolean,
+      default: false
     }
 
   },
@@ -59,7 +71,7 @@ export default {
 
 <template>
   <div id="title-and-description">
-    <div class="titleAndDescriotion">
+    <div class="title-and-description-div">
     <h1>{{ title }}</h1>
     <p>{{ description }}</p>
     </div>
@@ -90,19 +102,30 @@ export default {
   align-items: center;
   justify-content: center;
   height: 300px;
-  background-image: url('https://cdn.prod.website-files.com/6361dc271a3e49d685fe418b/64b69c1d8fc68c419373a2bb_Untitled%20design%20-%202023-07-18T100512.462.png');
-  background-size: cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url('https://cdn.prod.website-files.com/6361dc271a3e49d685fe418b/64b69c1d8fc68c419373a2bb_Untitled%20design%20-%202023-07-18T100512.462.png');  background-size: cover;
   padding: 0px;
   color: white;
   text-align: center;
   max-width: 100%;
-  margin-bottom: 50px;
   height: 30em;
+  margin-bottom: 2rem;
+}
+
+.searchbar {
+  margin-bottom: 1rem;
 }
 
 h1 {
   font-size: 48px;
   margin-bottom: 10px;
+  font-weight: 600;
+}
+
+p {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 400;
 }
 
 ol {
