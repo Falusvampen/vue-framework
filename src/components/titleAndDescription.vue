@@ -23,17 +23,14 @@ export default {
       type: String,
       default: ''
     },
-    showAllCategories: {
-      type: Boolean,
-      default: false
-    }
-
   },
 
   data() {
     return {
       recipies: RecipeData,
-      categories: []
+      categories: [],
+      showAllCategories: false,
+      selectedCategory: null
     };
   },
 
@@ -51,12 +48,13 @@ export default {
         }
       });
 
-      this.categories = Array.from(categorySet);
+      this.categories = Array.from(categorySet).sort();
     },
 
     switchCategory(category) {
+      this.selectedCategory = category;
       this.$emit('categorySelected', category);
-    }
+}
   },
 
   computed: {
@@ -70,29 +68,32 @@ export default {
 </script>
 
 <template>
+
   <div id="title-and-description">
     <div class="title-and-description-div">
-    <h1>{{ title }}</h1>
-    <p>{{ description }}</p>
+      <h1>{{ title }}</h1>
+      <p>{{ description }}</p>
     </div>
 
     <div class="searchbar">
       <Searchbar />
     </div>
 
-    <ol>
-      <li v-for="category in categories" :key="category">
-        <button @click="switchCategory(category)">
+    <transition-group name="fade" tag="ol">
+      <li v-for="category in visibleCategories" :key="category">
+        <button @click="switchCategory(category)" :class="{ active: selectedCategory === category }">
           {{ category }}
         </button>
       </li>
-      <li v-if="categories.length > 3 && !showAllCategories">
-        <button @click="showAllCategories = true">
-          Visa alla kategorier
+
+      <li v-if="categories.length > 3" key="toggle-btn">
+        <button class="toggle-button" @click="showAllCategories = !showAllCategories">
+          {{ showAllCategories ? 'Visa färre' : 'Visa alla' }}<span class="icon">{{ showAllCategories ? ' −' : ' +' }}</span>
         </button>
       </li>
-    </ol>
+    </transition-group>
   </div>
+
 </template>
 
 <style scoped>
@@ -103,7 +104,8 @@ export default {
   justify-content: center;
   height: 300px;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url('https://cdn.prod.website-files.com/6361dc271a3e49d685fe418b/64b69c1d8fc68c419373a2bb_Untitled%20design%20-%202023-07-18T100512.462.png');  background-size: cover;
+    url('https://cdn.prod.website-files.com/6361dc271a3e49d685fe418b/64b69c1d8fc68c419373a2bb_Untitled%20design%20-%202023-07-18T100512.462.png');
+  background-size: cover;
   padding: 0px;
   color: white;
   text-align: center;
@@ -136,23 +138,67 @@ ol {
   flex-wrap: wrap;
   justify-content: center;
   max-width: 70%;
+  min-height: 50px;
+  transition: height 0.3s ease;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.fade-move {
+  transition: transform 0.3s ease;
 }
 
 li {
   margin: 5px;
+  position: relative;
 }
 
 button {
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 999px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 button:hover {
   background-color: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+}
+
+button.active {
+  background-color: #ffdd57;
+  color: #333;
+  font-weight: 600;
+  border: 2px solid white;
+}
+
+.toggle-button {
+  background-color: #888888;
+  color: white;
+  border-radius: 999px;
+  padding: 10px 20px;
+  border: none;
+  align-items: center;
+}
+
+.toggle-button:hover {
+  background-color: #666666; /* slightly darker grey on hover */
+}
+
+.toggle-button .icon {
+  font-size: 18px; /* size of the + sign */
+  line-height: 1;
 }
 </style>
