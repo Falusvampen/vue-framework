@@ -10,7 +10,7 @@ export default {
 
 <template>
   <div class="searchbar">
-    <input type="text" :placeholder="placeholder" class="search-input" />
+    <input type="text" placeholder="Sök recept..." class="search-input" />
     <img src="/icon.png" alt="Search icon" class="search-icon" />
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 <style scoped>
 .searchbar {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   margin-top: 5%;
   width: 30rem;
