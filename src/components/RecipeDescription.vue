@@ -40,11 +40,11 @@ export default {
   
   <div class="recipe-header">
     <h1 class="recipe-title">
-      Halloumi Airfryer
+     
       {{ recipe.title }}
     </h1>
     <p class="recipe-description">
-      Krispig halloumi från airfryern passar utmärkt med en fräsch sallad på tomater, svarta bönor, rödlök och basilika. En enkel och smakrik rätt som fungerar lika bra som tillbehör som en lättare middag.
+     
       {{ recipe.description }}
     </p>
   </div>
@@ -58,7 +58,7 @@ export default {
       <span class="star">★</span>
     </div>
     <div class="cooking-time">
-      <span class="time-text">{{ recipe.prepTime }} 15 minuter⏱️</span>
+      <span class="time-text">{{ recipe.prepTime }} minuter⏱️</span>
     </div>
   </div>
   </div>
