@@ -247,5 +247,289 @@ export default {
 }
 
 
+@media (max-width: 480px) {
+  .comment-header-title {
+    margin-bottom: 10px;
+  }
+
+  .question-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
+  }
+
+  .comment-header-undertitle {
+    margin: 5px 0;
+  }
+
+  .comment-header-undertitle p {
+    font-size: 0.9rem;
+  }
+
+  .comment-header-stars {
+    margin: 15px 0;
+  }
+
+  .star {
+    font-size: 35px;
+    margin: 0 1px;
+  }
+
+  .rating-text {
+    font-size: 0.8rem;
+    margin-top: 8px;
+  }
+
+  .comment-section {
+    max-width: 100%;
+    margin: 0;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+
+  .comment-section h2 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+
+  .commentForm {
+    gap: 8px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .submit-btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .commentBox {
+    margin-top: 15px;
+  }
+
+  .comment-item {
+    padding: 8px 0;
+    border-bottom: 5px solid #eee;
+  }
+
+  .comment-name {
+    font-size: 0.9rem;
+  }
+
+  .comment-text {
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .comment-rating {
+    gap: 1px;
+    margin-top: 5px;
+  }
+
+  .comment-star {
+    font-size: 14px;
+  }
+
+  .no-comments {
+    padding: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .comment-header-title {
+    margin-bottom: 15px;
+  }
+
+  .question-title {
+    font-size: 1.8rem;
+    margin: 12px 0;
+  }
+
+  .comment-header-undertitle p {
+    font-size: 0.95rem;
+  }
+
+  .comment-header-stars {
+    margin: 18px 0;
+  }
+
+  .star {
+    font-size: 40px;
+    margin: 0 2px;
+  }
+
+  .rating-text {
+    font-size: 0.85rem;
+    margin-top: 9px;
+  }
+
+  .comment-section {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 18px;
+    margin-bottom: 15px;
+  }
+
+  .comment-section h2 {
+    font-size: 1.3rem;
+    margin: 12px 0;
+  }
+
+  .commentForm {
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 18px;
+  }
+
+  .nameInput, .commentArea {
+    padding: 10px;
+    font-size: 0.98rem;
+  }
+
+  .submit-btn {
+    padding: 10px 18px;
+    font-size: 0.95rem;
+  }
+
+  .commentBox {
+    margin-top: 20px;
+  }
+
+  .comment-item {
+    padding: 10px 0;
+    border-bottom: 8px solid #eee;
+  }
+
+  .comment-name {
+    font-size: 0.95rem;
+  }
+
+  .comment-text {
+    font-size: 0.95rem;
+    margin-top: 6px;
+  }
+
+  .comment-header {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .comment-rating {
+    gap: 2px;
+  }
+
+  .comment-star {
+    font-size: 16px;
+  }
+
+  .no-comments {
+    padding: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .comment-header-title {
+    margin-bottom: 20px;
+  }
+
+  .question-title {
+    font-size: 2rem;
+    margin: 15px 0;
+  }
+
+  .comment-header-undertitle p {
+    font-size: 1rem;
+  }
+
+  .comment-header-stars {
+    margin: 20px 0;
+  }
+
+  .star {
+    font-size: 50px;
+    margin: 0 2px;
+  }
+
+  .rating-text {
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+
+  .comment-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .comment-section h2 {
+    font-size: 1.5rem;
+    margin: 15px 0;
+  }
+
+  .commentForm {
+    gap: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .nameInput, .commentArea {
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  .submit-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .commentBox {
+    margin-top: 30px;
+  }
+
+  .comment-item {
+    padding: 10px 0;
+    border-bottom: 10px solid #eee;
+  }
+
+  .comment-name {
+    font-size: 1rem;
+  }
+
+  .comment-text {
+    font-size: 1rem;
+    margin-top: 8px;
+  }
+
+  .comment-header {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .comment-rating {
+    gap: 2px;
+  }
+
+  .comment-star {
+    font-size: 18px;
+  }
+
+  .no-comments {
+    padding: 20px;
+    text-align: center;
+    font-size: 1rem;
+  }
+}
 
 </style>
