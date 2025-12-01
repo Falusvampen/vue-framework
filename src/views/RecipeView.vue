@@ -3,6 +3,8 @@ import Ingredienser from '../components/Ingredienser.vue'
 import StepComponent from '../components/StepComponent.vue'
 import Gebetyg from '../components/Gebetyg.vue'
 import apiService from '../services/RecipeService'
+import RecipeDescription from '@/components/RecipeDescription.vue'
+import CommentComponent from '@/components/CommentComponent.vue'
 
 export default {
   name: 'RecipeView',
