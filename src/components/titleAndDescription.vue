@@ -24,6 +24,10 @@ export default {
       type: String,
       default: ''
     },
+    backgroundImage: {
+      type: String,
+      default: 'https://wallpapers.com/images/featured/svart-och-gra-bakgrund-g4e89l07r738zpg8.jpg'
+    }
   },
 
   data() {
@@ -66,7 +70,9 @@ export default {
 
 <template>
 
-  <div id="title-and-description">
+  <div id="title-and-description" :style="{ background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${backgroundImage}')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center' }">
     <div class="title-and-description-div">
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
@@ -101,13 +107,10 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url('https://cdn.prod.website-files.com/6361dc271a3e49d685fe418b/64b69c1d8fc68c419373a2bb_Untitled%20design%20-%202023-07-18T100512.462.png');
-  background-size: cover;
   color: white;
   text-align: center;
   max-width: 100%;
-  height: 30em;
+  height: 33em;
   margin-bottom: 2rem;
 }
 
