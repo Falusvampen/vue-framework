@@ -31,7 +31,7 @@ export default {
 
 .ingredienser-card {
   background-color: #fff8f0;
-  width: 25rem;
+  width: 30rem;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   display: flex;
@@ -59,22 +59,24 @@ export default {
 }
 
 .ingredienser-list {
-  background: #fff;
-  padding: 2rem 1rem 4rem;
-  width: 23em;
+    background: #fff;
+  padding: 1rem 2rem 10rem;
+  width:90%;
   margin: auto;
   border-radius: 8px;
   margin-bottom: 2%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   list-style: none;
+  height:100%;
+
 }
 
 .ingredienser-list li {
   margin: 0;
   color: #444;
   font-size: 14px;
-  line-height: 1.5;
-  padding: 4px 0;
+  line-height: 1;
+  padding: 15px 0;
 }
 
 

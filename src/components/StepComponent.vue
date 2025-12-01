@@ -31,8 +31,8 @@ export default {
   background-color: #fff8f0; 
   border-radius: 16px;
   padding: 20px 24px;
-  width: 40rem;
-  height: 30rem;
+  width: 55rem;
+  height: auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
@@ -56,7 +56,7 @@ export default {
   align-items: flex-start;
   background: #fff;
   border-radius: 12px;
-  padding: 10px 14px;
+  padding: 10px 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 

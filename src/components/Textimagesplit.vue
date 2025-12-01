@@ -4,7 +4,9 @@
       <div class="text-section">
         <h3>{{ subtitle }}</h3>
         <h1>{{ title }}</h1>
-        <button>{{ buttonText }}</button>
+        <router-link :to="link" class="button-link">
+          {{ buttonText }}
+        </router-link>
       </div>
       <div class="image-section">
         <img :src="imageSrc" :alt="imageAlt" />
@@ -28,7 +30,12 @@ export default {
     imageAlt: {
       type: String,
       default: "Bild"
+    },
+    link: { 
+      type: String,
+      required: true
     }
+
   }
 }
 </script>
@@ -45,6 +52,10 @@ export default {
   background-color: #1e1e1e;
   color: white;
   margin-top: 5rem;
+  border-top: 10px solid #e5cfb0;
+
+
+  
 }
 
 .text-section {
@@ -69,21 +80,24 @@ export default {
   font-weight: bold;
 }
 
-.text-section button {
+.button-link {
   background-color: white;
   color: #2c2c2c;
   border: none;
   border-radius: 16vh;
-  padding: 0.8rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
   width: fit-content;
   transition: background-color 0.3s;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.text-section button:hover {
+.button-link:hover {
   background-color: #ddd;
 }
+
 
 .image-section {
   flex: 2;

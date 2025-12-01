@@ -102,7 +102,7 @@ export default {
 
 .recipe-row {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
