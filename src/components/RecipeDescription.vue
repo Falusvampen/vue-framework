@@ -40,11 +40,11 @@ export default {
   
   <div class="recipe-header">
     <h1 class="recipe-title">
-      Halloumi Airfryer
+     
       {{ recipe.title }}
     </h1>
     <p class="recipe-description">
-      Krispig halloumi från airfryern passar utmärkt med en fräsch sallad på tomater, svarta bönor, rödlök och basilika. En enkel och smakrik rätt som fungerar lika bra som tillbehör som en lättare middag.
+     
       {{ recipe.description }}
     </p>
   </div>
@@ -58,7 +58,7 @@ export default {
       <span class="star">★</span>
     </div>
     <div class="cooking-time">
-      <span class="time-text">{{ recipe.prepTime }} 15 minuter⏱️</span>
+      <span class="time-text">{{ recipe.prepTime }} minuter⏱️</span>
     </div>
   </div>
   </div>
@@ -66,9 +66,7 @@ export default {
   
   <div class="recipe-right">
   <div class="recipe-image">
-   <img :src="imageSrc":alt="recipe.title || 'Recipe image'" width="600" height="400"/>
-
-
+   <img :src="imageSrc" :alt="recipe.title || 'Recipe image'" width="600" height="400"/>
   </div>
   </div>
   </div>
@@ -175,6 +173,205 @@ export default {
   color: #000;
 }
 
+@media (max-width: 480px) {
+  .recipe-container {
+    max-width: 100%;
+    margin: 15px auto;
+    padding: 15px;
+    border-radius: 12px;
+  }
 
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .recipe-left {
+    text-align: center;
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .recipe-right {
+    padding-left: 0;
+    justify-content: center;
+  }
+
+  .recipe-image {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .recipe-image img {
+    width: 100%;
+    height: auto;
+    max-width: 280px;
+  }
+
+  .recipe-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .recipe-description {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .recipe-footer {
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .stars {
+    font-size: 1.3rem;
+    gap: 5px;
+  }
+
+  .cooking-time {
+    font-size: 0.9rem;
+  }
+
+  .time-text {
+    font-size: 0.85rem;
+  }
+}
+
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .recipe-container {
+    max-width: 95%;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 16px;
+  }
+
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .recipe-left {
+    text-align: center;
+    padding: 12px;
+    gap: 15px;
+  }
+
+  .recipe-right {
+    padding-left: 0;
+    justify-content: center;
+  }
+
+  .recipe-image {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .recipe-image img {
+    width: 100%;
+    height: auto;
+    max-width: 350px;
+  }
+
+  .recipe-title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .recipe-description {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+
+  .recipe-footer {
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .stars {
+    font-size: 1.5rem;
+    gap: 8px;
+  }
+
+  .cooking-time {
+    font-size: 0.95rem;
+  }
+
+  .time-text {
+    font-size: 0.9rem;
+  }
+}
+
+
+@media (min-width: 769px) {
+  .recipe-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 20px;
+  }
+
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .recipe-left {
+    text-align: center;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .recipe-right {
+    padding-left: 40px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .recipe-image {
+    max-width: 450px;
+    width: 100%;
+  }
+
+  .recipe-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  .recipe-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .recipe-description {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .recipe-footer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .stars {
+    font-size: 1.8rem;
+    gap: 20px;
+    display: flex;
+  }
+
+  .cooking-time {
+    font-size: 1rem;
+  }
+
+  .time-text {
+    font-size: 1rem;
+  }
+}
 
 </style>
