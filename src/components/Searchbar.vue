@@ -40,8 +40,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem;
-  width: 30rem;
+  margin: 2rem auto;
+  width: 80%;
+  max-width: 30rem;
   padding: 2px 10px;
   border: 1px solid #ccc;
   border-radius: 3vh;
