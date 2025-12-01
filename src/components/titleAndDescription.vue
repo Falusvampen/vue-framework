@@ -1,14 +1,9 @@
 <script>
-import Searchbar from '@/components/Searchbar.vue';
 import RecipeService from '@/services/RecipeService';
 
 
 export default {
   name: 'TitleAndDescriptionComponent',
-
-  components: {
-    Searchbar
-  },
 
   props: {
 
@@ -76,9 +71,7 @@ export default {
       <p>{{ description }}</p>
     </div>
 
-    <div class="searchbar">
-      <Searchbar />
-    </div>
+    <slot></slot>
 
     <div class="category-container">
       <transition-group name="fade" tag="ol">
@@ -110,10 +103,6 @@ export default {
   max-width: 100%;
   height: 33em;
   margin-bottom: 2rem;
-}
-
-.searchbar {
-  margin-bottom: 1rem;
 }
 
 h1 {

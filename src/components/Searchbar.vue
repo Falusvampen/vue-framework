@@ -2,7 +2,19 @@
 export default {
   props: {
     placeholder: {
-      type: String
+      type: String,
+      default: "Sök..."
+    }
+  },
+  data() {
+    return {
+      inputValue: ''
+    }
+  },
+  methods: {
+    updateValue(event) {
+      this.inputValue = event.target.value;
+      this.$emit('update:search', this.inputValue); // skickar upp värdet till parent
     }
   }
 }
@@ -10,7 +22,13 @@ export default {
 
 <template>
   <div class="searchbar">
-    <input type="text" placeholder="Sök recept..." class="search-input" />
+    <input
+      type="text"
+      :placeholder="placeholder"
+      class="search-input"
+      v-model="inputValue"
+      @input="updateValue"
+    />
     <img src="/icon.png" alt="Search icon" class="search-icon" />
   </div>
 </template>
@@ -22,7 +40,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5%;
+  margin: 2rem;
   width: 30rem;
   padding: 2px 10px;
   border: 1px solid #ccc;
@@ -43,6 +61,3 @@ export default {
   height: 2em;
 }
 </style>
-
-
-
