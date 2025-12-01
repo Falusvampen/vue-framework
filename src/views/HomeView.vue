@@ -1,10 +1,75 @@
+<script>
+import CardCarousel from '@/components/CardCarousel.vue'
+import RecipeService from '@/services/RecipeService'
+import Textimagesplit1 from '@/components/Textimagesplit1.vue'
+import Textimagesplit from '@/components/Textimagesplit.vue'
+import TitleAndDescription from '@/components/titleAndDescription.vue'
+import Searchbar from '@/components/Searchbar.vue'
+
+export default {
+  name: 'HomeView',
+  components: { CardCarousel, Textimagesplit, Textimagesplit1, TitleAndDescription, Searchbar },
+  data() {
+    return {
+      recipes: [],
+      loading: false,
+      error: null,
+      teamId: import.meta.env.VITE_TEAM_ID,
+      searchQuery: '',
+    }
+  },
+  computed: {
+    mappedRecipes() {
+      const filtered = this.recipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+
+    return filtered.map((recipe) => ({
+      id: recipe.id,
+      imageSrc: recipe.imageUrl,
+      altText: recipe.title,
+      title: recipe.title,
+      slug: recipe.slug,
+      description: recipe.description,
+      ingredients: `${recipe.ingredients.length} ingredienser`,
+      time: recipe.time,
+      rating: this.convertToStars(recipe.averageRating),
+      }))
+    },
+
+  },
+  async created() {
+    this.loading = true
+    try {
+      this.recipes = await RecipeService.getAllRecipes(this.teamId)
+    } catch (err) {
+      console.error(err)
+      this.error = 'Kunde inte hämta recepten.'
+    } finally {
+      this.loading = false
+    }
+  },
+  methods: {
+    convertToStars(rating) {
+      if (!rating) return '☆☆☆☆☆'
+      const score = Math.round(parseFloat(rating))
+      return '★'.repeat(score) + '☆'.repeat(5 - score)
+    },
+  },
+}
+</script>
+
 <template>
   <main class="dashboard">
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
-    <TitleAndDescription
-    />
+    <TitleAndDescription>
+      <Searchbar
+        v-model:search="searchQuery"
+        placeholder="Sök recept..."
+      />
+    </TitleAndDescription>
 
     <div class="Cards">
       <CardCarousel
@@ -39,60 +104,6 @@
     />
   </main>
 </template>
-
-<script>
-import CardCarousel from '@/components/CardCarousel.vue'
-import RecipeService from '@/services/RecipeService'
-import Textimagesplit1 from '@/components/Textimagesplit1.vue'
-import Textimagesplit from '@/components/Textimagesplit.vue'
-import TitleAndDescription from '@/components/titleAndDescription.vue'
-
-export default {
-  name: 'HomeView',
-  components: { CardCarousel, Textimagesplit, Textimagesplit1, TitleAndDescription },
-  data() {
-    return {
-      recipes: [],
-      loading: false,
-      error: null,
-      teamId: import.meta.env.VITE_TEAM_ID,
-    }
-  },
-  computed: {
-    mappedRecipes() {
-      return this.recipes.map((recipe) => ({
-        id: recipe.id,
-        imageSrc: recipe.imageUrl,
-        altText: recipe.title,
-        title: recipe.title,
-        slug: recipe.slug,
-        description: recipe.description,
-        ingredients: `${recipe.ingredients.length} ingredienser`,
-        time: recipe.time,
-        rating: this.convertToStars(recipe.averageRating),
-      }))
-    },
-  },
-  async created() {
-    this.loading = true
-    try {
-      this.recipes = await RecipeService.getAllRecipes(this.teamId)
-    } catch (err) {
-      console.error(err)
-      this.error = 'Kunde inte hämta recepten.'
-    } finally {
-      this.loading = false
-    }
-  },
-  methods: {
-    convertToStars(rating) {
-      if (!rating) return '☆☆☆☆☆'
-      const score = Math.round(parseFloat(rating))
-      return '★'.repeat(score) + '☆'.repeat(5 - score)
-    },
-  },
-}
-</script>
 
 <style scoped>
 .dashboard {
