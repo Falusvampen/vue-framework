@@ -4,7 +4,8 @@
       <div class="text-section">
         <h3>{{ subtitle }}</h3>
         <h1>{{ title }}</h1>
-        <router-link :to="link" class="button-link">
+        <router-link :to="link" class="button-link" >
+
           {{ buttonText }}
         </router-link>
       </div>
@@ -35,6 +36,9 @@ export default {
       type: String,
       required: true
     }
+
+   
+
 
   }
 }

@@ -31,30 +31,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('./public/Fastsnacks.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   position: relative;
-  height: 24rem;
-  margin-bottom: 5rem;
-  border-bottom: 8px solid #f1d0a1;
-  overflow: hidden;
+  height: 20rem;
+  margin-bottom: 3rem;
+ 
 }
 
-.Snacksheader::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  z-index: 1;
-}
+
 
 .header-box {
   z-index: 2;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
   padding: 2rem 3rem;
   border-radius: 10px;
   text-align: center;
