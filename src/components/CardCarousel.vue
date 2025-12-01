@@ -14,10 +14,12 @@
           class="carousel-track"
           :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
         >
-          <div
+        
+          <router-link
             class="card"
             v-for="(card, index) in cards"
             :key="card.title + index"
+            :to="`/recept/${card.id}/${card.slug}`"
           >
             <img :src="card.imageSrc" :alt="card.altText" />
 
@@ -30,7 +32,8 @@
               <span>{{ card.ingredients }} | {{ card.time }}</span>
               <span class="stars">{{ card.rating }}</span>
             </div>
-          </div>
+        
+          </router-link>
         </div>
       </div>
 
@@ -107,8 +110,8 @@ export default {
   content: "";
   display: block;
   width: 22rem;
-  height: 3.5px;
-  background-color: #818181;
+  height: 3.8px;
+  background-color: #aaa8a8;
   margin-top: 0.4rem;
   border-radius: 2px;
 }
@@ -152,7 +155,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease; 
 }
 
 .card img {

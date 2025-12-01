@@ -42,7 +42,9 @@ export default {
 <style scoped>
 .Gebetyg {
   border-radius: 12px;
-  padding: 24px;
+  margin-top: 5rem;
+  margin-left: 5%;
+  padding: 2rem;
   width: fit-content;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   text-align: center;
@@ -55,8 +57,9 @@ export default {
 
 h2 {
   font-family: "Poppins", sans-serif;
-  font-size: 1.3rem;
-  color: white;
+  font-size: 1.8rem;
+  font-weight:400;
+  color: black;
   margin-bottom: 1rem;
 }
 
@@ -67,7 +70,7 @@ h2 {
 }
 
 .star {
-  font-size: 2rem;
+  font-size: 2.5rem;
   cursor: pointer;
   color: #ddd;
   transition: color 0.2s, transform 0.15s;
