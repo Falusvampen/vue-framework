@@ -9,7 +9,7 @@ export default {
 
     title: {
       type: String,
-      default: 'Recept proteinrika snacks'
+      default: 'Gymsnacks för alla tillfällen'
     },
     description: {
       type: String,
