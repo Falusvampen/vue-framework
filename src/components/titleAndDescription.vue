@@ -26,7 +26,7 @@ export default {
     },
     backgroundImage: {
       type: String,
-      default: 'https://wallpapers.com/images/featured/svart-och-gra-bakgrund-g4e89l07r738zpg8.jpg'
+      default: ''
     }
   },
 
@@ -70,9 +70,7 @@ export default {
 
 <template>
 
-  <div id="title-and-description" :style="{ background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${backgroundImage}')`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center' }">
+  <div id="title-and-description" :style="{ backgroundImage: `url(${backgroundImage})` }">
     <div class="title-and-description-div">
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
