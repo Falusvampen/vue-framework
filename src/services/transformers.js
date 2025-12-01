@@ -1,7 +1,13 @@
 const formatDate = (dateString) => {
   if (!dateString) return ''
   try {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' }
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }
     return new Date(dateString).toLocaleDateString('sv-SE', options)
   } catch (e) {
     console.error('Error formatting date:', e)
@@ -32,6 +38,8 @@ export const transformRecipe = (apiRecipe, comments = []) => {
     ? apiRecipe.ingredients.map(transformIngredient)
     : []
 
+  const safeComments = Array.isArray(comments) ? comments : []
+
   return {
     id: apiRecipe.id,
     title: apiRecipe.title || 'Namnlöst recept',
@@ -50,7 +58,7 @@ export const transformRecipe = (apiRecipe, comments = []) => {
     ratings: apiRecipe.ratings || [],
     averageRating: calculateAverageRating(apiRecipe.ratings),
 
-    comments: comments.map(transformComment),
+    comments: safeComments.map(transformComment),
   }
 }
 
