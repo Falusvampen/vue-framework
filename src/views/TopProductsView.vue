@@ -47,27 +47,46 @@ export default {
   },
   computed: {
     mappedRecipes() {
-      return this.recipes.map((recipe) => ({
-        id: recipe.id,
-        imageSrc: recipe.imageUrl,
-        altText: recipe.title,
-        title: recipe.title,
-        slug: recipe.slug,
-        description: recipe.description,
-        ingredients: `${recipe.ingredients.length} ingredienser`,
-        time: recipe.time,
-        rating: this.convertToStars(recipe.averageRating),
-      }))
+      return this.recipes.map((recipe) => {
+        // Logik för texten: Visa "Hämtar info..." tills vi fått datan
+        let ingredientText = ''
+
+        // Om vi har ingredienser = Visa antalet
+        if (recipe.ingredients && recipe.ingredients.length > 0) {
+          ingredientText = `${recipe.ingredients.length} ingredienser`
+        } else {
+          // Annars antar vi att den laddas i bakgrunden just nu
+          ingredientText = 'Hämtar info...'
+        }
+
+        return {
+          id: recipe.id,
+          imageSrc: recipe.imageUrl,
+          altText: recipe.title,
+          title: recipe.title,
+          slug: recipe.slug,
+          description: recipe.description,
+          ingredients: ingredientText,
+          time: recipe.time,
+          rating: this.convertToStars(recipe.averageRating),
+        }
+      })
     },
   },
   async created() {
     this.loading = true
     try {
+      // 1. Hämta listan som saknar detaljer
       this.recipes = await RecipeService.getAllRecipes()
+
+      // 2. Släpp laddnings-spinnern så användaren ser sidan
+      this.loading = false
+
+      // 3. Starta processen att ladda detaljer i bakgrunden
+      this.hydrateAllRecipes()
     } catch (err) {
       console.error(err)
       this.error = 'Kunde inte hämta recepten.'
-    } finally {
       this.loading = false
     }
   },
@@ -76,6 +95,27 @@ export default {
       if (!rating) return '☆☆☆☆☆'
       const score = Math.round(parseFloat(rating))
       return '★'.repeat(score) + '☆'.repeat(5 - score)
+    },
+
+    /**
+     * Går igenom hela listan och hämtar detaljer (ingredienser/betyg)
+     * för ett recept i taget.
+     */
+    async hydrateAllRecipes() {
+      const recipesToHydrate = [...this.recipes]
+
+      for (const simpleRecipe of recipesToHydrate) {
+        try {
+          const detailedRecipe = await RecipeService.getCompleteRecipe(simpleRecipe.id)
+          const index = this.recipes.findIndex((r) => r.id === simpleRecipe.id)
+
+          if (index !== -1) {
+            this.recipes.splice(index, 1, detailedRecipe)
+          }
+        } catch (e) {
+          console.warn(`Kunde inte ladda detaljer för ${simpleRecipe.title}`, e)
+        }
+      }
     },
   },
 }
