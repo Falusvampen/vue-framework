@@ -1,7 +1,13 @@
 const formatDate = (dateString) => {
   if (!dateString) return ''
   try {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' }
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }
     return new Date(dateString).toLocaleDateString('sv-SE', options)
   } catch (e) {
     console.error('Error formatting date:', e)
@@ -28,9 +34,9 @@ const slugify = (input) => {
 }
 
 export const transformRecipe = (apiRecipe, comments = []) => {
-  const ingredients = Array.isArray(apiRecipe.ingredients)
-    ? apiRecipe.ingredients.map(transformIngredient)
-    : []
+  const rawIngredients = Array.isArray(apiRecipe.ingredients) ? apiRecipe.ingredients : []
+
+  const safeComments = Array.isArray(comments) ? comments : []
 
   return {
     id: apiRecipe.id,
@@ -43,14 +49,14 @@ export const transformRecipe = (apiRecipe, comments = []) => {
     createdAtRaw: apiRecipe.createdAt,
     createdAt: formatDate(apiRecipe.createdAt),
 
-    ingredients: ingredients,
+    ingredients: rawIngredients.map(transformIngredient),
     instructions: apiRecipe.instructions || [],
     categories: apiRecipe.categories || [],
 
     ratings: apiRecipe.ratings || [],
     averageRating: calculateAverageRating(apiRecipe.ratings),
 
-    comments: comments.map(transformComment),
+    comments: safeComments.map(transformComment),
   }
 }
 
@@ -84,5 +90,5 @@ function calculateAverageRating(ratings) {
   // Om inga betyg finns, så scammar vi användaren med 5 stjärnor som standard hehe..
   if (!ratings || ratings.length === 0) return 5
   const sum = ratings.reduce((a, b) => a + b, 0)
-  return (sum / ratings.length).toFixed(1)
+  return Math.round((sum / ratings.length) * 10) / 10
 }

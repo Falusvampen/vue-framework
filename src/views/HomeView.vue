@@ -8,44 +8,68 @@ import Searchbar from '@/components/Searchbar.vue'
 
 export default {
   name: 'HomeView',
-  components: { CardCarousel, Textimagesplit, Textimagesplit1, TitleAndDescription, Searchbar },
+  components: {
+    CardCarousel,
+    Textimagesplit,
+    Textimagesplit1,
+    TitleAndDescription,
+    Searchbar,
+  },
   data() {
     return {
       recipes: [],
       loading: false,
       error: null,
-      teamId: import.meta.env.VITE_TEAM_ID,
       searchQuery: '',
     }
   },
   computed: {
     mappedRecipes() {
-      const filtered = this.recipes.filter(recipe =>
-      recipe.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+      const filtered = this.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
+      )
 
-    return filtered.map((recipe) => ({
-      id: recipe.id,
-      imageSrc: recipe.imageUrl,
-      altText: recipe.title,
-      title: recipe.title,
-      slug: recipe.slug,
-      description: recipe.description,
-      ingredients: `${recipe.ingredients.length} ingredienser`,
-      time: recipe.time,
-      rating: this.convertToStars(recipe.averageRating),
-      }))
+      return filtered.map((recipe) => {
+        // Logik för texten: Visa "Hämtar info..." tills vi fått datan
+        let ingredientText = ''
+
+        // Om vi har ingredienser = Visa antalet
+        if (recipe.ingredients && recipe.ingredients.length > 0) {
+          ingredientText = `${recipe.ingredients.length} ingredienser`
+        } else {
+          // Annars antar vi att den laddas i bakgrunden just nu
+          ingredientText = 'Hämtar info...'
+        }
+
+        return {
+          id: recipe.id,
+          imageSrc: recipe.imageUrl,
+          altText: recipe.title,
+          title: recipe.title,
+          slug: recipe.slug,
+          description: recipe.description,
+          ingredients: ingredientText,
+          time: recipe.time,
+          rating: this.convertToStars(recipe.averageRating),
+        }
+      })
     },
-
   },
   async created() {
     this.loading = true
     try {
-      this.recipes = await RecipeService.getAllRecipes(this.teamId)
+      // 1. Hämta listan som saknar detaljer
+      this.recipes = await RecipeService.getAllRecipes()
+
+      // 2. Släpp laddnings-spinnern så användaren ser sidan
+      this.loading = false
+
+      // 3. Starta processen att ladda
+      // Vi använder inte 'await' här eftersom vi vill att UI:t ska vara levande under tiden.
+      this.hydrateAllRecipes()
     } catch (err) {
       console.error(err)
       this.error = 'Kunde inte hämta recepten.'
-    } finally {
       this.loading = false
     }
   },
@@ -54,6 +78,32 @@ export default {
       if (!rating) return '☆☆☆☆☆'
       const score = Math.round(parseFloat(rating))
       return '★'.repeat(score) + '☆'.repeat(5 - score)
+    },
+
+    /**
+     * Går igenom hela listan och hämtar detaljer (ingredienser/betyg)
+     * för ett recept i taget.
+     */
+    async hydrateAllRecipes() {
+      // Vi kopierar referensen till listan för att loopa säkert
+      const recipesToHydrate = [...this.recipes]
+
+      for (const simpleRecipe of recipesToHydrate) {
+        try {
+          // Hämta detaljerad data för detta recept
+          const detailedRecipe = await RecipeService.getCompleteRecipe(simpleRecipe.id)
+
+          // Hitta var receptet ligger i den aktuella listan (ifall sortering ändrats etc)
+          const index = this.recipes.findIndex((r) => r.id === simpleRecipe.id)
+
+          if (index !== -1) {
+            // VIKTIGT: Använd splice för att Vue ska reagera direkt och uppdatera kortet
+            this.recipes.splice(index, 1, detailedRecipe)
+          }
+        } catch (e) {
+          console.warn(`Kunde inte ladda detaljer för ${simpleRecipe.title}`, e)
+        }
+      }
     },
   },
 }
@@ -65,10 +115,7 @@ export default {
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
     <TitleAndDescription>
-      <Searchbar
-        v-model:search="searchQuery"
-        placeholder="Sök recept..."
-      />
+      <Searchbar v-model:search="searchQuery" placeholder="Sök recept..." />
     </TitleAndDescription>
 
     <div class="Cards">
@@ -78,6 +125,7 @@ export default {
         :cards="mappedRecipes"
         :visibleCount="3"
       />
+
       <CardCarousel
         v-if="!loading && recipes.length > 0"
         title="Våra favoriter"
@@ -118,5 +166,12 @@ export default {
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.5);
   background-blend-mode: darken;
+}
+
+.Cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 </style>

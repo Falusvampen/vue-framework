@@ -1,20 +1,19 @@
 <script>
 import Fastsnacks from '@/components/Fastsnacks.vue'
 import RecipeService from '@/services/RecipeService'
-import Fastsnacksheader from '@/components/Fastsnacksheader.vue';
+import Fastsnacksheader from '@/components/Fastsnacksheader.vue'
 
 export default {
   name: 'FastsnacksView',
   components: {
     Fastsnacks,
-    Fastsnacksheader
+    Fastsnacksheader,
   },
   data() {
     return {
       recipes: [],
       loading: false,
       error: null,
-      teamId: import.meta.env.VITE_TEAM_ID,
     }
   },
   computed: {
@@ -39,7 +38,7 @@ export default {
   async created() {
     this.loading = true
     try {
-      this.recipes = await RecipeService.getAllRecipes(this.teamId)
+      this.recipes = await RecipeService.getAllRecipes()
     } catch (err) {
       console.error(err)
       this.error = 'Kunde inte hämta recepten.'
@@ -68,49 +67,33 @@ export default {
 
 <template>
   <main class="dashboard">
-
-
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
-
-    <Fastsnacksheader 
-    header="Snabba Mellanmål"
-    minitext="Checka in våra snabbaste recept"
-
-    
-    />
+    <Fastsnacksheader header="Snabba Mellanmål" minitext="Checka in våra snabbaste recept" />
 
     <div class="fastsnackscards">
-         <Fastsnacks
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-    />
+      <Fastsnacks
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
 
-     <Fastsnacks
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-      
-    />
+      <Fastsnacks
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
 
-    <Fastsnacks
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-      
-    />
-      
+      <Fastsnacks
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
     </div>
-
-
-   
-
-
   </main>
 </template>
 
@@ -129,15 +112,5 @@ export default {
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: darken;
-
 }
-
-
-
-
-
-
-
-
-
 </style>

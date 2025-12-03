@@ -16,7 +16,6 @@ export default {
       recipe: null,
       loading: true,
       error: null,
-      teamId: import.meta.env.VITE_TEAM_ID,
     }
   },
   async created() {
@@ -42,10 +41,7 @@ export default {
       this.error = null
 
       try {
-        const completeRecipe = await apiService.getCompleteRecipe(
-          this.teamId,
-          this.$route.params.id,
-        )
+        const completeRecipe = await apiService.getCompleteRecipe(this.$route.params.id)
 
         this.recipe = completeRecipe
       } catch (err) {
