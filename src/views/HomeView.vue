@@ -5,10 +5,11 @@ import Textimagesplit1 from '@/components/Textimagesplit1.vue'
 import Textimagesplit from '@/components/Textimagesplit.vue'
 import TitleAndDescription from '@/components/titleAndDescription.vue'
 import Searchbar from '@/components/Searchbar.vue'
+import RecipeCard from '@/components/RecipeCard.vue'
 
 export default {
   name: 'HomeView',
-  components: { CardCarousel, Textimagesplit, Textimagesplit1, TitleAndDescription, Searchbar },
+  components: { CardCarousel, Textimagesplit, Textimagesplit1, TitleAndDescription, Searchbar, RecipeCard },
   data() {
     return {
       recipes: [],
@@ -16,24 +17,34 @@ export default {
       error: null,
       teamId: import.meta.env.VITE_TEAM_ID,
       searchQuery: '',
+      selectedCategory: null
     }
   },
   computed: {
-    mappedRecipes() {
-      const filtered = this.recipes.filter(recipe =>
-      recipe.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+    filteredRecipes() {
+      return this.recipes.filter(recipe => {
+        const matchesSearch = recipe.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesCategory = this.selectedCategory
+          ? (Array.isArray(recipe.categories)
+            ? recipe.categories.includes(this.selectedCategory)
+            : recipe.category === this.selectedCategory)
+          : true;
 
-    return filtered.map((recipe) => ({
-      id: recipe.id,
-      imageSrc: recipe.imageUrl,
-      altText: recipe.title,
-      title: recipe.title,
-      slug: recipe.slug,
-      description: recipe.description,
-      ingredients: `${recipe.ingredients.length} ingredienser`,
-      time: recipe.time,
-      rating: this.convertToStars(recipe.averageRating),
+        return matchesSearch && matchesCategory;
+      });
+    },
+
+    mappedRecipes() {
+      return this.filteredRecipes.map((recipe) => ({
+        id: recipe.id,
+        imageSrc: recipe.imageUrl,
+        altText: recipe.title,
+        title: recipe.title,
+        slug: recipe.slug,
+        description: recipe.description,
+        ingredients: `${recipe.ingredients.length} ingredienser`,
+        time: recipe.time,
+        rating: this.convertToStars(recipe.averageRating),
       }))
     },
 
@@ -55,6 +66,13 @@ export default {
       const score = Math.round(parseFloat(rating))
       return '★'.repeat(score) + '☆'.repeat(5 - score)
     },
+    handleCategorySelect(category) {
+      if (this.selectedCategory === category) {
+        this.selectedCategory = null;
+      } else {
+        this.selectedCategory = category;
+      }
+    }
   },
 }
 </script>
@@ -64,28 +82,26 @@ export default {
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
-    <TitleAndDescription>
-      <Searchbar
-        v-model:search="searchQuery"
-        placeholder="Sök recept..."
-      />
+    <TitleAndDescription @categorySelected="handleCategorySelect">
+      <Searchbar v-model:search="searchQuery" placeholder="Sök recept..." />
     </TitleAndDescription>
 
-    <div class="Cards">
-      <CardCarousel
-        v-if="!loading && recipes.length > 0"
-        title="Senaste Recepten"
-        link="/latest-products"
-        :cards="mappedRecipes"
-        :visibleCount="3"
-      />
-      <CardCarousel
-        v-if="!loading && recipes.length > 0"
-        title="Våra favoriter"
-        link="/Favorites"
-        :cards="mappedRecipes"
-        :visibleCount="3"
-      />
+    <div class="Cards" v-if="!selectedCategory && !searchQuery">
+      <CardCarousel v-if="!loading && recipes.length > 0" title="Senaste Recepten" :cards="mappedRecipes"
+        :visibleCount="3" />
+      <CardCarousel v-if="!loading && recipes.length > 0" title="Våra favoriter" :cards="mappedRecipes"
+        :visibleCount="3" />
+    </div>
+
+    <div v-else class="recipe-grid-container">
+
+      <div class="recipe-grid">
+        <RecipeCard v-for="card in mappedRecipes" :key="card.id" :card="card" />
+      </div>
+
+      <div v-if="mappedRecipes.length === 0" class="no-results">
+        Inga recept hittades som matchar dina val.
+      </div>
     </div>
 
     <Textimagesplit
@@ -120,5 +136,57 @@ export default {
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: darken;
+}
+
+/* grid styling */
+.recipe-grid-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 4rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+}
+
+.grid-header h1 {
+  font-family: 'Holtwood One SC';
+  color: white;
+  font-size: 1.5rem;
+}
+
+.clear-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin-left: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+  background: white;
+  color: black;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+.no-results {
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 2rem;
 }
 </style>

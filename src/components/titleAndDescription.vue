@@ -1,23 +1,17 @@
 <script>
 import RecipeService from '@/services/RecipeService';
 
-
 export default {
   name: 'TitleAndDescriptionComponent',
 
   props: {
-
     title: {
       type: String,
       default: 'Gymsnacks för alla tillfällen'
     },
     description: {
       type: String,
-      default: 'Upptäck våra läckra och näringsrika proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!'
-    },
-    category: {
-      type: String,
-      default: ''
+      default: 'Upptäck våra läckra, näringsrika och proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!'
     },
     backgroundImage: {
       type: String,
@@ -29,7 +23,7 @@ export default {
     return {
       categories: [],
       showAllCategories: false,
-      selectedCategory: null,
+      selectedCategoryObj: null,
       teamId: import.meta.env.VITE_TEAM_ID
     };
   },
@@ -38,58 +32,81 @@ export default {
     await this.loadCategories();
   },
 
-  methods: {
-    async loadCategories() {
-    try {
-      const apiCategories = await RecipeService.getCategories(this.teamId)
-      // The API returns objects { id, name }, we just need the names
-      this.categories = apiCategories.map(cat => cat.name).sort()
-    } catch (error) {
-      console.error('Failed to fetch categories:', error)
-    }
-    },
-
-    switchCategory(category) {
-      this.selectedCategory = category;
-      this.$emit('categorySelected', category);
-}
-  },
-
   computed: {
     visibleCategories() {
-    return this.showAllCategories ? this.categories : this.categories.slice(0, 3)
-  }
+      return this.showAllCategories ? this.categories : this.categories.slice(0, 3);
+    },
+
+    displayTitle() {
+      if (this.selectedCategoryObj) {
+        return this.selectedCategoryObj.name;
+      }
+      return this.title;
+    },
+
+    displayDescription() {
+      if (this.selectedCategoryObj) {
+        return null;
+      }
+      return this.description;
+    }
+  },
+
+  methods: {
+    async loadCategories() {
+      try {
+        const apiCategories = await RecipeService.getCategories(this.teamId);
+
+        if (Array.isArray(apiCategories)) {
+          this.categories = [...apiCategories].sort((a, b) => a.name.localeCompare(b.name));
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      }
+    },
+
+    switchCategory(categoryObj) {
+      if (this.selectedCategoryObj && this.selectedCategoryObj.name === categoryObj.name) {
+        this.selectedCategoryObj = null;
+        this.$emit('categorySelected', null);
+      } else {
+        this.selectedCategoryObj = categoryObj;
+        this.$emit('categorySelected', categoryObj.name);
+      }
+    }
   }
 }
 </script>
 
 <template>
-
   <div id="title-and-description" :style="{ backgroundImage: `url(${backgroundImage})` }">
     <div class="title-and-description-div">
-      <h1>{{ title }}</h1>
-      <p>{{ description }}</p>
+      <h1>{{ displayTitle }}</h1>
+      <p v-if="displayDescription">{{ displayDescription }}</p>
     </div>
 
     <slot></slot>
 
     <div class="category-container">
       <transition-group name="fade" tag="ol">
-        <li v-for="category in visibleCategories" :key="category">
-          <button @click="switchCategory(category)" :class="{ active: selectedCategory === category }">
-            {{ category }}
+        <li v-for="category in visibleCategories" :key="category.name">
+          <button
+            @click="switchCategory(category)"
+            :class="{ active: selectedCategoryObj && selectedCategoryObj.name === category.name }"
+          >
+            {{ category.name }}
           </button>
         </li>
 
         <li v-if="categories.length > 3" key="toggle-btn">
           <button class="toggle-button" @click="showAllCategories = !showAllCategories">
-            {{ showAllCategories ? 'Visa färre' : 'Visa alla' }}<span class="icon">{{ showAllCategories ? ' −' : ' +' }}</span>
+            {{ showAllCategories ? 'Visa färre' : 'Visa alla' }}
+            <span class="icon">{{ showAllCategories ? ' −' : ' +' }}</span>
           </button>
         </li>
       </transition-group>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -103,6 +120,8 @@ export default {
   max-width: 100%;
   height: 33em;
   margin-bottom: 2rem;
+  background-size: cover;
+  background-position: center;
 }
 
 h1 {
@@ -128,6 +147,7 @@ p {
   max-height: 120px;
   transition: max-height 0.3s ease;
   overflow: hidden;
+  overflow-y: visible;
 }
 
 .category-container ol {
@@ -176,10 +196,11 @@ button:hover {
 }
 
 button.active {
-  background-color: #ffdd57;
-  color: #333;
-  font-weight: 600;
-  border: 2px solid white;
+  background-color: #fff8e1;
+  color: #3e3e3e;
+  border: 2px solid #fff8e1;
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(255, 230, 180, 0.6);
 }
 
 .toggle-button {
