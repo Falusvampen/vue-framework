@@ -95,6 +95,7 @@ export class RecipeService {
   addRecipe = async (payload) => {
     const response = await apiClient.post(`${this.teamPath}/recipes`, payload)
     this.allRecipesCache = null // Rensa cachen
+    this.recipeDetailsCache.clear(); // Rensa detaljerad cache för att undvika inaktuella data
     return transformRecipe(response.data)
   }
 
