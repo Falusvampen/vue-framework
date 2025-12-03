@@ -56,7 +56,6 @@ export default {
   background-color: #1e1e1e;
   color: white;
   margin-top: 5rem;
-  border-top: 10px solid #e5cfb0;
 
 
   
@@ -112,6 +111,55 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+
+
+
+
+
+@media (max-width: 870px) {
+
+  .text-section h3 {
+  font-size: 0.8rem;
+  margin-bottom: 0.7rem;
+  
+}
+
+.text-section h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  width: 80%s;
+}
+
+  
+
+
+   
+  
+
+  
+}
+
+@media (max-width: 600px) {
+
+  .Text-image-Split {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%; 
+  height: 100vh;  
+  background-color: #1e1e1e;
+  color: white;
+  margin-top: 5rem;
+  border-top: 10px solid #c0ab8e;
+
+
+  
+}
+
+  
+
 }
 
 

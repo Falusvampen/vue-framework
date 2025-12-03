@@ -75,12 +75,14 @@ export default {
       <CardCarousel
         v-if="!loading && recipes.length > 0"
         title="Senaste Recepten"
+        link="/latest-products"
         :cards="mappedRecipes"
         :visibleCount="3"
       />
       <CardCarousel
         v-if="!loading && recipes.length > 0"
         title="Våra favoriter"
+        link="/Favorites"
         :cards="mappedRecipes"
         :visibleCount="3"
       />
@@ -116,7 +118,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: darken;
 }
 </style>
