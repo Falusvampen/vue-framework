@@ -124,7 +124,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: darken;
 }
 

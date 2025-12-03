@@ -130,6 +130,8 @@ h1 {
   font-weight: 600;
 }
 
+
+
 p {
   font-size: 20px;
   margin-bottom: 20px;
