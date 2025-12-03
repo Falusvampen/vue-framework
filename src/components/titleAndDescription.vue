@@ -13,7 +13,7 @@ export default {
     },
     description: {
       type: String,
-      default: 'Upptäck våra läckra och näringsrika proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!'
+      default: 'Upptäck våra läckra, näringsrika och proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!'
     },
     category: {
       type: String,
