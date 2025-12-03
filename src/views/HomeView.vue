@@ -131,12 +131,11 @@ export default {
 
 <template>
   <main class="dashboard">
-    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
-
     <TitleAndDescription @category-select="handleCategorySelect">
       <Searchbar v-model:search="searchQuery" placeholder="Sök recept..." />
     </TitleAndDescription>
+    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
+    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
     <div class="Cards" v-if="!selectedCategory && !searchQuery">
       <CardCarousel
