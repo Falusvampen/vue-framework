@@ -1,4 +1,5 @@
 <template>
+  <hr>
    <div class="comment-header-title">
 
     <h1 class="question-title">Vad tyckte du om receptet?</h1>
@@ -25,11 +26,11 @@
           <p v-if="newComment.rating" class="rating-text">{{ newComment.rating }} av 5</p>
           </div>
 
-        <br>
+        <hr>
 
     <div class="comment-section">
-            <h2>Kommentarer</h2>
-   
+            <h2 class="comment-title-h2">Kommentarer</h2>
+   <hr>
 
     <div class="commentForm">
         <textarea 
@@ -123,11 +124,23 @@ export default {
 
 <style>
 
+
+.stars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
 .comment-header-title {
   text-align: center;
   margin-bottom: 20px;
   background-color: white;  
   color: black;
+}
+.comment-header-stars{
+  align-items: center;
+  justify-content: center;
 }
 .star {
   font-size: 50px;
@@ -135,6 +148,8 @@ export default {
   margin: 0 2px;
   cursor: pointer;
   transition: color 0.2s ease;
+  align-items: center;
+  justify-content: center;
 }
 
 .star.filled {
@@ -149,6 +164,7 @@ export default {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

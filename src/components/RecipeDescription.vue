@@ -58,35 +58,19 @@ export default {
       <span class="star">★</span>
     </div>
     <div class="cooking-time">
-      <span class="time-text">{{ recipe.prepTime }} 15 minuter⏱️</span>
+      <span class="time-text">{{ recipe.prepTime }} minuter⏱️</span>
     </div>
+  
   </div>
-
-      <div class="recipe-footer">
-          <div class="stars">
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-          </div>
-          <div class="cooking-time">
-            <span class="time-text">{{ recipe.prepTime }} minuter</span>
-          </div>
-        </div>
-      
-
-    <div class="recipeimg">
-
-    <img src="C:\Users\rowno\Desktop\receptprojekt\image.png" alt="recipe.title" />
-    </div>
   </div>
   </div>
   </div>
   
+  
   <div class="recipe-right">
   <div class="recipe-image">
-   <img :src="imageSrc" :alt="recipe.title || 'Recipe image'" width="600" height="400"/>
+   <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
+
   </div>
   </div>
   </div>
@@ -100,7 +84,7 @@ export default {
   grid-template-columns: auto;
 }
  body{
-  background-color: white;
+  background-color: rgb(0, 0, 0);
   
  }
 

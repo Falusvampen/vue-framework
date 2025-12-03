@@ -80,7 +80,7 @@ export default {
         <StepComponent title="Gör så här" :steps="formattedSteps" />
       </div>
 
-      <Gebetyg title="Betygsätt receptet" />
+      
 
       <CommentComponent :recipeId="recipe.id" />
     </div>
