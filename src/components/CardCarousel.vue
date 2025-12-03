@@ -1,6 +1,4 @@
-
-
-  <template>
+<template>
   <div class="carousel-section">
     <div class="Text">
   <router-link :to="link" class="title-link">
@@ -18,8 +16,7 @@
           class="carousel-track"
           :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
         >
-        
-          <router-link
+          <RouterLink
             class="card"
             v-for="(card, index) in cards"
             :key="card.title + index"
@@ -36,8 +33,7 @@
               <span>{{ card.ingredients }} | {{ card.time }}</span>
               <span class="stars">{{ card.rating }}</span>
             </div>
-        
-          </router-link>
+          </RouterLink>
         </div>
       </div>
 
@@ -45,11 +41,12 @@
         @click="nextSlide"
         class="nav next"
         :disabled="currentIndex + visibleCount >= cards.length"
-      >›</button>
+      >
+        ›
+      </button>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -92,17 +89,12 @@ export default {
 </script>
 
 <style scoped>
-
 .carousel-section {
-  width: calc(24rem * 3 + 2 * 1rem); 
-  margin: 0 auto;                    
+  width: calc(24rem * 3 + 2 * 1rem);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-
-  
-           
 }
 
 .title-link {
@@ -118,7 +110,7 @@ export default {
 }
 
 .Text {
-  font-family: "Holtwood One SC";
+  font-family: 'Holtwood One SC';
   letter-spacing: 0.06em;
   font-size: 0.8rem;
   font-weight: bold;
@@ -128,7 +120,7 @@ export default {
 }
 
 .Text h1::after {
-  content: "";
+  content: '';
   display: block;
   width: 22rem;
   height: 3.8px;
@@ -136,7 +128,6 @@ export default {
   margin-top: 0.4rem;
   border-radius: 2px;
 }
-
 
 .carousel {
   display: flex;
@@ -160,7 +151,7 @@ export default {
 }
 
 .card {
-  background: #D9D9D9;
+  background: #d9d9d9;
   border-radius: 16px;
   width: 23rem;
   height: fit-content;
@@ -169,10 +160,10 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease; 
+  transition: transform 0.3s ease;
 }
-a:hover{
-  opacity: 1.0;
+a:hover {
+  opacity: 1;
 }
 
 .card img {
@@ -207,7 +198,6 @@ a:hover{
   max-height: 5rem;
   overflow: hidden;
   text-overflow: ellipsis;
-
 }
 
 .card-footer {
