@@ -142,6 +142,7 @@ export default {
       <CardCarousel
         v-if="!loading && recipes.length > 0"
         title="Senaste Recepten"
+        link="/latest-products"
         :cards="mappedRecipes"
         :visibleCount="3"
       />
@@ -149,6 +150,7 @@ export default {
       <CardCarousel
         v-if="!loading && recipes.length > 0"
         title="Våra favoriter"
+        link="/favorites"
         :cards="mappedRecipes"
         :visibleCount="3"
       />
