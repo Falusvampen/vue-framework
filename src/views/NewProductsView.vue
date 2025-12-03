@@ -7,7 +7,7 @@
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
     <Newproductsheader 
 	header="Nya Produkter"
-	minitext="Kolla in våra  allra nyaste produkter innan det är försent!"
+	minitext="Kolla in våra allra nyaste produkter"
 	
 	/>
 	<div class="Newproductcards">

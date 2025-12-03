@@ -1,4 +1,9 @@
 <template>
+
+
+
+
+
   <div class="card-grid">
     <router-link
       class="card"
@@ -30,6 +35,9 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); 
@@ -95,8 +103,8 @@ export default {
   align-items: center;
   background: #b3b3b1;
   padding: 10px 16px;
-  margin-top:0;
   font-size: 13px;
+  margin-top:0;
   color: #555;
   border-top: 1px solid #eee;
 }
@@ -105,7 +113,6 @@ export default {
   color: #f5c04f;
   font-size: 1.6rem;
 }
-
 
 @media (max-width: 1200px) {
 
@@ -183,7 +190,6 @@ export default {
 
 
 }
-
 
 
 </style>
