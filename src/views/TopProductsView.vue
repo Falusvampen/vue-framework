@@ -6,8 +6,8 @@
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
     <Newproductsheader 
-	header="Nya Produkter"
-	minitext="Kolla in våra allra nyaste produkter"
+	header="Topp rankade produkter"
+	minitext="Kolla in våra bäst rankade produkter "
 	
 	/>
 	<div class="Newproductcards">
@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import Newproducts from "@/components/Newproducts.vue"
-import Newproductsheader from "@/components/Newproductsheader.vue"
+import Newproducts from "@/components/TopProducts.vue"
+import Newproductsheader from "@/components/TopProductsheader.vue"
 import RecipeService from "@/services/RecipeService"
 
 export default {
