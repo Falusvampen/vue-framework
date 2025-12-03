@@ -73,25 +73,24 @@ export default {
       <p class="desc">{{ recipe.description }}</p>
       <RecipeDescription :description="recipe.description" />
 
-
       <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
       
-
       <div class="recipe-row">
         <Ingredienser title="Ingredienser" :ingredients="formattedIngredients" />
         <StepComponent title="Gör så här" :steps="formattedSteps" />
       </div>
-
-      
-
+      <Gebetyg :recipeId="recipe.id" />
       <CommentComponent :recipeId="recipe.id" />
     </div>
   </div>
 </template>
 
 <style >
-#app{
-  grid-template-columns: auto;
+
+
+.gebetyg {
+  margin: 0 auto;
+  text-align: center;
 }
 
 
@@ -125,13 +124,18 @@ export default {
   display: block;
   margin: 0 auto 2rem auto;
   border-radius: 8px;
+  
 }
 
 .recipe-row {
   display: flex;
   gap: 1.5rem;
-  justify-content: center;
+  justify-content: left;
   flex-direction: row;
   flex-wrap: wrap;
+  margin: 0 auto;
+  padding-left: 20px;
+  
+  
 }
 </style>
