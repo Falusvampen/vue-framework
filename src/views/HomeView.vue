@@ -79,18 +79,20 @@ export default {
 
 <template>
   <main class="dashboard">
-    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
+
 
     <TitleAndDescription @categorySelected="handleCategorySelect">
       <Searchbar v-model:search="searchQuery" placeholder="Sök recept..." />
     </TitleAndDescription>
 
+    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
+    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
+
     <div class="Cards" v-if="!selectedCategory && !searchQuery">
       <CardCarousel v-if="!loading && recipes.length > 0" title="Senaste Recepten" :cards="mappedRecipes"
-        :visibleCount="3" />
+        :visibleCount="3" link="Latest-products" />
       <CardCarousel v-if="!loading && recipes.length > 0" title="Våra favoriter" :cards="mappedRecipes"
-        :visibleCount="3" />
+        :visibleCount="3" link="/Favorites"/>
     </div>
 
     <div v-else class="recipe-grid-container">
@@ -118,7 +120,7 @@ export default {
       subtitle="Checka in våra bäst rankade recept!"
       buttonText="Utforska"
       imageSrc="New.png"
-      link="/new-products"
+      link="/Top-products"
     />
   </main>
 </template>

@@ -200,7 +200,7 @@ button.active {
   color: #3e3e3e;
   border: 2px solid #fff8e1;
   transform: scale(1.03);
-  box-shadow: 0 0 15px rgba(255, 230, 180, 0.6);
+  box-shadow: 2px 0px 3px rgb(234 217 184 / 80%);
 }
 
 .toggle-button {
