@@ -88,7 +88,7 @@ export const transformCategory = (apiCategory) => {
 
 function calculateAverageRating(ratings) {
   // Om inga betyg finns, så scammar vi användaren med 5 stjärnor som standard hehe..
-  if (!ratings || ratings.length === 0) return 0
+  if (!ratings || ratings.length === 0) return 5
   const sum = ratings.reduce((a, b) => a + b, 0)
-  return Math.round((sum / ratings.length) * 10) / 10
+  return (sum / ratings.length).toFixed(1)
 }
