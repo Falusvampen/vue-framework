@@ -35,7 +35,7 @@ export default {
   flex-direction: row-reverse;
   width: 100%;
   height: 70vh;
-  background-color: #D9D9D9;
+  background-color: #e7c5bc;
 }
 .text-section {
   flex: 1;
@@ -56,7 +56,7 @@ export default {
   color: #2c2c2c;
 }
 .button-link {
-  background-color: rgb(136, 135, 135);
+  background-color: rgb(53 53 53);
   color: white ;
   border: none;
   border-radius: 16vh;

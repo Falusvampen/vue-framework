@@ -104,12 +104,22 @@ export default {
       </div>
     </div>
 
-    <Textimagesplit title="ENKELT, SNABBT OCH SUPERGOTT." subtitle="Recept och tips" buttonText="Läs mer"
-      imageSrc="berry.png" imageSrc1="Pasta.jpg" link="/fastsnacks" />
+    <Textimagesplit
+      title="ENKELT, SNABBT OCH SUPERGOTT."
+      subtitle="Recept och tips"
+      buttonText="Läs mer"
+      imageSrc="berry.png"
+      imageSrc1="Pasta.jpg"
+      link="/fastsnacks"
+    />
 
-    <Textimagesplit1 title="Nya Produkter på ingång!" subtitle="Checka in våra senaste tillskott!!"
-      buttonText="Utforska" imageSrc="New.png" link="/new-products" />
-
+    <Textimagesplit1
+      title="Bäst rankade recepten"
+      subtitle="Checka in våra bäst rankade recept!"
+      buttonText="Utforska"
+      imageSrc="New.png"
+      link="/new-products"
+    />
   </main>
 </template>
 
