@@ -9,9 +9,11 @@ import CommentComponent from '@/components/CommentComponent.vue'
 export default {
   name: 'RecipeView',
   components: {
+    RecipeDescription,
     Ingredienser,
     StepComponent,
     Gebetyg,
+    CommentComponent,
   },
   data() {
     return {
@@ -69,6 +71,7 @@ export default {
     <div v-else>
       <h1>{{ recipe.title }}</h1>
       <p class="desc">{{ recipe.description }}</p>
+      <RecipeDescription :description="recipe.description" />
 
       <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
 
@@ -78,6 +81,8 @@ export default {
       </div>
 
       <Gebetyg title="Betygsätt receptet" />
+
+      <CommentComponent :recipeId="recipe.id" />
     </div>
   </div>
 </template>
