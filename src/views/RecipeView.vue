@@ -69,11 +69,13 @@ export default {
     <div v-else-if="error">{{ error }}</div>
 
     <div v-else>
-      <h1>{{ recipe.title }}</h1>
+      <h1 id="recipeTitle">{{ recipe.title }}</h1>
       <p class="desc">{{ recipe.description }}</p>
       <RecipeDescription :description="recipe.description" />
 
+
       <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
+      
 
       <div class="recipe-row">
         <Ingredienser title="Ingredienser" :ingredients="formattedIngredients" />
@@ -87,14 +89,32 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style >
+#app{
+  grid-template-columns: auto;
+}
+
+
+#stars{
+  color: gold;
+  font-size: 1.5rem;
+  
+
+}
+
+#recipeTitle {
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: bold;
+}
+
 .recipe-container {
-  padding: 2rem;
+  padding: 1.5rem;
+  
 }
 
 .desc {
   text-align: center;
-  margin-bottom: 2rem;
   font-style: italic;
 }
 
