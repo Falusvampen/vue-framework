@@ -35,7 +35,7 @@ export default {
   flex-direction: row-reverse;
   width: 100%;
   height: 70vh;
-  background-color: #D9D9D9;
+  background-color: #e7c5bc;
 }
 .text-section {
   flex: 1;
@@ -56,7 +56,7 @@ export default {
   color: #2c2c2c;
 }
 .button-link {
-  background-color: rgb(136, 135, 135);
+  background-color: rgb(53 53 53);
   color: white ;
   border: none;
   border-radius: 16vh;
@@ -81,5 +81,88 @@ export default {
   max-width: 70%;
   max-height: 70%;
   object-fit: contain;
+}
+
+@media (max-width: 800px) {
+
+  
+.text-section h1 {
+  font-size: 2.0rem;
+  font-family: "Holtwood One SC";
+  margin-bottom: 1rem;
+  color: #4A4040;
+}
+.text-section h3 {
+  font-size: 0.8rem;
+  margin-bottom: 1.7rem;
+  color: #2c2c2c;
+}
+
+.image-section img {
+  max-width: 86%;
+  max-height: 70%;
+  object-fit: contain;
+}
+  
+
+
+   
+  
+
+  
+}
+
+@media (max-width: 600px) {
+
+  .image-section img {
+  max-width: 50%;
+  max-height: 70%;
+  object-fit: contain;
+  margin:auto;
+  top:2rem;
+}
+
+.text-section {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Text-image-Split {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  height: 70vh;
+  background-color: #D9D9D9;
+}
+.text-section h3 {
+  font-size: 1rem;
+  margin-bottom: 1.7rem;
+  color: #2c2c2c;
+}
+
+
+}
+
+@media (max-width: 450px) {
+
+  .image-section img {
+  max-width: 50%;
+  max-height: 70%;
+  object-fit: contain;
+  align-items: center;
+}
+
+.text-section {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
 }
 </style>

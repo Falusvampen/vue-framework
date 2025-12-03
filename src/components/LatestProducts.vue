@@ -77,7 +77,7 @@ export default {
 
 .card-content {
   padding: 16px 20px 20px;
-  flex-grow: 1;
+  flex-grow:1;
 }
 
 .card h2 {
@@ -85,7 +85,6 @@ export default {
   font-size: 20px;
   font-weight: 600;
   color: #222;
-  display:flex;
 }
 
 .card p {
@@ -96,7 +95,6 @@ export default {
   max-height: 4rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  display:flex;
 }
 
 .card-footer {
@@ -105,8 +103,8 @@ export default {
   align-items: center;
   background: #b3b3b1;
   padding: 10px 16px;
-  margin-top:0;
   font-size: 13px;
+  margin-top:0;
   color: #555;
   border-top: 1px solid #eee;
 }

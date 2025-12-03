@@ -3,6 +3,9 @@ import Ingredienser from '../components/Ingredienser.vue'
 import StepComponent from '../components/StepComponent.vue'
 import Gebetyg from '../components/Gebetyg.vue'
 import apiService from '../services/RecipeService'
+import BaseHero from '../components/BaseHero.vue'
+import StatBar from '../components/StatBar.vue'
+import StarRating from '../components/StarRating.vue'
 
 export default {
   name: 'RecipeView',
@@ -10,6 +13,9 @@ export default {
     Ingredienser,
     StepComponent,
     Gebetyg,
+    BaseHero,
+    StatBar,
+    StarRating,
   },
   data() {
     return {
@@ -33,6 +39,20 @@ export default {
         number: index + 1,
         tutorial: stepText,
       }))
+    },
+    statsItems() {
+      if (!this.recipe) return []
+
+      const count = this.recipe.ingredients?.length || 0
+      let level = 'Enkel'
+      if (count > 6) level = 'Medel'
+      if (count > 12) level = 'Avancerad'
+
+      return [
+        { label: 'TID', value: `${this.recipe.time}` },
+        { label: 'BETYG', value: this.recipe.averageRating, isRating: true },
+        { label: 'NIVÅ', value: level },
+      ]
     },
   },
   methods: {
@@ -61,10 +81,22 @@ export default {
     <div v-else-if="error">{{ error }}</div>
 
     <div v-else>
-      <h1>{{ recipe.title }}</h1>
-      <p class="desc">{{ recipe.description }}</p>
+      <BaseHero :title="recipe.title" :background-image="recipe.imageUrl" height="60vh">
+        <p class="recipe-description">{{ recipe.description }}</p>
+      </BaseHero>
 
-      <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
+      <div class="floating-stats-container">
+        <StatBar :items="statsItems">
+          <template #icon="{ item }">
+            <StarRating
+              v-if="item.isRating"
+              :model-value="item.value"
+              readonly
+              class="mini-stars"
+            />
+          </template>
+        </StatBar>
+      </div>
 
       <div class="recipe-row">
         <Ingredienser title="Ingredienser" :ingredients="formattedIngredients" />
@@ -77,8 +109,24 @@ export default {
 </template>
 
 <style scoped>
-.recipe-container {
-  padding: 2rem;
+.recipe-description {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #f0f0f0;
+  max-width: 700px;
+  margin-top: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+.floating-stats-container {
+  padding: 0 20px;
+  margin-top: -50px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 50px;
+}
+.mini-stars {
+  transform: scale(0.85);
+  margin-right: -4px;
 }
 
 .desc {
