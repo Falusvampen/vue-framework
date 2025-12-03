@@ -1,5 +1,5 @@
 import apiClient from './apiClient'
-import { transformRecipe, transformCategory } from './transformers'
+import { transformRecipe, transformCategory, transformComment } from './transformers'
 
 export default {
   async getAllRecipes(teamId) {
@@ -24,5 +24,15 @@ export default {
       console.error('Error fetching complete recipe:', error)
       throw error
     }
+  },
+
+  async getRecipeComments(teamId, recipeId) {
+    const response = await apiClient.get(`/${teamId}/recipes/${recipeId}/comments`)
+    return response.data.map(transformComment)
+  },
+
+  async addComment(teamId, recipeId, payload) {
+    const response = await apiClient.post(`/${teamId}/recipes/${recipeId}/comments`, payload)
+    return transformComment(response.data)
   },
 }

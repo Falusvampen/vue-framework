@@ -1,806 +1,521 @@
 <template>
-  
-
-        <hr>
-
+  <div class="comment-wrapper">
     <div class="comment-section">
-            <h2 class="comment-title-h2">Kommentarer</h2>
-   <hr>
+      <h2 class="comment-title-h2">
+        Kommentarer <span class="count">({{ comments.length }})</span>
+      </h2>
+      <hr>
 
-    <div class="commentForm">
-        <textarea 
-        v-model="newComment.text"
-        placeholder="skriv din kommentar..."
-        class="commentArea"
-        rows="4"
-        
-        
-        ></textarea>
+      <div class="commentForm">
+        <h4>Lämna en kommentar</h4>
 
-        <input 
-        v-model="newComment.name"
-        type="text"
-        placeholder="ditt namn..."
-        class="nameInput"
-        />
+        <form @submit.prevent="handleSubmit">
+          <input 
+            v-model="formData.name"
+            type="text"
+            placeholder="Ditt namn..."
+            class="nameInput"
+            :disabled="isSubmitting"
+            required
+          />
 
-        <button
-        @click="submitComment"
-        :disabled="newComment.text.trim() === '' || newComment.name.trim() === ''"
-        class="submit-btn">
+          <textarea 
+            v-model="formData.text"
+            placeholder="Skriv din kommentar..."
+            class="commentArea"
+            rows="4"
+            :disabled="isSubmitting"
+            required
+          ></textarea>
 
-        Skicka kommentar
+          <div v-if="error" class="error-msg">{{ error }}</div>
 
-        </button>
+          <button
+            type="submit"
+            :disabled="isSubmitting"
+            class="submit-btn">
+            {{ isSubmitting ? 'Skickar...' : 'Skicka kommentar' }}
+          </button>
+        </form>
+      </div>
 
-    </div>
+      <hr>
 
-    <div class="commentBox">
-
-    <div class="comments-list" v-if="comments.length > 0">
-      <div class="comment-item" v-for="(comment, index) in comments" :key="index">
-        <div class="comment-header">
-          <p class="comment-name">{{ comment.name }} - {{ comment.date }}</p>
-          <div class="comment-rating">
-            <span v-for="star in 5" :key="star" class="comment-star" :class="{ 'filled': star <= comment.rating }">★</span>
+      <div class="commentBox">
+        <div class="comments-list" v-if="comments.length > 0">
+          <div class="comment-item" v-for="comment in comments" :key="comment.id">
+            <div class="comment-header">
+              <p class="comment-name">{{ comment.author }} - {{ comment.date }}</p>
+            </div>
+            <p class="comment-text">{{ comment.text }}</p>
           </div>
         </div>
-        <p class="comment-text">{{ comment.text }}</p>
+
+        <div v-else class="no-comments">
+          <p>Inga kommentarer ännu. Var den första att kommentera!</p>
+        </div>
       </div>
     </div>
-
-    
-
-    <div v-else class="no-comments">
-      <p>Inga kommentarer ännu. Var den första att kommentera!</p>
-    </div>
-    
- </div>
   </div>
- 
-
 </template>
 
 <script>
+import recipeService from '../services/RecipeService'
+
 export default {
+  name: 'CommentComponent',
+  props: {
+    recipeId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      newComment: {
-        text: '',
-        name: '',
-        rating: 0
-      },
+      teamId: import.meta.env.VITE_TEAM_ID,
       comments: [],
-      hoveredRating: 0
+      formData: {
+        name: '',
+        text: '',
+      },
+      isSubmitting: false,
+      error: null,
+      loading: true,
     }
   },
-  computed: {
-    isFormValid() {
-      return this.newComment.text.trim() !== '' && this.newComment.name.trim() !== '';
-    }
+  async mounted() {
+    await this.fetchComments()
   },
   methods: {
-    submitComment() {
-      if (this.isFormValid) {
-        this.comments.push({
-          text: this.newComment.text,
-          name: this.newComment.name.toUpperCase(),
-          rating: this.newComment.rating,
-          date: new Date().toLocaleDateString('sv-SE')
-        });
-        this.newComment.text = '';
-        this.newComment.name = '';
-        this.newComment.rating = 0;
+    async fetchComments() {
+      this.loading = true
+      try {
+        this.comments = await recipeService.getRecipeComments(this.teamId, this.recipeId)
+      } catch (err) {
+        console.error('Error fetching comments:', err)
+      } finally {
+        this.loading = false
       }
-    }
+    },
+    async handleSubmit() {
+      if (!this.formData.name.trim() || !this.formData.text.trim()) {
+        return
+      }
+
+      this.isSubmitting = true
+      this.error = null
+
+      const payload = { 
+        name: this.formData.name, 
+        comment: this.formData.text 
+      }
+
+      try {
+        console.log('Submitting comment:', payload)
+        const newComment = await recipeService.addComment(this.teamId, this.recipeId, payload)
+        console.log('Comment submitted successfully:', newComment)
+        this.comments.push(newComment)
+        this.resetForm()
+      } catch (err) {
+        console.error('Full error object:', err)
+        console.error('Error response:', err.response?.data)
+        console.error('Error status:', err.response?.status)
+        
+        const errorMsg = err.response?.data?.message || err.message || 'Kunde inte skicka kommentaren. Försök igen.'
+        this.error = errorMsg
+      } finally {
+        this.isSubmitting = false
+      }
+    },
+    resetForm() {
+      this.formData.name = ''
+      this.formData.text = ''
+    },
   }
 }
 </script>
 
 <style>
 
-
-.stars {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.comment-header-title {
-  text-align: center;
-  margin-bottom: 20px;
-  background-color: white;  
-  color: black;
-}
-.comment-header-stars{
-  align-items: center;
-  justify-content: center;
-}
-.star {
-  font-size: 50px;
-  color: #ccc;
-  margin: 0 2px;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  align-items: center;
-  justify-content: center;
-}
-
-.star.filled {
-  color: gold;
-}
-
-.star.hovered {
-  color: gold;
+.comment-wrapper {
+  position: relative;
+  background: transparent;
+  overflow: hidden;
 }
 
 .comment-section {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
-  
-  background-color: white;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #222;
+  border: 2px solid #333;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.6s ease-out;
+}
+
+
+
+.comment-title-h2 {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  color: #222;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideDown 0.5s ease-out;
+}
+
+
+
+.count {
+  color: #555;
+  font-weight: 600;
+  font-size: 1rem;
+  background: #f0f0f0;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: black;
+  padding: 2px 8px;
+  box-shadow: none;
 }
 
-.qesution-title {
-  font-weight: bold;
-}
 
-.commentForm{
-  margin-top: 30px;
+
+.commentForm {
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 12px;
+  animation: slideUp 0.6s ease-out 0.2s both;
 }
+
+
 
 .nameInput, .commentArea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
   font-size: 1rem;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: #222;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow: none;
 }
+.nameInput:focus, .commentArea:focus {
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+
 
 .submit-btn {
-  padding: 10px 20px;
-  background-color: #000000;
-  color: rgb(255, 255, 255);
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 25px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+.submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #222 0%, #444 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 
-.commentBox{
-  margin-top: 30px;
-  color: black;
 
-}
-
-.comment-item, comment-name, comment-text {
-  background-color: rgb(201, 201, 201);
-  border-bottom: 10px solid #eee;
-  padding: 10px 0;
-  
-}
-
-.comment-text{
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: normal;
- 
-}
-
-.comment-name{
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
- 
-}
-.comment-list {
-  margin-bottom: 20px;
-  
-  
-}
-
-.rating-text {
-  margin-top: 10px;
+.error-msg {
+  color: #d32f2f;
   font-size: 0.9rem;
-  color: #666;
+  margin: 5px 0;
+  background: rgba(211, 47, 47, 0.1);
+  border-radius: 6px;
+  padding: 6px 10px;
+  box-shadow: none;
 }
+
+
+
+.commentBox {
+  margin-top: 16px;
+  color: #222;
+  animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
+
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+
+.comment-item {
+  background: #fafafa;
+  border: 1.5px solid #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  padding: 12px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  animation: slideIn 0.5s ease-out both;
+}
+.comment-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #333;
+}
+
+
 
 .comment-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
+  margin-bottom: 4px;
 }
 
-.comment-rating {
-  display: flex;
-  gap: 2px;
-  white-space: nowrap;
+
+
+.comment-name {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
 }
 
-.comment-star {
-  font-size: 18px;
-  color: #ccc;
+
+
+.comment-text {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  color: #444;
+  margin: 6px 0 0 0;
+  font-size: 0.95rem;
 }
 
-.comment-star.filled {
-  color: gold;
+
+
+.no-comments {
+  text-align: center;
+  color: #666;
+  padding: 16px;
+  font-size: 0.95rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: none;
+  animation: fadeIn 0.6s ease-out;
 }
 
 
 @media (max-width: 480px) {
-  .comment-header-title {
-    margin-bottom: 10px;
-  }
-
-  .question-title {
-    font-size: 1.5rem;
-    margin: 10px 0;
-  }
-
-  .comment-header-undertitle {
-    margin: 5px 0;
-  }
-
-  .comment-header-undertitle p {
-    font-size: 0.9rem;
-  }
-
-  .comment-header-stars {
-    margin: 15px 0;
-  }
-
-  .star {
-    font-size: 35px;
-    margin: 0 1px;
-  }
-
-  .rating-text {
-    font-size: 0.8rem;
-    margin-top: 8px;
-  }
-
   .comment-section {
     max-width: 100%;
     margin: 0;
-    padding: 15px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin-bottom: 8px;
   }
-
-  .comment-section h2 {
+  .comment-title-h2 {
     font-size: 1.2rem;
-    margin: 10px 0;
+    margin: 8px 0;
   }
-
   .commentForm {
-    gap: 8px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    gap: 7px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 8px;
   }
-
   .submit-btn {
-    padding: 8px 15px;
+    padding: 8px 12px;
     font-size: 0.9rem;
   }
-
   .commentBox {
-    margin-top: 15px;
+    margin-top: 10px;
   }
-
   .comment-item {
-    padding: 8px 0;
-    border-bottom: 5px solid #eee;
+    padding: 8px 10px;
+    border-radius: 8px;
   }
-
   .comment-name {
     font-size: 0.9rem;
   }
-
   .comment-text {
     font-size: 0.9rem;
     margin-top: 5px;
   }
-
-  .comment-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  .comment-rating {
-    gap: 1px;
-    margin-top: 5px;
-  }
-
-  .comment-star {
-    font-size: 14px;
-  }
-
   .no-comments {
-    padding: 15px;
+    padding: 10px;
     text-align: center;
     font-size: 0.9rem;
   }
 }
 
+
 @media (min-width: 481px) and (max-width: 768px) {
-  .comment-header-title {
-    margin-bottom: 15px;
-  }
-
-  .question-title {
-    font-size: 1.8rem;
-    margin: 12px 0;
-  }
-
-  .comment-header-undertitle p {
-    font-size: 0.95rem;
-  }
-
-  .comment-header-stars {
-    margin: 18px 0;
-  }
-
-  .star {
-    font-size: 40px;
-    margin: 0 2px;
-  }
-
-  .rating-text {
-    font-size: 0.85rem;
-    margin-top: 9px;
-  }
-
   .comment-section {
-    max-width: 90%;
+    max-width: 95%;
     margin: 0 auto;
-    padding: 18px;
-    margin-bottom: 15px;
+    padding: 14px;
+    margin-bottom: 10px;
   }
-
-  .comment-section h2 {
+  .comment-title-h2 {
     font-size: 1.3rem;
-    margin: 12px 0;
+    margin: 10px 0;
   }
-
   .commentForm {
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 18px;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 12px;
+    padding: 12px 10px;
   }
-
   .nameInput, .commentArea {
     padding: 10px;
     font-size: 0.98rem;
   }
-
   .submit-btn {
-    padding: 10px 18px;
+    padding: 10px 16px;
     font-size: 0.95rem;
   }
-
   .commentBox {
-    margin-top: 20px;
+    margin-top: 14px;
   }
-
+  .comments-list {
+    gap: 12px;
+  }
   .comment-item {
-    padding: 10px 0;
-    border-bottom: 8px solid #eee;
+    padding: 10px 12px;
+    border-radius: 10px;
   }
-
   .comment-name {
     font-size: 0.95rem;
   }
-
   .comment-text {
     font-size: 0.95rem;
     margin-top: 6px;
   }
-
-  .comment-header {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .comment-rating {
-    gap: 2px;
-  }
-
-  .comment-star {
-    font-size: 16px;
-  }
-
   .no-comments {
-    padding: 20px;
+    padding: 12px;
     text-align: center;
     font-size: 0.95rem;
   }
 }
 
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @media (min-width: 769px) {
-  .comment-header-title {
-    margin-bottom: 20px;
-  }
-
-  .question-title {
-    font-size: 2rem;
-    margin: 15px 0;
-  }
-
-  .comment-header-undertitle p {
-    font-size: 1rem;
-  }
-
-  .comment-header-stars {
-    margin: 20px 0;
-  }
-
-  .star {
-    font-size: 50px;
-    margin: 0 2px;
-  }
-
-  .rating-text {
-    font-size: 0.9rem;
-    margin-top: 10px;
-  }
-
   .comment-section {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
   }
-
-  .comment-section h2 {
+  .comment-title-h2 {
     font-size: 1.5rem;
     margin: 15px 0;
   }
-
   .commentForm {
     gap: 10px;
     margin-top: 30px;
     margin-bottom: 20px;
+    padding: 18px 16px;
   }
-
   .nameInput, .commentArea {
-    padding: 10px;
+    padding: 12px;
     font-size: 1rem;
   }
-
   .submit-btn {
-    padding: 10px 20px;
+    padding: 12px 28px;
     font-size: 1rem;
   }
-
   .commentBox {
     margin-top: 30px;
   }
-
-  .comment-item {
-    padding: 10px 0;
-    border-bottom: 10px solid #eee;
+  .comments-list {
+    gap: 18px;
   }
-
+  .comment-item {
+    padding: 16px 18px;
+    border-radius: 14px;
+  }
   .comment-name {
     font-size: 1rem;
   }
-
   .comment-text {
     font-size: 1rem;
     margin-top: 8px;
   }
-
-  .comment-header {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .comment-rating {
-    gap: 2px;
-  }
-
-  .comment-star {
-    font-size: 18px;
-  }
-
   .no-comments {
     padding: 20px;
     text-align: center;
     font-size: 1rem;
   }
 }
-
-  .question-title {
-    font-size: 1.5rem;
-    margin: 10px 0;
-  }
-
-  .comment-header-undertitle {
-    margin: 5px 0;
-  }
-
-  .comment-header-undertitle p {
-    font-size: 0.9rem;
-  }
-
-  .comment-header-stars {
-    margin: 15px 0;
-  }
-
-  .star {
-    font-size: 35px;
-    margin: 0 1px;
-  }
-
-  .rating-text {
-    font-size: 0.8rem;
-    margin-top: 8px;
-  }
-
-  .comment-section {
-    max-width: 100%;
-    margin: 0;
-    padding: 15px;
-    margin-bottom: 10px;
-  }
-
-  .comment-section h2 {
-    font-size: 1.2rem;
-    margin: 10px 0;
-  }
-
-  .commentForm {
-    gap: 8px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-
-  .submit-btn {
-    padding: 8px 15px;
-    font-size: 0.9rem;
-  }
-
-  .commentBox {
-    margin-top: 15px;
-  }
-
-  .comment-item {
-    padding: 8px 0;
-    border-bottom: 5px solid #eee;
-  }
-
-  .comment-name {
-    font-size: 0.9rem;
-  }
-
-  .comment-text {
-    font-size: 0.9rem;
-    margin-top: 5px;
-  }
-
-  .comment-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  .comment-rating {
-    gap: 1px;
-    margin-top: 5px;
-  }
-
-  .comment-star {
-    font-size: 14px;
-  }
-
-  .no-comments {
-    padding: 15px;
-    text-align: center;
-    font-size: 0.9rem;
-  }
-
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .comment-header-title {
-    margin-bottom: 15px;
-  }
-
-  .question-title {
-    font-size: 1.8rem;
-    margin: 12px 0;
-  }
-
-  .comment-header-undertitle p {
-    font-size: 0.95rem;
-  }
-
-  .comment-header-stars {
-    margin: 18px 0;
-  }
-
-  .star {
-    font-size: 40px;
-    margin: 0 2px;
-  }
-
-  .rating-text {
-    font-size: 0.85rem;
-    margin-top: 9px;
-  }
-
-  .comment-section {
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 18px;
-    margin-bottom: 15px;
-  }
-
-  .comment-section h2 {
-    font-size: 1.3rem;
-    margin: 12px 0;
-  }
-
-  .commentForm {
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 18px;
-  }
-
-  .nameInput, .commentArea {
-    padding: 10px;
-    font-size: 0.98rem;
-  }
-
-  .submit-btn {
-    padding: 10px 18px;
-    font-size: 0.95rem;
-  }
-
-  .commentBox {
-    margin-top: 20px;
-  }
-
-  .comment-item {
-    padding: 10px 0;
-    border-bottom: 8px solid #eee;
-  }
-
-  .comment-name {
-    font-size: 0.95rem;
-  }
-
-  .comment-text {
-    font-size: 0.95rem;
-    margin-top: 6px;
-  }
-
-  .comment-header {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .comment-rating {
-    gap: 2px;
-  }
-
-  .comment-star {
-    font-size: 16px;
-  }
-
-  .no-comments {
-    padding: 20px;
-    text-align: center;
-    font-size: 0.95rem;
-  }
-}
-
-@media (min-width: 769px) {
-  .comment-header-title {
-    margin-bottom: 20px;
-  }
-
-  .question-title {
-    font-size: 2rem;
-    margin: 15px 0;
-  }
-
-  .comment-header-undertitle p {
-    font-size: 1rem;
-  }
-
-  .comment-header-stars {
-    margin: 20px 0;
-  }
-
-  .star {
-    font-size: 50px;
-    margin: 0 2px;
-  }
-
-  .rating-text {
-    font-size: 0.9rem;
-    margin-top: 10px;
-  }
-
-  .comment-section {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .comment-section h2 {
-    font-size: 1.5rem;
-    margin: 15px 0;
-  }
-
-  .commentForm {
-    gap: 10px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-  }
-
-  .nameInput, .commentArea {
-    padding: 10px;
-    font-size: 1rem;
-  }
-
-  .submit-btn {
-    padding: 10px 20px;
-    font-size: 1rem;
-  }
-
-  .commentBox {
-    margin-top: 30px;
-  }
-
-  .comment-item {
-    padding: 10px 0;
-    border-bottom: 10px solid #eee;
-  }
-
-  .comment-name {
-    font-size: 1rem;
-  }
-
-  .comment-text {
-    font-size: 1rem;
-    margin-top: 8px;
-  }
-
-  .comment-header {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .comment-rating {
-    gap: 2px;
-  }
-
-  .comment-star {
-    font-size: 18px;
-  }
-
-  .no-comments {
-    padding: 20px;
-    text-align: center;
-    font-size: 1rem;
-  }
-}
-
 </style>
