@@ -79,6 +79,7 @@ export default {
         <Ingredienser title="Ingredienser" :ingredients="formattedIngredients" />
         <StepComponent title="Gör så här" :steps="formattedSteps" />
       </div>
+      <hr>
       <Gebetyg :recipeId="recipe.id" />
       <CommentComponent :recipeId="recipe.id" />
     </div>
@@ -91,6 +92,7 @@ export default {
 .gebetyg {
   margin: 0 auto;
   text-align: center;
+  box-sizing: border-box;
 }
 
 

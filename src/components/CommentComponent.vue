@@ -1,30 +1,5 @@
 <template>
-  <hr>
-   <div class="comment-header-title">
-
-    <h1 class="question-title">Vad tyckte du om receptet?</h1>
-
-    <div class="comment-header-undertitle">
-    <p> Lämna en kommentar nedan!</p>
-    </div>
-
-   <div class="comment-header-stars">
-          <div class="stars" @mouseleave="hoveredRating = 0">
-            <span 
-              v-for="star in 5" 
-              :key="star"
-              class="star"
-              :class="{ 
-                'filled': star <= (hoveredRating || newComment.rating),
-                'hovered': star <= hoveredRating
-              }"
-              @click="newComment.rating = star"
-              @mouseover="hoveredRating = star"
-            >★</span>
-
-          </div>
-          <p v-if="newComment.rating" class="rating-text">{{ newComment.rating }} av 5</p>
-          </div>
+  
 
         <hr>
 
@@ -82,7 +57,7 @@
     
  </div>
   </div>
-  </div>
+ 
 
 </template>
 
