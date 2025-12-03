@@ -194,10 +194,11 @@ button:hover {
 }
 
 button.active {
-  background-color: #ffdd57;
-  color: #333;
-  font-weight: 600;
-  border: 2px solid white;
+  background-color: #fff8e1;
+  color: #3e3e3e;
+  border: 2px solid #fff8e1;
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(255, 230, 180, 0.6);
 }
 
 .toggle-button {

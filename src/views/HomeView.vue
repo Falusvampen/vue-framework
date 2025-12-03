@@ -94,14 +94,6 @@ export default {
     </div>
 
     <div v-else class="recipe-grid-container">
-      <div class="grid-header">
-        <h1>
-          {{ selectedCategory ? selectedCategory : 'Sökresultat' }}
-        </h1>
-        <button v-if="selectedCategory" @click="selectedCategory = null" class="clear-btn">
-          Visa alla
-        </button>
-      </div>
 
       <div class="recipe-grid">
         <RecipeCard v-for="card in mappedRecipes" :key="card.id" :card="card" />

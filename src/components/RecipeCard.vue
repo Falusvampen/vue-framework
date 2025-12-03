@@ -2,7 +2,6 @@
 export default {
   name: 'RecipeCard',
   props: {
-    // Vi skickar in hela kort-objektet som en prop
     card: {
       type: Object,
       required: true
@@ -31,26 +30,24 @@ export default {
 </template>
 
 <style scoped>
-/* Här klistrar vi in CSS som tidigare låg i CardCarousel men som bara rör kortet */
 
 .card {
   background: #d9d9d9;
   border-radius: 16px;
-  /* Vi ändrar width till 100% så anpassar den sig efter föräldern (karusell eller grid) */
   width: 100%;
-  max-width: 23rem; /* Sätter en maxbredd så de inte blir gigantiska */
+  max-width: 23rem;
   height: fit-content;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
-  text-decoration: none; /* Viktigt för länken */
+  text-decoration: none;
 }
 
 .card:hover {
   transform: scale(1.04);
-  z-index: 10; /* Lyfter kortet lite vid hover */
+  z-index: 10;
 }
 
 .card img {
@@ -58,8 +55,8 @@ export default {
   height: 17rem;
   display: block;
   border-bottom: 1px solid #eee;
-  object-fit: cover; /* Bra för att bilden inte ska dras ut */
-  border-radius: 2vh 2vh 0 0; /* Matchar din tidigare design */
+  object-fit: cover;
+  border-radius: 2vh 2vh 0 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
