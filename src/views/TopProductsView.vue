@@ -1,11 +1,11 @@
 <template>
   <main class="dashboard">
-    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
     <Newproductsheader
       header="Topp rankade produkter"
       minitext="Kolla in våra bäst rankade produkter "
     />
+    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
+    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
     <div class="Newproductcards">
       <Newproducts

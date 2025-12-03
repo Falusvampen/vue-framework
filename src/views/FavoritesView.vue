@@ -1,15 +1,13 @@
 <script>
-import Favorites from '@/components/Favorites.vue';
-import Favoritesheader from '@/components/Favoritesheader.vue';
+import Favorites from '@/components/Favorites.vue'
+import Favoritesheader from '@/components/Favoritesheader.vue'
 import RecipeService from '@/services/RecipeService'
-
 
 export default {
   name: 'LatestProductsView',
   components: {
     Favorites,
-    Favoritesheader
-    
+    Favoritesheader,
   },
   data() {
     return {
@@ -70,49 +68,32 @@ export default {
 
 <template>
   <main class="dashboard">
-
-
+    <Favoritesheader header="Våra Favoriter" minitext="Checka in våra personliga favoriter" />
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
-
-    <Favoritesheader 
-    header="Våra Favoriter"
-    minitext="Checka in våra personliga favoriter"
-
-    
-    />
-
     <div class="fastsnackscards">
-         <Favorites
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-    />
+      <Favorites
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
 
-     <Favorites
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-      
-    />
+      <Favorites
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
 
-    <Favorites
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-      
-    />
-      
+      <Favorites
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
     </div>
-
-
-   
-
-
   </main>
 </template>
 
@@ -131,15 +112,5 @@ export default {
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: darken;
-
 }
-
-
-
-
-
-
-
-
-
 </style>

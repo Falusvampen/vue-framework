@@ -1,14 +1,13 @@
 <script>
-import LatestProductsheader from '@/components/LatestProductsheader.vue';
-import LatestProducts from '@/components/LatestProducts.vue';
+import LatestProductsheader from '@/components/LatestProductsheader.vue'
+import LatestProducts from '@/components/LatestProducts.vue'
 import RecipeService from '@/services/RecipeService'
-
 
 export default {
   name: 'LatestProductsView',
   components: {
     LatestProducts,
-    LatestProductsheader
+    LatestProductsheader,
   },
   data() {
     return {
@@ -69,49 +68,32 @@ export default {
 
 <template>
   <main class="dashboard">
-
-
+    <LatestProductsheader header="Senaste Nyheter" minitext="Checka in det senaste nytt" />
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
-
-    <LatestProductsheader 
-    header="Senaste Nyheter"
-    minitext="Checka in det senaste nytt"
-
-    
-    />
-
     <div class="fastsnackscards">
-         <LatestProducts
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-    />
+      <LatestProducts
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
 
-     <LatestProducts
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-      
-    />
+      <LatestProducts
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
 
-    <LatestProducts
-      v-if="!loading && recipes.length > 0"
-      title="Snabba Fastsnacks"
-      :cards="mappedRecipes"
-      :visibleCount="3"
-      
-    />
-      
+      <LatestProducts
+        v-if="!loading && recipes.length > 0"
+        title="Snabba Fastsnacks"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
     </div>
-
-
-   
-
-
   </main>
 </template>
 
@@ -130,15 +112,5 @@ export default {
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: darken;
-
 }
-
-
-
-
-
-
-
-
-
 </style>
