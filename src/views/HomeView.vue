@@ -98,8 +98,8 @@ export default {
     />
 
     <Textimagesplit1
-      title="Nya Produkter på ingång!"
-      subtitle="Checka in våra senaste tillskott!!"
+      title="Bäst rankade recepten"
+      subtitle="Checka in våra bäst rankade recept!"
       buttonText="Utforska"
       imageSrc="New.png"
       link="/new-products"
