@@ -82,28 +82,15 @@ export default {
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
-    <TitleAndDescription
-       @categorySelected="handleCategorySelect"
-    >
-      <Searchbar
-        v-model:search="searchQuery"
-        placeholder="Sök recept..."
-      />
+    <TitleAndDescription @categorySelected="handleCategorySelect">
+      <Searchbar v-model:search="searchQuery" placeholder="Sök recept..." />
     </TitleAndDescription>
 
     <div class="Cards" v-if="!selectedCategory && !searchQuery">
-      <CardCarousel
-        v-if="!loading && recipes.length > 0"
-        title="Senaste Recepten"
-        :cards="mappedRecipes"
-        :visibleCount="3"
-      />
-      <CardCarousel
-        v-if="!loading && recipes.length > 0"
-        title="Våra favoriter"
-        :cards="mappedRecipes"
-        :visibleCount="3"
-      />
+      <CardCarousel v-if="!loading && recipes.length > 0" title="Senaste Recepten" :cards="mappedRecipes"
+        :visibleCount="3" />
+      <CardCarousel v-if="!loading && recipes.length > 0" title="Våra favoriter" :cards="mappedRecipes"
+        :visibleCount="3" />
     </div>
 
     <div v-else class="recipe-grid-container">
@@ -117,11 +104,7 @@ export default {
       </div>
 
       <div class="recipe-grid">
-        <RecipeCard
-          v-for="(card, index) in mappedRecipes"
-          :key="card.id"
-          :card="card"
-        />
+        <RecipeCard v-for="card in mappedRecipes" :key="card.id" :card="card" />
       </div>
 
       <div v-if="mappedRecipes.length === 0" class="no-results">
