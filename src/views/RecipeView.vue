@@ -69,11 +69,9 @@ export default {
     <div v-else-if="error">{{ error }}</div>
 
     <div v-else>
-      <h1 id="recipeTitle">{{ recipe.title }}</h1>
-      <p class="desc">{{ recipe.description }}</p>
-      <RecipeDescription :description="recipe.description" />
+      <RecipeDescription :recipe="recipe" />
 
-      <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
+      <img v-if="false" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
       
       <div class="recipe-row">
         <Ingredienser title="Ingredienser" :ingredients="formattedIngredients" />
