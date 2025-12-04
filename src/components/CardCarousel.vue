@@ -1,7 +1,12 @@
 <template>
   <div class="carousel-section">
     <div class="Text">
-      <h1>{{ title }}</h1>
+      <router-link :to="link" class="title-link">
+        <h1>
+          {{ title }}
+          <span class="Textarrow"> > </span>
+        </h1>
+      </router-link>
     </div>
 
     <div class="carousel">
@@ -48,6 +53,11 @@
 export default {
   props: {
     title: String,
+    link: {
+      type: String,
+      required: true,
+    },
+
     cards: {
       type: Array,
       required: true,
@@ -88,6 +98,17 @@ export default {
   align-items: flex-start;
 }
 
+.title-link {
+  color: #dfdfdf;
+}
+
+.Textarrow {
+  top: 0.2rem;
+  left: 0.2rem;
+  font-size: 2rem;
+  font-family: sans-serif;
+}
+
 .Text {
   font-family: 'Holtwood One SC';
   letter-spacing: 0.06em;
@@ -106,13 +127,6 @@ export default {
   background-color: #aaa8a8;
   margin-top: 0.4rem;
   border-radius: 2px;
-}
-
-.carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
 }
 
 .carousel {
@@ -208,13 +222,76 @@ a:hover {
   color: white;
 }
 
-@media (max-width: 800px) {
-  .carousel-wrapper {
-    width: calc(23rem * 2 + 1rem);
+@media (max-width: 1200px) {
+  .carousel-section {
+    width: calc(24rem * 2 + 2 * 1rem);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .Text {
+    font-family: 'Holtwood One SC';
+    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1.5rem;
+    margin-left: 1rem;
+    text-align: center;
+  }
+
+  .Text h1::after {
+    content: '';
+    display: block;
+    width: 22rem;
+    height: 3.8px;
+    background-color: #aaa8a8;
+    margin-top: 0.4rem;
+    border-radius: 2px;
   }
 
   .carousel-window {
     width: calc(23rem * 2 + 1rem);
+  }
+}
+
+@media (max-width: 800px) {
+  .carousel-section {
+    width: calc(24rem * 1 + 2 * 1rem);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .carousel-window {
+    width: calc(23rem * 1 + 1rem);
+  }
+}
+
+@media (max-width: 500px) {
+  .carousel-section {
+    width: calc(24rem * 1 + 2 * 1rem);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav.prev {
+    margin-right: 0.2rem;
+  }
+
+  .nav.next {
+    margin-left: 0.2rem;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    margin-bottom: 4rem;
   }
 }
 </style>

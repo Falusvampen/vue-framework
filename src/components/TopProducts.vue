@@ -69,6 +69,7 @@ export default {
 
 .card-content {
   padding: 16px 20px 20px;
+  flex-grow:1;
 }
 
 .card h2 {
@@ -94,6 +95,7 @@ export default {
   align-items: center;
   background: #b3b3b1;
   padding: 10px 16px;
+  margin-top:0;
   font-size: 13px;
   color: #555;
   border-top: 1px solid #eee;
@@ -102,6 +104,84 @@ export default {
 .stars {
   color: #f5c04f;
   font-size: 1.6rem;
+}
+
+
+@media (max-width: 1200px) {
+
+  .card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 2rem;
+  padding: 2rem;
+
+}
+
+
+
+
+
+
+}
+
+
+@media (max-width: 800px) {
+
+
+  .card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 2rem;
+  justify-items:center;
+
+}
+
+.card {
+  width: 80%;
+  display: flex;
+}
+
+
+
+
+}
+
+@media (max-width: 700px) {
+
+
+  .card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+
+}
+}
+
+.card {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+
+
+  .card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); 
+  gap: 2rem;
+  justify-items:center;
+
+}
+
+.card {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
 }
 
 

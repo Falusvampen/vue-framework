@@ -2,8 +2,8 @@
 export default {
   props: {
     title: String,
-    steps: Array 
-  }
+    steps: Array,
+  },
 }
 </script>
 
@@ -13,32 +13,23 @@ export default {
       <h2>{{ title }}</h2>
     </div>
 
-    <div
-      class="step"
-      v-for="(step, index) in steps"
-      :key="index"
-    >
+    <div class="step" v-for="(step, index) in steps" :key="index">
       <div class="step-number">{{ step.number }}</div>
       <div class="step-text">{{ step.tutorial }}</div>
     </div>
   </div>
 </template>
 
-
-
 <style scoped>
 .görsåhär-card {
-  background-color: #fff8f0; 
   border-radius: 16px;
   padding: 20px 24px;
   width: 55rem;
   height: auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 
 .görsåhär-heading {
   margin-bottom: 0.5rem;
@@ -59,8 +50,6 @@ export default {
   padding: 10px 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
-
-
 
 .step-number {
   background-color: #f1d0a1;

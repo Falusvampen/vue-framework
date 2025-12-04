@@ -3,8 +3,9 @@ import Ingredienser from '../components/Ingredienser.vue'
 import StepComponent from '../components/StepComponent.vue'
 import Gebetyg from '../components/Gebetyg.vue'
 import apiService from '../services/RecipeService'
-import RecipeDescription from '@/components/RecipeDescription.vue'
-import CommentComponent from '@/components/CommentComponent.vue'
+import BaseHero from '../components/BaseHero.vue'
+import StatBar from '../components/StatBar.vue'
+import StarRating from '../components/StarRating.vue'
 
 export default {
   name: 'RecipeView',
@@ -13,14 +14,15 @@ export default {
     Ingredienser,
     StepComponent,
     Gebetyg,
-    CommentComponent,
+    BaseHero,
+    StatBar,
+    StarRating,
   },
   data() {
     return {
       recipe: null,
       loading: true,
       error: null,
-      teamId: import.meta.env.VITE_TEAM_ID,
     }
   },
   async created() {
@@ -39,6 +41,20 @@ export default {
         tutorial: stepText,
       }))
     },
+    statsItems() {
+      if (!this.recipe) return []
+
+      const count = this.recipe.ingredients?.length || 0
+      let level = 'Enkel'
+      if (count > 6) level = 'Medel'
+      if (count > 12) level = 'Avancerad'
+
+      return [
+        { label: 'TID', value: `${this.recipe.time}` },
+        { label: 'BETYG', value: this.recipe.averageRating, isRating: true },
+        { label: 'NIVÅ', value: level },
+      ]
+    },
   },
   methods: {
     async fetchRecipeData() {
@@ -46,10 +62,7 @@ export default {
       this.error = null
 
       try {
-        const completeRecipe = await apiService.getCompleteRecipe(
-          this.teamId,
-          this.$route.params.id,
-        )
+        const completeRecipe = await apiService.getCompleteRecipe(this.$route.params.id)
 
         this.recipe = completeRecipe
       } catch (err) {
@@ -69,7 +82,22 @@ export default {
     <div v-else-if="error">{{ error }}</div>
 
     <div v-else>
-      <RecipeDescription :recipe="recipe" />
+      <BaseHero :title="recipe.title" :background-image="recipe.imageUrl" height="60vh">
+        <p class="recipe-description">{{ recipe.description }}</p>
+      </BaseHero>
+
+      <div class="floating-stats-container">
+        <StatBar :items="statsItems">
+          <template #icon="{ item }">
+            <StarRating
+              v-if="item.isRating"
+              :model-value="item.value"
+              readonly
+              class="mini-stars"
+            />
+          </template>
+        </StatBar>
+      </div>
 
       <img v-if="false" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
       
@@ -110,6 +138,25 @@ export default {
 .recipe-container {
   padding: 1.5rem;
   
+<style scoped>
+.recipe-description {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #f0f0f0;
+  max-width: 700px;
+  margin-top: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+.floating-stats-container {
+  padding: 0 20px;
+  margin-top: -50px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 50px;
+}
+.mini-stars {
+  transform: scale(0.85);
+  margin-right: -4px;
 }
 
 .desc {

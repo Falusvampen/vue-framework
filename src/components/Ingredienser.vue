@@ -1,11 +1,11 @@
 <script>
 export default {
-  name: "ingredienserComponent", 
+  name: 'ingredienserComponent',
   props: {
     title: String,
     Antal: String,
-    ingredients: Array
-  }
+    ingredients: Array,
+  },
 }
 </script>
 
@@ -24,16 +24,10 @@ export default {
   </div>
 </template>
 
-
-
-
 <style scoped>
-
 .ingredienser-card {
-  background-color: #fff8f0;
   width: 30rem;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   margin-top: 0;
@@ -59,29 +53,24 @@ export default {
 }
 
 .ingredienser-list {
-    background: #fff;
   padding: 1rem 2rem 10rem;
-  width:90%;
+  width: 90%;
   margin: auto;
   border-radius: 8px;
   margin-bottom: 2%;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   list-style: none;
-  height:100%;
-
+  height: 100%;
 }
 
 .ingredienser-list li {
-  margin: 0;
-  color: #444;
-  font-size: 14px;
-  line-height: 1;
-  padding: 15px 0;
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 10px;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
-
-
-
-
 </style>
 
 <script></script>

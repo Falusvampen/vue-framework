@@ -1,19 +1,20 @@
 <script>
-import Fastsnacks from '@/components/Fastsnacks.vue'
+import Favorites from '@/components/Favorites.vue'
+import Favoritesheader from '@/components/Favoritesheader.vue'
 import RecipeService from '@/services/RecipeService'
-import Fastsnacksheader from '@/components/Fastsnacksheader.vue'
 
 export default {
-  name: 'FastsnacksView',
+  name: 'LatestProductsView',
   components: {
-    Fastsnacks,
-    Fastsnacksheader,
+    Favorites,
+    Favoritesheader,
   },
   data() {
     return {
       recipes: [],
       loading: false,
       error: null,
+      teamId: import.meta.env.VITE_TEAM_ID,
     }
   },
   computed: {
@@ -38,7 +39,7 @@ export default {
   async created() {
     this.loading = true
     try {
-      this.recipes = await RecipeService.getAllRecipes()
+      this.recipes = await RecipeService.getAllRecipes(this.teamId)
     } catch (err) {
       console.error(err)
       this.error = 'Kunde inte hämta recepten.'
@@ -67,26 +68,26 @@ export default {
 
 <template>
   <main class="dashboard">
-    <Fastsnacksheader header="Snabba Mellanmål" minitext="Checka in våra snabbaste recept" />
+    <Favoritesheader header="Våra Favoriter" minitext="Checka in våra personliga favoriter" />
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
     <div class="fastsnackscards">
-      <Fastsnacks
+      <Favorites
         v-if="!loading && recipes.length > 0"
         title="Snabba Fastsnacks"
         :cards="mappedRecipes"
         :visibleCount="3"
       />
 
-      <Fastsnacks
+      <Favorites
         v-if="!loading && recipes.length > 0"
         title="Snabba Fastsnacks"
         :cards="mappedRecipes"
         :visibleCount="3"
       />
 
-      <Fastsnacks
+      <Favorites
         v-if="!loading && recipes.length > 0"
         title="Snabba Fastsnacks"
         :cards="mappedRecipes"
