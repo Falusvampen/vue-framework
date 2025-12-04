@@ -36,7 +36,7 @@ export default {
 }
 
 .görsåhär-heading h2 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -67,7 +67,8 @@ export default {
 
 .step-text {
   flex: 1;
-  font-size: 0.95rem;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 0.9rem;
   color: #444;
   line-height: 1.5;
 }

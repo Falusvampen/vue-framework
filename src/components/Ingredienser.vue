@@ -3,9 +3,13 @@ export default {
   name: 'ingredienserComponent',
   props: {
     title: String,
-    Antal: String,
     ingredients: Array,
   },
+  computed: {
+    Antal() {
+      return this.ingredients.length;
+    }
+  }
 }
 </script>
 
@@ -13,7 +17,7 @@ export default {
   <div class="ingredienser-card">
     <div class="ingredienser-heading">
       <h2>{{ title }}</h2>
-      <span class="antal">{{ Antal }}</span>
+      <span class="antal">{{ Antal }} st</span>
     </div>
 
     <ul class="ingredienser-list">
@@ -35,41 +39,44 @@ export default {
 }
 
 .ingredienser-heading {
-  padding: 16px 27px 5px;
+  padding: 1rem 5.5rem 0.3rem;
   display: flex;
   justify-content: space-between;
 }
 
 .ingredienser-heading h2 {
-  margin-bottom: 3%;
+  margin-bottom: 2%;
   font-size: 1.5rem;
+  font-weight: 600;
   color: black;
 }
 
 .antal {
+  display: flex;
   font-size: 1.3rem;
   color: black;
-  align-self: center;
 }
 
 .ingredienser-list {
   padding: 1rem 2rem 10rem;
-  width: 90%;
+  width: 70%;
   margin: auto;
   border-radius: 8px;
   margin-bottom: 2%;
   list-style: none;
   height: 100%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .ingredienser-list li {
   display: flex;
+  justify-content: center;
   align-items: flex-start;
   background: #fff;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 12px;
-  padding: 10px 10px;
-
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  padding: 9px 10px;
+  margin-bottom:0.7rem;
 }
 </style>
 

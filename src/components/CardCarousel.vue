@@ -86,6 +86,7 @@ export default {
       }
     },
   },
+  
 }
 </script>
 
@@ -151,54 +152,58 @@ export default {
 .card {
   background: #d9d9d9;
   border-radius: 16px;
-  width: 23rem;
-  height: fit-content;
+  width: 23rem;          
   flex-shrink: 0;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   transition: transform 0.3s ease;
 }
-a:hover {
+
+.card:hover{
+  transform: scale(1.04);
+}
+
+a:hover{
   opacity: 1;
 }
 
 .card img {
   width: 100%;
-  height: 17rem;
+  height: 17rem;         
   display: block;
   border-bottom: 1px solid #eee;
   border-radius: 2vh;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.card:hover {
-  transform: scale(1.04);
-}
-
 .card-content {
   padding: 16px 20px 20px;
+  flex-grow: 1;           /* gör att footern trycks ner */
 }
 
-.card h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #222;
-}
 
-.card p {
-  margin-top: 5%;
-  color: #444;
-  font-size: 14px;
-  line-height: 1.5;
-  max-height: 5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-.card-footer {
+  .card h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+  }
+
+  .card p {
+    margin-top: 5%;
+    color: #444;
+    font-size: 14px;
+    line-height: 1.5;
+    max-height: 4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+ .card-footer {
+  margin-top: auto;       /* placerar footern längst ner */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -208,6 +213,8 @@ a:hover {
   color: #555;
   border-top: 1px solid #eee;
 }
+
+
 
 .stars {
   color: #f5c04f;
