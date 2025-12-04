@@ -151,5 +151,6 @@ export default {
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
+  gap:2rem;
 }
 </style>
