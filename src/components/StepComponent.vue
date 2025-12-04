@@ -24,7 +24,7 @@ export default {
 .görsåhär-card {
   border-radius: 16px;
   padding: 20px 24px;
-  width: 55rem;
+  width: 40rem;
   height: auto;
   display: flex;
   flex-direction: column;

@@ -109,6 +109,8 @@ export default {
 </template>
 
 <style scoped>
+
+
 .recipe-description {
   font-size: 1.15rem;
   line-height: 1.6;
@@ -146,7 +148,6 @@ export default {
 
 .recipe-row {
   display: flex;
-  gap: 1.5rem;
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
