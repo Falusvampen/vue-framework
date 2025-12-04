@@ -1,5 +1,5 @@
 <script>
-import RecipeService from '@/services/RecipeService';
+import RecipeService from '@/services/RecipeService'
 
 export default {
   name: 'TitleAndDescriptionComponent',
@@ -7,16 +7,17 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Gymsnacks för alla tillfällen'
+      default: 'Gymsnacks för alla tillfällen',
     },
     description: {
       type: String,
-      default: 'Upptäck våra läckra, näringsrika och proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!'
+      default:
+        'Upptäck våra läckra, näringsrika och proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!',
     },
     backgroundImage: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
 
   data() {
@@ -24,57 +25,57 @@ export default {
       categories: [],
       showAllCategories: false,
       selectedCategoryObj: null,
-      teamId: import.meta.env.VITE_TEAM_ID
-    };
+      teamId: import.meta.env.VITE_TEAM_ID,
+    }
   },
 
   async created() {
-    await this.loadCategories();
+    await this.loadCategories()
   },
 
   computed: {
     visibleCategories() {
-      return this.showAllCategories ? this.categories : this.categories.slice(0, 3);
+      return this.showAllCategories ? this.categories : this.categories.slice(0, 3)
     },
 
     displayTitle() {
       if (this.selectedCategoryObj) {
-        return this.selectedCategoryObj.name;
+        return this.selectedCategoryObj.name
       }
-      return this.title;
+      return this.title
     },
 
     displayDescription() {
       if (this.selectedCategoryObj) {
-        return null;
+        return null
       }
-      return this.description;
-    }
+      return this.description
+    },
   },
 
   methods: {
     async loadCategories() {
       try {
-        const apiCategories = await RecipeService.getCategories(this.teamId);
+        const apiCategories = await RecipeService.getCategories(this.teamId)
 
         if (Array.isArray(apiCategories)) {
-          this.categories = [...apiCategories].sort((a, b) => a.name.localeCompare(b.name));
+          this.categories = [...apiCategories].sort((a, b) => a.name.localeCompare(b.name))
         }
       } catch (error) {
-        console.error('Failed to fetch categories:', error);
+        console.error('Failed to fetch categories:', error)
       }
     },
 
     switchCategory(categoryObj) {
       if (this.selectedCategoryObj && this.selectedCategoryObj.name === categoryObj.name) {
-        this.selectedCategoryObj = null;
-        this.$emit('categorySelected', null);
+        this.selectedCategoryObj = null
+        this.$emit('category-select', null)
       } else {
-        this.selectedCategoryObj = categoryObj;
-        this.$emit('categorySelected', categoryObj.name);
+        this.selectedCategoryObj = categoryObj
+        this.$emit('category-select', categoryObj.name)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -129,8 +130,6 @@ h1 {
   margin-bottom: 10px;
   font-weight: 600;
 }
-
-
 
 p {
   font-size: 20px;

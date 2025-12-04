@@ -1,22 +1,32 @@
 <script>
 export default {
+  name: 'SearchBarComponent',
   props: {
+    search: {
+      type: String,
+      default: '',
+    },
     placeholder: {
       type: String,
-      default: "Sök..."
-    }
+      default: 'Sök...',
+    },
   },
   data() {
     return {
-      inputValue: ''
+      inputValue: this.search || '',
     }
+  },
+  watch: {
+    search(newVal) {
+      this.inputValue = newVal
+    },
   },
   methods: {
     updateValue(event) {
-      this.inputValue = event.target.value;
-      this.$emit('update:search', this.inputValue); // skickar upp värdet till parent
-    }
-  }
+      this.inputValue = event.target.value
+      this.$emit('update:search', this.inputValue) // skickar upp värdet till parent
+    },
+  },
 }
 </script>
 
@@ -32,8 +42,6 @@ export default {
     <img src="/icon.png" alt="Search icon" class="search-icon" />
   </div>
 </template>
-
-
 
 <style scoped>
 .searchbar {
