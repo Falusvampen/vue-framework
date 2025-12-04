@@ -30,16 +30,17 @@ export default {
 
 <style scoped>
 .ingredienser-card {
-  width: 30rem;
+  width: 23rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   margin-top: 0;
   border-radius: 16px;
+  box-shadow: 0 1px 14px rgba(0, 0, 0, 0.1);
 }
 
 .ingredienser-heading {
-  padding: 1rem 5.5rem 0.3rem;
+  padding: 1rem 2.5rem 0.3rem;
   display: flex;
   justify-content: space-between;
 }
@@ -65,12 +66,12 @@ export default {
   margin-bottom: 2%;
   list-style: none;
   height: 100%;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+ 
 }
 
 .ingredienser-list li {
   display: flex;
-  justify-content: center;
   align-items: flex-start;
   background: #fff;
   font-family:Verdana, Geneva, Tahoma, sans-serif;

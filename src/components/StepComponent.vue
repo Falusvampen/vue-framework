@@ -29,6 +29,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  box-shadow: 0 1px 26px rgba(0, 0, 0, 0.1);
 }
 
 .görsåhär-heading {

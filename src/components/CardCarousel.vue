@@ -180,7 +180,7 @@ a:hover{
 
 .card-content {
   padding: 16px 20px 20px;
-  flex-grow: 1;           /* gör att footern trycks ner */
+  flex-grow: 1;           
 }
 
 
@@ -203,7 +203,7 @@ a:hover{
   }
 
  .card-footer {
-  margin-top: auto;       /* placerar footern längst ner */
+  margin-top: auto;       
   display: flex;
   justify-content: space-between;
   align-items: center;
