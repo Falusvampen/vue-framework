@@ -67,6 +67,24 @@ export default {
         }
       })
     },
+
+    /**
+     * Räkna antal recept per kategori baserat på det vi har i `recipes`.
+     * Nycklar är kategorinamn, värden är antal.
+     */
+    categoryCounts() {
+      const counts = {}
+      for (const recipe of this.recipes) {
+        if (Array.isArray(recipe.categories)) {
+          for (const c of recipe.categories) {
+            counts[c] = (counts[c] || 0) + 1
+          }
+        } else if (recipe.category) {
+          counts[recipe.category] = (counts[recipe.category] || 0) + 1
+        }
+      }
+      return counts
+    },
   },
   async created() {
     this.loading = true
@@ -131,7 +149,7 @@ export default {
 
 <template>
   <main class="dashboard">
-    <TitleAndDescription @category-select="handleCategorySelect">
+    <TitleAndDescription :category-counts="categoryCounts" @category-select="handleCategorySelect">
       <Searchbar v-model:search="searchQuery" placeholder="Sök recept..." />
     </TitleAndDescription>
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
