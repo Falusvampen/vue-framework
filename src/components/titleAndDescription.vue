@@ -18,6 +18,10 @@ export default {
       type: String,
       default: '',
     },
+    categoryCounts: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 
   data() {
@@ -96,6 +100,7 @@ export default {
             :class="{ active: selectedCategoryObj && selectedCategoryObj.name === category.name }"
           >
             {{ category.name }}
+            <span class="count">({{ categoryCounts[category.name] || 0 }})</span>
           </button>
         </li>
 
@@ -200,6 +205,12 @@ button.active {
   border: 2px solid #fff8e1;
   transform: scale(1.03);
   box-shadow: 2px 0px 3px rgb(234 217 184 / 80%);
+}
+
+.count {
+  margin-left: 8px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .toggle-button {
