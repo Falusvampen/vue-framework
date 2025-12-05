@@ -203,6 +203,10 @@ export default {
   text-decoration: none;
 }
 
+a:hover {
+  opacity: 1;
+}
+
 .card:hover {
   transform: scale(1.02);
 }
