@@ -6,11 +6,14 @@ import apiService from '../services/RecipeService'
 import BaseHero from '../components/BaseHero.vue'
 import StatBar from '../components/StatBar.vue'
 import StarRating from '../components/StarRating.vue'
+import RecipeDescription from '@/components/RecipeDescription.vue'
+import CommentComponent from '@/components/CommentComponent.vue'
 
 export default {
   name: 'RecipeView',
   components: {
     RecipeDescription,
+    CommentComponent,
     Ingredienser,
     StepComponent,
     Gebetyg,

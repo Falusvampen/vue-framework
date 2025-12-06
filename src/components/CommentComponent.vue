@@ -90,7 +90,7 @@ export default {
     async fetchComments() {
       this.loading = true
       try {
-        this.comments = await recipeService.getRecipeComments(this.teamId, this.recipeId)
+        this.comments = await recipeService.getRecipeComments(this.recipeId)
       } catch (err) {
         console.error('Error fetching comments:', err)
       } finally {
@@ -112,7 +112,7 @@ export default {
 
       try {
         console.log('Submitting comment:', payload)
-        const newComment = await recipeService.addComment(this.teamId, this.recipeId, payload)
+        const newComment = await recipeService.addComment(this.recipeId, payload)
         console.log('Comment submitted successfully:', newComment)
         this.comments.push(newComment)
         this.resetForm()
