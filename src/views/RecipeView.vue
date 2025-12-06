@@ -137,8 +137,9 @@ export default {
 
 .recipe-container {
   padding: 1.5rem;
+}
   
-<style scoped>
+
 .recipe-description {
   font-size: 1.15rem;
   line-height: 1.6;
