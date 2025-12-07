@@ -13,10 +13,9 @@
           <input 
             v-model="formData.name"
             type="text"
-            placeholder="Ditt namn..."
+            placeholder="Ditt namn (valfritt)..."
             class="nameInput"
             :disabled="isSubmitting"
-            required
           />
 
           <textarea 
@@ -98,7 +97,7 @@ export default {
       }
     },
     async handleSubmit() {
-      if (!this.formData.name.trim() || !this.formData.text.trim()) {
+      if (!this.formData.text.trim()) {
         return
       }
 
@@ -106,7 +105,7 @@ export default {
       this.error = null
 
       const payload = { 
-        name: this.formData.name, 
+        name: this.formData.name.trim() || 'Anonymous', 
         comment: this.formData.text 
       }
 
