@@ -43,12 +43,13 @@ export default {
 .Gebetyg {
   border-radius: 12px;
   margin-top: 5rem;
-  margin-left: 5%;
+  margin-left: 40%;
   padding: 2rem;
   width: fit-content;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   text-align: center;
   transition: transform 0.2s ease;
+  margin-bottom:4rem;
 }
 
 .Gebetyg:hover {

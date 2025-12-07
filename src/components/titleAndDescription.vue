@@ -209,7 +209,7 @@ button.active {
 
 .count {
   margin-left: 8px;
-  font-weight: 600;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.8);
 }
 
