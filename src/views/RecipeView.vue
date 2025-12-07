@@ -6,10 +6,14 @@ import apiService from '../services/RecipeService'
 import BaseHero from '../components/BaseHero.vue'
 import StatBar from '../components/StatBar.vue'
 import StarRating from '../components/StarRating.vue'
+import RecipeDescription from '@/components/RecipeDescription.vue'
+import CommentComponent from '@/components/CommentComponent.vue'
 
 export default {
   name: 'RecipeView',
   components: {
+    RecipeDescription,
+    CommentComponent,
     Ingredienser,
     StepComponent,
     Gebetyg,
@@ -98,12 +102,15 @@ export default {
         </StatBar>
       </div>
 
+      <img v-if="false" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
+      
       <div class="recipe-row">
         <Ingredienser title="Ingredienser" :ingredients="formattedIngredients" />
         <StepComponent title="Gör så här" :steps="formattedSteps" />
       </div>
-
-      <Gebetyg title="Betygsätt receptet" />
+      <hr>
+      <Gebetyg :recipeId="recipe.id" />
+      <CommentComponent :recipeId="recipe.id" />
     </div>
   </div>
 </template>
@@ -133,7 +140,6 @@ export default {
 
 .desc {
   text-align: center;
-  margin-bottom: 2rem;
   font-style: italic;
 }
 
@@ -144,6 +150,7 @@ export default {
   display: block;
   margin: 0 auto 2rem auto;
   border-radius: 8px;
+  
 }
 
 .recipe-row {

@@ -8,21 +8,12 @@ export default {
       default: () => ({
         title: '',
         description: '',
-        prepTime: '',
-        image: ''
+        time: '',
+        imageUrl: ''
       })
     }
   },
-  computed: {
-    imageSrc () {
-      if (this.recipe && this.recipe.image) return this.recipe.image
-      const title = (this.recipe && this.recipe.title) ? this.recipe.title.toLowerCase() : ''
-      if (title.includes('halloumi')) return '/image.png'
-      if (title.includes('pasta')) return '/pasta.png'
-      if (title.includes('salad') || title.includes('sallad')) return '/salad.png'
-      return '/placeholder.png'
-    }
-  }
+  computed: {}
 }
 </script>
 
@@ -35,8 +26,7 @@ export default {
     
   
   
-  <div class="recipe-left">
-
+  
   
   <div class="recipe-header">
     <h1 class="recipe-title">
@@ -50,328 +40,105 @@ export default {
   </div>
 
   <div class="recipe-footer">
-    <div class="stars">
-      <span class="star">★</span>
-      <span class="star">★</span>
-      <span class="star">★</span>
-      <span class="star">★</span>
-      <span class="star">★</span>
-    </div>
     <div class="cooking-time">
-      <span class="time-text">{{ recipe.prepTime }} minuter⏱️</span>
+      <span class="time-badge">⏱️ {{ recipe.time }}</span>
     </div>
+  
   </div>
   </div>
   </div>
   
-  <div class="recipe-right">
+  
   <div class="recipe-image">
-   <img :src="imageSrc" :alt="recipe.title || 'Recipe image'" width="600" height="400"/>
+   <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
+
   </div>
   </div>
-  </div>
-  </div>
+  
+ 
   
 </template>
 
 <style>
 
-#app{
-  grid-template-columns: auto;
-}
- body{
-  background-color: white;
-  
- }
-
- .recipe-page-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
- 
-
- .recipe-container {
-  display: flex;
-    max-width: 1100px;
-    width: 100%;
-  margin: 40px auto;
-  background: #F7F7F7;
-  padding: 40px;
-  border-radius: 20px;
-  
-
-}
-
-.recipe-grid {
-  display: grid;
-  grid-template-columns: auto;
-  align-items: center;
-  gap: 40px;
-  
-}
-
-.recipe-left {
- text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-}
-
-.recipe-right {
+.recipe-footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 40px;
-  
+  padding: 10px 0 20px 0;
 }
 
-.recipe-image {
-  width: 100%;
-  max-width: 450px;
-  border-radius: 16px;
+.time-badge {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #222 0%, #444 100%);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  transform: translateY(6px);
   opacity: 0;
-  animation: fadeIn 0.6s ease forwards;
+  animation: timeAppear 600ms ease-out forwards;
 }
 
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
+@keyframes timeAppear {
+  0% { opacity: 0; transform: translateY(6px) scale(0.98); }
+  60% { opacity: 1; transform: translateY(0) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .recipe-title {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 20px;
-  line-height: 1.1;
+  text-align: center;
+  margin-top: 1rem;
+  .recipe-header {
+    text-align: center;
+    padding: 8px 12px;
+  }
+
+  .recipe-title {
+    margin: 0.75rem 0 0.25rem 0;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #111 0%, #444 50%, #111 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: titleReveal 500ms ease-out both;
+  }
+
+  @keyframes titleReveal {
+    from { opacity: 0; filter: blur(4px); transform: translateY(-6px); }
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+
+  .recipe-description {
+    margin: 0 auto;
+    max-width: 60ch;
+    color: #555;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.6;
+    padding: 0 12px;
+    animation: descFade 500ms ease-out 120ms both;
+  }
+
+  @keyframes descFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  animation: titleDrop 500ms ease-out;
+}
+
+@keyframes titleDrop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .recipe-description {
-  font-size: 1.1rem;
-  color: #222;
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-.recipe-footer {
-  box-sizing: border-box;
-  align-items: center;
-  
-}
-
-.stars {
-  color: gold;
-  font-size: 1.8rem;
-  gap: 20px;
-}
-
-.cooking-time {
-  font-size: 1rem;
-  color: #000;
-}
-
-@media (max-width: 480px) {
-  .recipe-container {
-    max-width: 100%;
-    margin: 15px auto;
-    padding: 15px;
-    border-radius: 12px;
-  }
-
-  .recipe-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .recipe-left {
-    text-align: center;
-    padding: 10px;
-    gap: 12px;
-  }
-
-  .recipe-right {
-    padding-left: 0;
-    justify-content: center;
-  }
-
-  .recipe-image {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .recipe-image img {
-    width: 100%;
-    height: auto;
-    max-width: 280px;
-  }
-
-  .recipe-title {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-
-  .recipe-description {
-    font-size: 0.9rem;
-    margin-bottom: 8px;
-  }
-
-  .recipe-footer {
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-  }
-
-  .stars {
-    font-size: 1.3rem;
-    gap: 5px;
-  }
-
-  .cooking-time {
-    font-size: 0.9rem;
-  }
-
-  .time-text {
-    font-size: 0.85rem;
-  }
-}
-
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .recipe-container {
-    max-width: 95%;
-    margin: 25px auto;
-    padding: 25px;
-    border-radius: 16px;
-  }
-
-  .recipe-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-
-  .recipe-left {
-    text-align: center;
-    padding: 12px;
-    gap: 15px;
-  }
-
-  .recipe-right {
-    padding-left: 0;
-    justify-content: center;
-  }
-
-  .recipe-image {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .recipe-image img {
-    width: 100%;
-    height: auto;
-    max-width: 350px;
-  }
-
-  .recipe-title {
-    font-size: 2rem;
-    margin-bottom: 15px;
-  }
-
-  .recipe-description {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-  }
-
-  .recipe-footer {
-    flex-direction: column;
-    gap: 12px;
-    justify-content: center;
-  }
-
-  .stars {
-    font-size: 1.5rem;
-    gap: 8px;
-  }
-
-  .cooking-time {
-    font-size: 0.95rem;
-  }
-
-  .time-text {
-    font-size: 0.9rem;
-  }
-}
-
-
-@media (min-width: 769px) {
-  .recipe-container {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 40px;
-    border-radius: 20px;
-  }
-
-  .recipe-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 40px;
-  }
-
-  .recipe-left {
-    text-align: center;
-    padding: 20px;
-    gap: 20px;
-  }
-
-  .recipe-right {
-    padding-left: 40px;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .recipe-image {
-    max-width: 450px;
-    width: 100%;
-  }
-
-  .recipe-image img {
-    width: 100%;
-    height: auto;
-  }
-
-  .recipe-title {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
-
-  .recipe-description {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-
-  .recipe-footer {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
-  }
-
-  .stars {
-    font-size: 1.8rem;
-    gap: 20px;
-    display: flex;
-  }
-
-  .cooking-time {
-    font-size: 1rem;
-  }
-
-  .time-text {
-    font-size: 1rem;
-  }
+  text-align: center;
+  color: #444;
 }
 
 </style>
