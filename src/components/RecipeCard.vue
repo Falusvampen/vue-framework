@@ -53,7 +53,6 @@ export default {
   opacity: 1;
 }
 
-
   .card img {
     width: 100%;
     height: 12rem;

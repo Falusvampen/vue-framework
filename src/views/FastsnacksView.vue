@@ -18,6 +18,8 @@ export default {
   },
   computed: {
     mappedRecipes() {
+      // Loopa igenom alla recept i listan "recipes"
+
       return this.recipes.map((recipe) => {
         return {
           id: recipe.id,

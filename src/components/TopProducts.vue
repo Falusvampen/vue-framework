@@ -53,6 +53,10 @@ export default {
   transition: transform 0.3s ease;
 }
 
+a:hover {
+  opacity: 1;
+}
+
 .card img {
   width: 100%;
   height: 12rem;

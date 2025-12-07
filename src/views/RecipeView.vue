@@ -115,33 +115,8 @@ export default {
   </div>
 </template>
 
-<style >
+<style scoped>
 
-
-.gebetyg {
-  margin: 0 auto;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-
-#stars{
-  color: gold;
-  font-size: 1.5rem;
-  
-
-}
-
-#recipeTitle {
-  text-align: center;
-  margin-top: 2rem;
-  font-weight: bold;
-}
-
-.recipe-container {
-  padding: 1.5rem;
-}
-  
 
 .recipe-description {
   font-size: 1.15rem;
@@ -180,13 +155,9 @@ export default {
 
 .recipe-row {
   display: flex;
-  gap: 1.5rem;
-  justify-content: left;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 0 auto;
-  padding-left: 20px;
-  
-  
+  gap:2rem;
 }
 </style>

@@ -1,12 +1,17 @@
 <script>
+// Här definieras själva komponenten
 export default {
-  name: 'ingredienserComponent',
+  name: 'ingredienserComponent',   // Namnet på komponenten (bra för debugging/import)
+
+  // Props = data som skickas in från en förälder
   props: {
-    title: String,
-    ingredients: Array,
+    title: String,                 // Rubrik (t.ex. "Ingredienser")
+    ingredients: Array,            // En lista med ingredienser
   },
+
+  // Computed = beräknade värden som uppdateras automatiskt
   computed: {
-    Antal() {
+    Antal() {                      // Räknar antal ingredienser i listan
       return this.ingredients.length;
     }
   }
@@ -14,13 +19,17 @@ export default {
 </script>
 
 <template>
+  <!-- Yttre kort-container -->
   <div class="ingredienser-card">
+    <!-- Rubrik + antal -->
     <div class="ingredienser-heading">
-      <h2>{{ title }}</h2>
-      <span class="antal">{{ Antal }} st</span>
+      <h2>{{ title }}</h2>                <!-- Visar rubriken -->
+      <span class="antal">{{ Antal }} st</span> <!-- Visar antal ingredienser -->
     </div>
 
+    <!-- Lista med ingredienser -->
     <ul class="ingredienser-list">
+      <!-- Loopar igenom varje ingrediens -->
       <li v-for="(item, index) in ingredients" :key="index">
         {{ item }}
       </li>
@@ -29,6 +38,7 @@ export default {
 </template>
 
 <style scoped>
+/* Kortets grundstil */
 .ingredienser-card {
   width: 23rem;
   overflow: hidden;
@@ -39,6 +49,7 @@ export default {
   box-shadow: 0 1px 14px rgba(0, 0, 0, 0.1);
 }
 
+/* Rubrik + antal */
 .ingredienser-heading {
   padding: 1rem 2.5rem 0.3rem;
   display: flex;
@@ -58,6 +69,7 @@ export default {
   color: black;
 }
 
+/* Lista med ingredienser */
 .ingredienser-list {
   padding: 1rem 2rem 10rem;
   width: 70%;
@@ -67,18 +79,16 @@ export default {
   list-style: none;
   height: 100%;
   width: 100%;
- 
 }
 
+/* Varje ingrediens */
 .ingredienser-list li {
   display: flex;
   align-items: flex-start;
   background: #fff;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 12px;
   padding: 9px 10px;
-  margin-bottom:0.7rem;
+  margin-bottom: 0.7rem;
 }
 </style>
-
-<script></script>

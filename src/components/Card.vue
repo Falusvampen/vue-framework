@@ -40,6 +40,10 @@ export default {
     flex-direction: column;
   }
 
+  a:hover {
+  opacity: 1;
+}
+
 
 
   .card img {

@@ -24,11 +24,12 @@ export default {
 .görsåhär-card {
   border-radius: 16px;
   padding: 20px 24px;
-  width: 55rem;
+  width: 40rem;
   height: auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  box-shadow: 0 1px 26px rgba(0, 0, 0, 0.1);
 }
 
 .görsåhär-heading {
@@ -36,7 +37,7 @@ export default {
 }
 
 .görsåhär-heading h2 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -67,7 +68,8 @@ export default {
 
 .step-text {
   flex: 1;
-  font-size: 0.95rem;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 0.9rem;
   color: #444;
   line-height: 1.5;
 }
