@@ -109,12 +109,11 @@ export default {
       }
     },
     async handleSubmit() {
-      // Clear previous validation errors
+      
       this.validationErrors.name = ''
       this.validationErrors.text = ''
       this.error = null
 
-      // Validate fields
       let hasErrors = false
 
       if (!this.formData.name.trim()) {
