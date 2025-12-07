@@ -6,17 +6,19 @@
       </h2>
       <hr>
 
-      <div class="commentForm">
+      <div class="commentForm" v-if="!submitted">
         <h4>Lämna en kommentar</h4>
 
         <form @submit.prevent="handleSubmit">
           <input 
             v-model="formData.name"
             type="text"
-            placeholder="Ditt namn (valfritt)..."
+            placeholder="Ditt namn..."
             class="nameInput"
             :disabled="isSubmitting"
+            required
           />
+          <div v-if="validationErrors.name" class="validation-msg">{{ validationErrors.name }}</div>
 
           <textarea 
             v-model="formData.text"
@@ -26,6 +28,7 @@
             :disabled="isSubmitting"
             required
           ></textarea>
+          <div v-if="validationErrors.text" class="validation-msg">{{ validationErrors.text }}</div>
 
           <div v-if="error" class="error-msg">{{ error }}</div>
 
@@ -36,6 +39,10 @@
             {{ isSubmitting ? 'Skickar...' : 'Skicka kommentar' }}
           </button>
         </form>
+      </div>
+
+      <div v-else class="success-message">
+        <h3>Tack för din kommentar!</h3>
       </div>
 
       <hr>
@@ -80,6 +87,11 @@ export default {
       isSubmitting: false,
       error: null,
       loading: true,
+      submitted: false,
+      validationErrors: {
+        name: '',
+        text: '',
+      },
     }
   },
   async mounted() {
@@ -97,16 +109,32 @@ export default {
       }
     },
     async handleSubmit() {
+      
+      this.validationErrors.name = ''
+      this.validationErrors.text = ''
+      this.error = null
+
+      let hasErrors = false
+
+      if (!this.formData.name.trim()) {
+        this.validationErrors.name = 'Vänligen fyll i ditt namn'
+        hasErrors = true
+      }
+
       if (!this.formData.text.trim()) {
+        this.validationErrors.text = 'Vänligen fyll i en kommentar'
+        hasErrors = true
+      }
+
+      if (hasErrors) {
         return
       }
 
       this.isSubmitting = true
-      this.error = null
 
       const payload = { 
-        name: this.formData.name.trim() || 'Anonymous', 
-        comment: this.formData.text 
+        name: this.formData.name.trim(), 
+        comment: this.formData.text.trim() 
       }
 
       try {
@@ -114,6 +142,7 @@ export default {
         const newComment = await recipeService.addComment(this.recipeId, payload)
         console.log('Comment submitted successfully:', newComment)
         this.comments.push(newComment)
+        this.submitted = true
         this.resetForm()
       } catch (err) {
         console.error('Full error object:', err)
@@ -253,6 +282,27 @@ export default {
   border-radius: 6px;
   padding: 6px 10px;
   box-shadow: none;
+}
+
+.validation-msg {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.success-message {
+  text-align: center;
+  padding: 30px;
+  background: #e8f5e9;
+  border-radius: 10px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.success-message h3 {
+  color: #2e7d32;
+  font-size: 1.3rem;
+  margin: 0;
 }
 
 
