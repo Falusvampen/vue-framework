@@ -124,10 +124,13 @@ export default {
   color: white;
   text-align: center;
   max-width: 100%;
-  height: 33em;
+  max-width: 100%;
+  min-height: 25em;
   margin-bottom: 2rem;
+  margin-top: 4rem;
   background-size: cover;
   background-position: center;
+  padding-bottom: 20px;
 }
 
 h1 {
@@ -148,11 +151,15 @@ p {
   width: 100%;
   flex-wrap: wrap;
   min-height: 50px;
-  max-height: 120px;
-  transition: max-height 0.3s ease;
-  overflow: hidden;
-  overflow-y: visible;
 }
+
+li:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 
 .category-container ol {
   list-style: none;

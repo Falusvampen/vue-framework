@@ -3,9 +3,10 @@ import CardCarousel from '@/components/CardCarousel.vue'
 import RecipeService from '@/services/RecipeService'
 import Textimagesplit1 from '@/components/Textimagesplit1.vue'
 import Textimagesplit from '@/components/Textimagesplit.vue'
-import TitleAndDescription from '@/components/titleAndDescription.vue'
 import Searchbar from '@/components/Searchbar.vue'
 import RecipeCard from '@/components/RecipeCard.vue'
+import BaseHero from '@/components/BaseHero.vue'
+import CategoriesComponent from '@/components/CategoriesComponent.vue'
 
 export default {
   name: 'HomeView',
@@ -13,7 +14,8 @@ export default {
     CardCarousel,
     Textimagesplit,
     Textimagesplit1,
-    TitleAndDescription,
+    BaseHero,
+    CategoriesComponent,
     Searchbar,
     RecipeCard,
   },
@@ -24,9 +26,18 @@ export default {
       error: null,
       searchQuery: '',
       selectedCategory: null,
+      defaultTitle: 'Gymsnacks för alla tillfällen',
+      defaultDescription: 'Upptäck våra läckra, näringsrika och proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!',
     }
   },
   computed: {
+    heroTitle() {
+      return this.selectedCategory ? this.selectedCategory : this.defaultTitle
+    },
+    // Denna variabel skickar vi nu till BaseHero som "description"
+    displayDescription() {
+      return this.selectedCategory ? null : this.defaultDescription
+    },
     filteredRecipes() {
       return this.recipes.filter((recipe) => {
         const matchesSearch = recipe.title.toLowerCase().includes(this.searchQuery.toLowerCase())
@@ -149,28 +160,27 @@ export default {
 
 <template>
   <main class="dashboard">
-    <TitleAndDescription :category-counts="categoryCounts" @category-select="handleCategorySelect">
-      <Searchbar v-model:search="searchQuery" placeholder="Sök recept..." />
-    </TitleAndDescription>
+    <BaseHero :title="heroTitle" height="35em" :description="displayDescription" :overlay-opacity="0.3">
+      <Searchbar
+        v-model:search="searchQuery"
+        placeholder="Sök recept..."
+      />
+      <CategoriesComponent
+        :category-counts="categoryCounts"
+        :active-category="selectedCategory"
+        @category-select="handleCategorySelect"
+      />
+    </BaseHero>
+
     <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
 
     <div class="Cards" v-if="!selectedCategory && !searchQuery">
-      <CardCarousel
-        v-if="!loading && recipes.length > 0"
-        title="Senaste Recepten"
-        link="/latest-products"
-        :cards="mappedRecipes"
-        :visibleCount="3"
-      />
+      <CardCarousel v-if="!loading && recipes.length > 0" title="Senaste Recepten" link="/latest-products"
+        :cards="mappedRecipes" :visibleCount="3" />
 
-      <CardCarousel
-        v-if="!loading && recipes.length > 0"
-        title="Våra favoriter"
-        link="/favorites"
-        :cards="mappedRecipes"
-        :visibleCount="3"
-      />
+      <CardCarousel v-if="!loading && recipes.length > 0" title="Våra favoriter" link="/favorites"
+        :cards="mappedRecipes" :visibleCount="3" />
     </div>
 
     <div v-else class="recipe-grid-container">
@@ -183,22 +193,11 @@ export default {
       </div>
     </div>
 
-    <Textimagesplit
-      title="ENKELT, SNABBT OCH SUPERGOTT."
-      subtitle="Recept och tips"
-      buttonText="Läs mer"
-      imageSrc="berry.png"
-      imageSrc1="Pasta.jpg"
-      link="/fastsnacks"
-    />
+    <Textimagesplit title="ENKELT, SNABBT OCH SUPERGOTT." subtitle="Recept och tips" buttonText="Läs mer"
+      imageSrc="berry.png" imageSrc1="Pasta.jpg" link="/fastsnacks" />
 
-    <Textimagesplit1
-      title="Bäst rankade recepten"
-      subtitle="Checka in våra bäst rankade recept!"
-      buttonText="Utforska"
-      imageSrc="New.png"
-      link="/Top-products"
-    />
+    <Textimagesplit1 title="Bäst rankade recepten" subtitle="Checka in våra bäst rankade recept!" buttonText="Utforska"
+      imageSrc="New.png" link="/Top-products" />
   </main>
 </template>
 
