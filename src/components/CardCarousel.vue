@@ -191,7 +191,7 @@ export default {
 }
 
 .card {
-  background: #d9d9d9;
+  background: #ffffff;
   border-radius: 16px;
   width: 23rem;
   flex-shrink: 0;
@@ -246,7 +246,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #b3b3b1;
+  background: #fff9e6;
   padding: 10px 16px;
   font-size: 13px;
   color: #555;
@@ -278,6 +278,18 @@ a:hover {
   .card {
     width: 20rem;
   }
+
+  .carousel-section {
+    align-items: center;
+  }
+
+  .Text {
+    margin-left: 0;
+    text-align: center;
+  }
+
+
+
 }
 
 @media (max-width: 800px) {

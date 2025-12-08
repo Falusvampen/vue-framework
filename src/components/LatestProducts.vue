@@ -51,7 +51,7 @@ export default {
 
 
 .card {
-  background: #D9D9D9;
+  background: #ffffff;
   border-radius: 16px;
   width: 95%;
   overflow: hidden;
@@ -105,7 +105,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #b3b3b1;
+  background: #fff9e6;
   padding: 10px 16px;
   font-size: 13px;
   margin-top:0;

@@ -85,9 +85,20 @@ export default {
     <div v-else-if="error">{{ error }}</div>
 
     <div v-else>
-      <BaseHero :title="recipe.title" :background-image="recipe.imageUrl" height="60vh">
-        <p class="recipe-description">{{ recipe.description }}</p>
-      </BaseHero>
+      <div class="hero-wrapper">
+        <BaseHero :title="recipe.title" :background-image="recipe.imageUrl" height="60vh">
+          <p class="recipe-description">{{ recipe.description }}</p>
+        </BaseHero>
+    
+        <button class="img-bottom-left-btn" @click="$router.back()">Tillbaka
+</button>
+      </div>
+
+      
+      
+
+    
+
 
       <div class="floating-stats-container">
         <StatBar :items="statsItems">
@@ -159,4 +170,35 @@ export default {
   flex-wrap: wrap;
   gap:2rem;
 }
+
+.hero-wrapper {
+position: relative;
+}
+
+
+.img-bottom-left-btn {
+position: absolute;
+bottom: 1rem;
+left: 3rem;
+padding: 10px 20px;
+background-color: #707070;
+color: white;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+font-size: 1rem;
+box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+transition: background 0.3s ease;
+z-index: 2;
+}
+
+
+.img-bottom-left-btn:hover {
+background-color: #9c9c9c;
+}
+
+
+
+
+
 </style>
