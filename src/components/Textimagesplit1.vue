@@ -69,7 +69,7 @@ export default {
   display: inline-block;
 }
 .button-link:hover {
-  background-color: rgb(137, 137, 137);
+  background-color: rgb(58, 58, 58);
 }
 .image-section {
   flex: 2;

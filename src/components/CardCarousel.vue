@@ -136,6 +136,7 @@ export default {
   flex-direction: column;
   padding: 0 1rem;
   box-sizing: border-box;
+  margin-bottom:3rem;
 }
 
 .carousel {
