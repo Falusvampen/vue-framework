@@ -1,56 +1,41 @@
 <script>
-import Ingredienser from '../components/Ingredienser.vue'
-import StepComponent from '../components/StepComponent.vue'
-import Gebetyg from '../components/Gebetyg.vue'
-import apiService from '../services/RecipeService'
-import BaseHero from '../components/BaseHero.vue'
-import StatBar from '../components/StatBar.vue'
-import StarRating from '../components/StarRating.vue'
-import RecipeDescription from '@/components/RecipeDescription.vue'
+import apiService from '@/services/RecipeService'
+import BaseHero from '@/components/BaseHero.vue'
+import IngredientComponent from '@/components/IngredientComponent.vue'
+import StepComponent from '@/components/StepComponent.vue'
+import StatBar from '@/components/StatBar.vue'
+import StarRating from '@/components/StarRating.vue'
 import CommentComponent from '@/components/CommentComponent.vue'
+import RecipeRatingComponent from '@/components/RecipeRatingComponent.vue'
 
 export default {
   name: 'RecipeView',
   components: {
-    RecipeDescription,
-    CommentComponent,
-    Ingredienser,
-    StepComponent,
-    Gebetyg,
     BaseHero,
+    IngredientComponent,
+    StepComponent,
     StatBar,
     StarRating,
+    CommentComponent,
+    RecipeRatingComponent,
   },
   data() {
     return {
       recipe: null,
-      loading: true,
+      loading: true, // Vi startar som true, så slipper vi kolla !recipe i metoderna
       error: null,
     }
   },
   async created() {
     await this.fetchRecipeData()
   },
-  computed: {
-    formattedIngredients() {
-      if (!this.recipe || !this.recipe.ingredients) return []
-      return this.recipe.ingredients.map((ingredient) => ingredient.display)
-    },
-    formattedSteps() {
-      if (!this.recipe || !this.recipe.instructions) return []
 
-      return this.recipe.instructions.map((stepText, index) => ({
-        number: index + 1,
-        tutorial: stepText,
-      }))
-    },
+  computed: {
     statsItems() {
       if (!this.recipe) return []
 
       const count = this.recipe.ingredients?.length || 0
-      let level = 'Enkel'
-      if (count > 6) level = 'Medel'
-      if (count > 12) level = 'Avancerad'
+      const level = count > 12 ? 'Avancerad' : count > 6 ? 'Medel' : 'Enkel'
 
       return [
         { label: 'TID', value: `${this.recipe.time}` },
@@ -61,16 +46,15 @@ export default {
   },
   methods: {
     async fetchRecipeData() {
-      this.loading = true
+      // Vi sätter bara loading om vi inte redan har data (snyggare UX)
+      if (!this.recipe) this.loading = true
       this.error = null
 
       try {
-        const completeRecipe = await apiService.getCompleteRecipe(this.$route.params.id)
-
-        this.recipe = completeRecipe
+        this.recipe = await apiService.getCompleteRecipe(this.$route.params.id)
       } catch (err) {
         console.error(err)
-        this.error = 'Kunde inte hitta receptet. Kontrollera stavningen eller att det finns.'
+        this.error = 'Kunde inte hitta receptet.'
       } finally {
         this.loading = false
       }
@@ -81,8 +65,8 @@ export default {
 
 <template>
   <div class="recipe-container">
-    <div v-if="loading">Laddar recept...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div v-if="loading" class="state-msg">Laddar recept...</div>
+    <div v-else-if="error" class="state-msg error">{{ error }}</div>
 
     <div v-else>
       <BaseHero :title="recipe.title" :background-image="recipe.imageUrl" height="60vh">
@@ -102,20 +86,29 @@ export default {
         </StatBar>
       </div>
 
-      <img v-if="false" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
-      
       <div class="recipe-row">
-        <Ingredienser title="Ingredienser" :ingredients="formattedIngredients" />
-        <StepComponent title="Gör så här" :steps="formattedSteps" />
+        <IngredientComponent title="Ingredienser" :ingredients="recipe.ingredients" />
+
+        <StepComponent title="Gör så här" :steps="recipe.instructions" />
       </div>
-      <Gebetyg :recipeId="recipe.id" />
+
+      <RecipeRatingComponent :recipeId="recipe.id" @rating-submitted="fetchRecipeData" />
+
       <CommentComponent :recipeId="recipe.id" />
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.state-msg {
+  text-align: center;
+  padding: 4rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+.state-msg.error {
+  color: #e74c3c;
+}
 
 .recipe-description {
   font-size: 1.15rem;
@@ -125,6 +118,7 @@ export default {
   margin-top: 10px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
+
 .floating-stats-container {
   padding: 0 20px;
   margin-top: -50px;
@@ -132,24 +126,10 @@ export default {
   z-index: 10;
   margin-bottom: 50px;
 }
+
 .mini-stars {
   transform: scale(0.85);
   margin-right: -4px;
-}
-
-.desc {
-  text-align: center;
-  font-style: italic;
-}
-
-.recipe-img {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  display: block;
-  margin: 0 auto 2rem auto;
-  border-radius: 8px;
-  
 }
 
 .recipe-row {
@@ -157,6 +137,7 @@ export default {
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  gap:2rem;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 </style>
