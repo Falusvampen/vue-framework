@@ -1,15 +1,18 @@
 <script>
 export default {
-  name: 'ingredienserComponent',
+  name: 'IngredientComponent',
   props: {
     title: String,
-    ingredients: Array,
+    ingredients: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
-    Antal() {
-      return this.ingredients.length;
-    }
-  }
+    amount() {
+      return this.ingredients.length
+    },
+  },
 }
 </script>
 
@@ -17,12 +20,12 @@ export default {
   <div class="ingredienser-card">
     <div class="ingredienser-heading">
       <h2>{{ title }}</h2>
-      <span class="antal">{{ Antal }} st</span>
+      <span class="antal">{{ amount }} st</span>
     </div>
 
     <ul class="ingredienser-list">
       <li v-for="(item, index) in ingredients" :key="index">
-        {{ item }}
+        {{ item.display || item }}
       </li>
     </ul>
   </div>
@@ -36,6 +39,7 @@ export default {
   flex-direction: column;
   margin-top: 0;
   border-radius: 16px;
+  background-color: white; /* Bra att vara tydlig med bakgrund */
   box-shadow: 0 1px 14px rgba(0, 0, 0, 0.1);
 }
 
@@ -43,6 +47,7 @@ export default {
   padding: 1rem 2.5rem 0.3rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .ingredienser-heading h2 {
@@ -59,26 +64,21 @@ export default {
 }
 
 .ingredienser-list {
-  padding: 1rem 2rem 10rem;
-  width: 70%;
-  margin: auto;
-  border-radius: 8px;
-  margin-bottom: 2%;
-  list-style: none;
-  height: 100%;
+  padding: 1rem 2rem 2rem; /* Justerade 10rem till 2rem för snyggare layout */
   width: 100%;
- 
+  box-sizing: border-box; /* Ser till att padding inte spräcker bredden */
+  margin: 0;
+  list-style: none;
 }
 
 .ingredienser-list li {
   display: flex;
   align-items: flex-start;
-  background: #fff;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  background: #f9f9f9; /* Lite kontrast mot kortet */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 12px;
-  padding: 9px 10px;
-  margin-bottom:0.7rem;
+  padding: 12px 14px;
+  margin-bottom: 0.7rem;
+  line-height: 1.4;
 }
 </style>
-
-<script></script>
