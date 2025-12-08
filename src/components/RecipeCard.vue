@@ -39,7 +39,7 @@ export default {
   }
 
   .card {
-    background: #D9D9D9;
+    background: #ffffff;
     border-radius: 16px;
     width: 95%;
     overflow: hidden;
@@ -93,7 +93,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #b3b3b1;
+    background: #fff9e6;
     padding: 10px 16px;
     margin-top:0;
     font-size: 13px;
