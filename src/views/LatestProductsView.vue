@@ -69,8 +69,8 @@ export default {
 <template>
   <main class="dashboard">
     <LatestProductsheader header="Senaste Nyheter" minitext="Checka in det senaste nytt" />
-    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
+    <div v-if="loading" style="color: white; padding: 2rem; margin-left:44%">Laddar recept...</div>
+    <div v-if="error" style="color: red; padding: 2rem; margin-left:44%">{{ error }}</div>
 
     <div class="fastsnackscards">
       <LatestProducts
