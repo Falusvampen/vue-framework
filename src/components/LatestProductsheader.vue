@@ -47,9 +47,8 @@
 }
 
 .header-box h1 {
-  font-family: "Poppins", sans-serif;
   font-size: 3.5rem;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
   margin: 0 0 1rem 0;
   border-bottom: 1px solid white;

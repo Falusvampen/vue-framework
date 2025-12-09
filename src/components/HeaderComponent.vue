@@ -34,4 +34,34 @@
   background-color: rgba(255, 255, 255, 0.1); 
   border-color: #ddd; 
 }
+
+@media (max-width: 800px) {
+
+  .nav-btn {
+  position: fixed;    
+  top: 1rem;             
+  padding: 0.65rem 1.6rem; 
+  font-size: 0.9rem;    
+
+}
+
+
+  
+
+}
+
+@media (max-width: 400px) {
+
+  .nav-btn {
+  position: fixed;    
+  top: 1rem;             
+  padding: 0.45rem 1.5rem; 
+  font-size: 0.9rem;   
+
+}
+
+
+  
+
+}
 </style>

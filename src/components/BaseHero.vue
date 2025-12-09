@@ -81,6 +81,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top:4rem;
 }
 
 .title-and-description-div {
