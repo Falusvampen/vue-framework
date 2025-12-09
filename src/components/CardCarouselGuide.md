@@ -1,50 +1,63 @@
 <template>
-  <div class="carousel-section"> <!-- Wrapper för hela karusellen -->
-
-    <div class="Text"> <!-- Titel-sektion -->
-      <router-link :to="link" class="title-link"> <!-- Klickbar titel, använder prop 'link' -->
+  <div class="carousel-section">
+    <!--
+      TEXT/HEADING
+      RouterLink används från Vue Router för att länka till en sida (prop: link).
+      Den omsluter rubriken och visar en pil-symbol.
+    -->
+    <div class="Text">
+      <RouterLink :to="link" class="title-link">
         <h1>
-          {{ title }} <!-- Visar titeln från prop -->
-          <span class="Textarrow"> > </span> <!-- Pil bredvid titeln -->
+          {{ title }}
+          <span class="Textarrow"> &gt; </span>
         </h1>
-      </router-link>
+      </RouterLink>
     </div>
 
-    <div class="carousel"> <!-- Karusellens huvudcontainer -->
-      <!-- Vänster knapp, kör prevSlide(), blir disabled om index = 0 -->
+    <!--
+      HUVUDKARUSELLEN
+      Innehåller navigationsknappar, "fönstret" som visar korten och spåret som flyttas via transform.
+    -->
+    <div class="carousel">
+      <!-- Prev-knapp: anropar prevSlide metoden. :disabled binder till expression för att inaktivera. -->
       <button @click="prevSlide" class="nav prev" :disabled="currentIndex === 0">‹</button>
 
-      <div class="carousel-window" ref="window"> <!-- Mask/fönster som klipper korten -->
-        <div
-          class="carousel-track"
-          ref="track"
-          :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
-        >
-          <!-- Spår som flyttas horisontellt med transform baserat på currentIndex -->
-
-          <!-- Loopar igenom alla kort i props 'cards' och gör dem klickbara -->
+      <div class="carousel-window">
+        <!--
+          carousel-track är flexbehållaren som håller alla kort. Vi manipulerar dess inline-stil (transform)
+          med den beräknade propertyn trackStyle för att skifta vilka kort som syns.
+        -->
+        <div class="carousel-track" :style="trackStyle">
+          <!--
+            Vi loopar över props.cards (från förälder) med v-for.
+            Varje kort är en länk till en recept-sida baserat på card.id och card.slug.
+            key är viktigt för effektiv rendering.
+          -->
           <RouterLink
-            class="card"
+            class="card-wrapper"
             v-for="(card, index) in cards"
-            :key="card.title + index"
+            :key="card.id || index"
             :to="`/recept/${card.id}/${card.slug}`"
           >
-            <img :src="card.imageSrc" :alt="card.altText" /> <!-- Kortets bild -->
+            <article class="card">
+              <!-- Bilden kommer från card.imageSrc och alt-text från card.altText -->
+              <img :src="card.imageSrc" :alt="card.altText" />
 
-            <div class="card-content"> <!-- Kortets textinnehåll -->
-              <h2>{{ card.title }}</h2> <!-- Kortets titel -->
-              <p>{{ card.description }}</p> <!-- Kortets beskrivning -->
-            </div>
+              <div class="card-content">
+                <h2>{{ card.title }}</h2>
+                <p>{{ card.description }}</p>
+              </div>
 
-            <div class="card-footer"> <!-- Footer med extra info -->
-              <span>{{ card.ingredients }} | {{ card.time }}</span> <!-- Ingredienser + tid -->
-              <span class="stars">{{ card.rating }}</span> <!-- Betyg/stjärnor -->
-            </div>
+              <div class="card-footer">
+                <span>{{ card.ingredients }} | {{ card.time }}</span>
+                <span class="stars">{{ card.rating }}</span>
+              </div>
+            </article>
           </RouterLink>
         </div>
       </div>
 
-      <!-- Höger knapp, kör nextSlide(), blir disabled om vi nått slutet -->
+      <!-- Next-knapp: disabled styrs av computed property isNextDisabled -->
       <button @click="nextSlide" class="nav next" :disabled="isNextDisabled">›</button>
     </div>
   </div>
@@ -52,55 +65,62 @@
 
 <script>
 export default {
-  // ======= INPUT FRÅN FÖRÄLDERN (PROPS) =======
+  name: 'CardCarousel',
   props: {
-    title: String, // Titeltext som visas ovanför karusellen
-    link: {        // Router-path som h1-länken ska navigera till
+    // title visas i rubriken. Kan vara undefined -> visa inget.
+    title: String,
+    // link krävs för att rubriken ska linka någonstans
+    link: {
       type: String,
       required: true,
     },
-    cards: {       // Array med kortdata (bilder, text, etc.)
+    // cards: array med objekt som beskriver varje kort (id, slug, imageSrc, altText, title, description, ingredients, time, rating)
+    cards: {
       type: Array,
       required: true,
     },
   },
-
-  // ======= INTERN STATE (REAKTIV DATA) =======
   data() {
     return {
-      currentIndex: 0, // Pekar på första synliga kortet i spåret
-      cardWidth: 0,    // Bredden på ett kort (mäts dynamiskt från DOM)
-      gap: 16,         // Mellanrum mellan korten i px (måste matcha CSS gap)
-      visibleCount: 3, // Antal kort som visas samtidigt (responsivt)
+      // currentIndex är vilket "steg" i karusellen vi är på — 0 = första synliga kortet
+      currentIndex: 0,
+      // visibleCount är hur många kort vi räknar som synliga i viewporten vid given skärmstorlek
+      visibleCount: 3, // Standardvärde (desktop)
     }
   },
-
-  // ======= HÄRLEDDA VÄRDEN (COMPUTED) =======
   computed: {
+    // isNextDisabled avgör om "nästa" knapp ska vara inaktiverad. True när vi är vid sista möjliga index.
     isNextDisabled() {
-      // Om currentIndex + visibleCount >= cards.length
-      // betyder det att vi nått slutet och inte kan gå vidare
-      return this.currentIndex + this.visibleCount >= this.cards.length
+      return this.currentIndex >= this.cards.length - this.visibleCount
+    },
+    // trackStyle returnerar ett objekt som binds till style-attributet för .carousel-track.
+    // Vi använder en procentbaserad stegberäkning: om visibleCount = 3, är varje kort-basis 33.333...%.
+    trackStyle() {
+      // step är hur mycket 'en plats' (ett index) ska översättas i procent
+      const step = 100 / this.visibleCount
+      return {
+        // translateX använder currentIndex * step för att flytta spåret åt vänster
+        transform: `translateX(-${this.currentIndex * step}%)`,
+      }
     },
   },
-
-  // ======= BETEENDEN (METHODS) =======
   methods: {
+    // Flytta framåt ett steg, om vi inte är i slutet
     nextSlide() {
-      // Flytta ett steg framåt i karusellen
       if (!this.isNextDisabled) {
-        this.currentIndex++ // Ökar index → spåret flyttas med transform
+        this.currentIndex++
       }
     },
+    // Flytta bakåt ett steg
     prevSlide() {
-      // Flytta ett steg bakåt i karusellen
       if (this.currentIndex > 0) {
-        this.currentIndex-- // Minskar index → spåret flyttas tillbaka
+        this.currentIndex--
       }
     },
-    updateDimensions() {
-      // 1) Läs av fönstrets bredd för att avgöra hur många kort som får plats
+    // Hanterar fönsterstorleksändringar för att uppdatera visibleCount och säkerställa att currentIndex är giltigt
+    handleResize() {
       const width = window.innerWidth
+      // Anpassa breakpoints — samma som i CSS media queries
       if (width < 800) {
         this.visibleCount = 1
       } else if (width < 1200) {
@@ -109,77 +129,52 @@ export default {
         this.visibleCount = 3
       }
 
-      // 2) Hämta referenser till DOM-element
-      const track = this.$refs.track
-      const windowEl = this.$refs.window
-
-      // 3) Mät kortbredden om spåret har minst ett barn
-      if (track && track.children.length > 0) {
-        this.cardWidth = track.children[0].offsetWidth // offsetWidth = renderad bredd i px
-
-        // 4) Räkna fönstrets exakta bredd: kortbredd * antal + gap * (antal - 1)
-        const gapTotal = Math.max(0, this.visibleCount - 1) * this.gap
-        const exactWindowWidth = this.cardWidth * this.visibleCount + gapTotal
-
-        // 5) Sätt fönstrets bredd direkt i DOM
-        windowEl.style.width = `${exactWindowWidth}px`
-      }
-
-      // 6) Korrigera currentIndex vid resize så vi inte hamnar utanför
-      if (this.currentIndex + this.visibleCount > this.cards.length) {
+      // Om fönstret krymps och currentIndex plötsligt gör att vi pekar "utanför" listan,
+      // flytta indexet till det högsta giltiga värdet.
+      if (this.currentIndex > this.cards.length - this.visibleCount) {
         this.currentIndex = Math.max(0, this.cards.length - this.visibleCount)
       }
     },
   },
-
-  // ======= LIVSCYKEL =======
   mounted() {
-    this.updateDimensions() // Körs när komponenten laddas
-    window.addEventListener('resize', this.updateDimensions) // Lyssna på resize
+    // När komponenten mountas, kör en resize-hantering en gång för att sätta rätt visibleCount
+    this.handleResize()
+    // Registrera resize-event för att uppdatera visibleCount automatiskt när fönstret ändras
+    window.addEventListener('resize', this.handleResize)
   },
   beforeUnmount() {
-    window.removeEventListener('resize', this.updateDimensions) // Städa bort lyssnaren
+    // Viktigt att ta bort lyssnaren för att undvika memory leaks när komponenten tas bort
+    window.removeEventListener('resize', this.handleResize)
   },
 }
 </script>
 
 <style scoped>
-/* Wrapper för hela karusellen */
+/*
+  Stilavsnittet innehåller layout, responsivitet och visuella detaljer.
+  scoped betyder att stilarna bara appliceras på denna komponent (Vue SFC scoped).
+*/
 .carousel-section {
   width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
+  max-width: 1300px; /* centrerar och sätter en maxbredd */
+  margin: 0 auto 3rem auto; /* centrerar horisontellt och ger bottenmarginal */
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
   box-sizing: border-box;
 }
 
-/* Karusellens layout */
 .carousel {
-  display: flex;
+  display: flex; /* raderar nav-knappar + fönster i en rad */
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0;
   width: 100%;
+  position: relative; /* gör att knappar kan positioneras över innehållet om behövligt */
 }
 
-/* Titel-länk */
-.title-link {
-  color: #dfdfdf;
-}
-
-/* Pil bredvid titeln */
-.Textarrow {
-  top: 0.2rem;
-  left: 0.2rem;
-  font-size: 2rem;
-  font-family: sans-serif;
-}
-
-/* Titel-styling */
 .Text {
-  font-family: 'Holtwood One SC', serif;
+  font-family: 'Holtwood One SC', serif; /* typsnitt - kan falla tillbaka om inte laddat */
   letter-spacing: 0.06em;
   font-size: 0.8rem;
   font-weight: bold;
@@ -188,7 +183,19 @@ export default {
   margin-left: 3.5rem;
 }
 
-/* Linje under titeln */
+.title-link {
+  color: #dfdfdf;
+  text-decoration: none;
+}
+
+.Textarrow {
+  top: 0.2rem;
+  left: 0.2rem;
+  font-size: 2rem;
+  font-family: sans-serif;
+}
+
+/* Understrykning under rubriken; ::after är dekorativ */
 .Text h1::after {
   content: '';
   display: block;
@@ -200,51 +207,143 @@ export default {
   border-radius: 2px;
 }
 
-/* Fönster som klipper korten */
 .carousel-window {
-  overflow: hidden;
+  overflow: hidden; /* döljer kort som ligger utanför viewporten */
+  width: 100%;
   padding: 10px 0;
-  transition: width 0.3s ease;
 }
 
-/* Spår som flyttas med transform */
 .carousel-track {
-  display: flex;
-  gap: 1rem;
-  transition: transform 0.5s ease;
+  display: flex; /* gör att korten ligger på rad */
+  width: 100%;
+  transition: transform 0.5s ease; /* gör animationen mjuk när vi flyttar spåret */
 }
 
-/* Kortens styling */
+.card-wrapper {
+  flex-shrink: 0; /* förhindrar att korten krymper */
+  flex-grow: 0;  /* förhindrar att korten expanderar */
+  text-decoration: none;
+  box-sizing: border-box;
+
+  /* Standard (Desktop): 3 kort = 33.333% bredd */
+  flex-basis: 33.3333%;
+  /* Padding ger visuellt gap mellan korten */
+  padding: 0 8px;
+}
+
 .card {
-  background: #d9d9d9;
+  background: #ffffff;
   border-radius: 16px;
-  width: 23rem;
-  flex-shrink: 0;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
-  text-decoration: none;
+  height: 100%;
+  transition: transform 0.3s ease; /* hover-effekt */
 }
 
-.card:hover { /* Hover-effekt på kort */
+.card:hover {
   transform: scale(1.02);
 }
 
-.card img { /* Bild i kortet */
+.card img {
   width: 100%;
-  height: 17rem;
+  height: 17rem; /* fast höjd för konsekvent layout */
   display: block;
-  object-fit: cover;
+  object-fit: cover; /* beskär bilden med bibehållen aspekt */
   border-bottom: 1px solid #eee;
 }
 
-.card-content { /* Kortets textinnehåll */
+.card-content {
   padding: 16px 20px 20px;
-  flex-grow: 1;
+  flex-grow: 1; /* gör att footern trycks ner till botten */
 }
 
-.card h2 { /* Kortets titel */
+.card h2 {
   margin: 0;
   font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.card p {
+  margin-top: 5%;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 4rem; /* begränsar radantalet som syns */
+  overflow: hidden;
+  text-overflow: ellipsis; /* visar ... om texten blir för lång */
+}
+
+.card-footer {
+  margin-top: auto; /* pushar footern till slutet av kortet */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff9e6;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #555;
+  border-top: 1px solid #eee;
+}
+
+.stars {
+  color: #f5c04f; /* guldfärg som signalerar betyg */
+  font-size: 1.6rem;
+}
+
+/* --- Navigation Knappar --- */
+.nav {
+  background: none;
+  border: none;
+  font-size: 3rem;
+  cursor: pointer;
+  color: white;
+  padding: 0 10px;
+  z-index: 10; /* ser till att knappar hamnar ovanför korten */
+  user-select: none;
+  transition: opacity 0.2s;
+}
+
+.nav:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.nav:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+/* Tablet / Liten Desktop (< 1200px) */
+@media (max-width: 1200px) {
+  .card-wrapper {
+    flex-basis: 50%; /* 2 kort synliga */
+  }
+
+  .Text {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .Text h1::after {
+    margin: 0.4rem auto;
+  }
+}
+
+/* Mobil (< 800px) */
+@media (max-width: 800px) {
+  .card-wrapper {
+    flex-basis: 100%; /* 1 kort synligt */
+  }
+
+  .nav {
+    font-size: 2.5rem;
+    padding: 0 5px;
+  }
+
+  .card img {
+    height: 14rem;
+  }
+}
+</style>
