@@ -97,13 +97,9 @@ export default {
       } else {
         this.visibleCount = 3
       }
-
-      // Säkerhetskoll: Om fönstret krymps, se till att vi inte står på ett tomt index
-      if (this.currentIndex > this.cards.length - this.visibleCount) {
-        this.currentIndex = Math.max(0, this.cards.length - this.visibleCount)
-      }
     },
   },
+
   mounted() {
     this.handleResize()
     window.addEventListener('resize', this.handleResize)

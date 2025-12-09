@@ -70,7 +70,12 @@ export default {
 
     <div v-else>
       <div class="hero-wrapper">
-        <BaseHero :title="recipe.title" :background-image="recipe.imageUrl" height="60vh">
+        <BaseHero
+          :title="recipe.title"
+          :background-image="recipe.imageUrl"
+          height="60vh"
+          :overlay-opacity="0.3"
+        >
           <p class="recipe-description">{{ recipe.description }}</p>
         </BaseHero>
 
