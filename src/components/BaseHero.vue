@@ -30,8 +30,7 @@ export default {
   <div
     class="base-hero"
     :style="{
-      backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none', minHeight: height,
-      height: auto,
+      backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none', minHeight: height
     }"
   >
     <div class="overlay" :style="{ opacity: overlayOpacity }"></div>
@@ -52,7 +51,6 @@ export default {
 .base-hero {
   position: relative;
   width: 100%;
-  background-color: transparent;
   background-size: cover;
   background-position: center;
   display: flex;
@@ -69,7 +67,6 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
   z-index: 1;
 }
 
