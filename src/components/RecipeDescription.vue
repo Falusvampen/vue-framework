@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "RecipeDescription",
+  name: 'RecipeDescription',
   props: {
     recipe: {
       type: Object,
@@ -9,58 +9,42 @@ export default {
         title: '',
         description: '',
         time: '',
-        imageUrl: ''
-      })
-    }
+        imageUrl: '',
+      }),
+    },
   },
-  computed: {}
+  computed: {},
 }
 </script>
 
 <template>
-  
   <div class="recipe-page-wrapper">
-  <div class="recipe-container">
-    <div class="recipe-grid">
+    <div class="recipe-container">
+      <div class="recipe-grid">
+        <div class="recipe-header">
+          <h1 class="recipe-title">
+            {{ recipe.title }}
+          </h1>
+          <p class="recipe-description">
+            {{ recipe.description }}
+          </p>
+        </div>
 
-    
-  
-  
-  
-  
-  <div class="recipe-header">
-    <h1 class="recipe-title">
-     
-      {{ recipe.title }}
-    </h1>
-    <p class="recipe-description">
-     
-      {{ recipe.description }}
-    </p>
-  </div>
-
-  <div class="recipe-footer">
-    <div class="cooking-time">
-      <span class="time-badge">⏱️ {{ recipe.time }}</span>
+        <div class="recipe-footer">
+          <div class="cooking-time">
+            <span class="time-badge">⏱️ {{ recipe.time }}</span>
+          </div>
+        </div>
+      </div>
     </div>
-  
-  </div>
-  </div>
-  </div>
-  
-  
-  <div class="recipe-image">
-   <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
 
+    <div class="recipe-image">
+      <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Receptbild" class="recipe-img" />
+    </div>
   </div>
-  </div>
-  
- 
-  
 </template>
 
 <style>
-
 .recipe-footer {
   display: flex;
   justify-content: center;
@@ -76,16 +60,25 @@ export default {
   color: #fff;
   font-weight: 600;
   letter-spacing: 0.2px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   transform: translateY(6px);
   opacity: 0;
   animation: timeAppear 600ms ease-out forwards;
 }
 
 @keyframes timeAppear {
-  0% { opacity: 0; transform: translateY(6px) scale(0.98); }
-  60% { opacity: 1; transform: translateY(0) scale(1.03); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .recipe-title {
@@ -109,8 +102,16 @@ export default {
   }
 
   @keyframes titleReveal {
-    from { opacity: 0; filter: blur(4px); transform: translateY(-6px); }
-    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+    from {
+      opacity: 0;
+      filter: blur(4px);
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
   }
 
   .recipe-description {
@@ -124,21 +125,32 @@ export default {
   }
 
   @keyframes descFade {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   animation: titleDrop 500ms ease-out;
 }
 
 @keyframes titleDrop {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .recipe-description {
   text-align: center;
   color: #444;
 }
-
 </style>
