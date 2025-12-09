@@ -7,6 +7,7 @@ import StatBar from '@/components/StatBar.vue'
 import StarRating from '@/components/StarRating.vue'
 import CommentComponent from '@/components/CommentComponent.vue'
 import RecipeRatingComponent from '@/components/RecipeRatingComponent.vue'
+import GymSpinner from '@/components/GymSpinner.vue'
 
 export default {
   name: 'RecipeView',
@@ -18,6 +19,7 @@ export default {
     StarRating,
     CommentComponent,
     RecipeRatingComponent,
+    GymSpinner,
   },
   data() {
     return {
@@ -64,9 +66,15 @@ export default {
 </script>
 
 <template>
-  <div class="recipe-container">
-    <div v-if="loading" class="state-msg">Laddar recept...</div>
-    <div v-else-if="error" class="state-msg error">{{ error }}</div>
+  <main class="recipe-container" id="main-content">
+    <div v-if="loading" class="state-container">
+      <GymSpinner />
+    </div>
+
+    <div v-else-if="error" class="state-container" role="alert">
+      <p class="error-msg">{{ error }}</p>
+      <button class="retry-btn" @click="fetchRecipeData">Försök igen</button>
+    </div>
 
     <div v-else>
       <div class="hero-wrapper">
@@ -79,7 +87,13 @@ export default {
           <p class="recipe-description">{{ recipe.description }}</p>
         </BaseHero>
 
-        <button class="img-bottom-left-btn" @click="$router.back()">Tillbaka</button>
+        <button
+          class="img-bottom-left-btn"
+          @click="$router.back()"
+          aria-label="Gå tillbaka till föregående sida"
+        >
+          Tillbaka
+        </button>
       </div>
 
       <div class="floating-stats-container">
@@ -96,27 +110,50 @@ export default {
       </div>
 
       <div class="recipe-row">
-        <IngredientComponent title="Ingredienser" :ingredients="recipe.ingredients" />
+        <section aria-label="Ingredienser">
+          <IngredientComponent title="Ingredienser" :ingredients="recipe.ingredients" />
+        </section>
 
-        <StepComponent title="Gör så här" :steps="recipe.instructions" />
+        <section aria-label="Instruktioner">
+          <StepComponent title="Gör så här" :steps="recipe.instructions" />
+        </section>
       </div>
 
-      <RecipeRatingComponent :recipeId="recipe.id" @rating-submitted="fetchRecipeData" />
+      <section aria-label="Betygsätt receptet">
+        <RecipeRatingComponent :recipeId="recipe.id" @rating-submitted="fetchRecipeData" />
+      </section>
 
-      <CommentComponent :recipeId="recipe.id" />
+      <section aria-label="Kommentarer">
+        <CommentComponent :recipeId="recipe.id" />
+      </section>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-.state-msg {
-  text-align: center;
-  padding: 4rem;
-  font-size: 1.2rem;
-  color: #666;
+.state-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  width: 100%;
 }
-.state-msg.error {
+
+.error-msg {
   color: #e74c3c;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.retry-btn {
+  padding: 0.5rem 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .recipe-description {
@@ -125,7 +162,7 @@ export default {
   color: #f0f0f0;
   max-width: 700px;
   margin-top: 10px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .floating-stats-container {
@@ -159,18 +196,24 @@ export default {
   bottom: 1rem;
   left: 3rem;
   padding: 10px 20px;
-  background-color: #b2acac3b;
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   z-index: 2;
 }
 
 .img-bottom-left-btn:hover {
-  background-color: #9c9c9c;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+}
+
+.img-bottom-left-btn:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
 </style>
