@@ -227,7 +227,6 @@ export default {
 
   /* Standard (Desktop): 3 kort = 33.333% bredd */
   flex-basis: 33.3333%;
-  /* Padding ger visuellt gap mellan korten */
   padding: 0 8px;
 }
 
@@ -248,7 +247,7 @@ export default {
 
 .card img {
   width: 100%;
-  height: 17rem; /* fast höjd för konsekvent layout */
+  height: 17rem;
   display: block;
   object-fit: cover; /* beskär bilden med bibehållen aspekt */
   border-bottom: 1px solid #eee;
@@ -271,7 +270,7 @@ export default {
   color: #444;
   font-size: 14px;
   line-height: 1.5;
-  max-height: 4rem; /* begränsar radantalet som syns */
+  max-height: 4rem; 
   overflow: hidden;
   text-overflow: ellipsis; /* visar ... om texten blir för lång */
 }
@@ -289,11 +288,11 @@ export default {
 }
 
 .stars {
-  color: #f5c04f; /* guldfärg som signalerar betyg */
+  color: #f5c04f;
   font-size: 1.6rem;
 }
 
-/* --- Navigation Knappar --- */
+
 .nav {
   background: none;
   border: none;
@@ -301,7 +300,7 @@ export default {
   cursor: pointer;
   color: white;
   padding: 0 10px;
-  z-index: 10; /* ser till att knappar hamnar ovanför korten */
+  z-index: 10; 
   user-select: none;
   transition: opacity 0.2s;
 }
@@ -315,7 +314,7 @@ export default {
   opacity: 0.8;
 }
 
-/* Tablet / Liten Desktop (< 1200px) */
+
 @media (max-width: 1200px) {
   .card-wrapper {
     flex-basis: 50%; /* 2 kort synliga */

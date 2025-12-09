@@ -183,7 +183,6 @@ export default {
 
   /* Standard (Desktop): 3 kort = 33.333% bredd */
   flex-basis: 33.3333%;
-  /* 8px padding på varje sida ger 16px "gap" totalt mellan korten */
   padding: 0 8px;
 }
 
@@ -249,7 +248,7 @@ export default {
   font-size: 1.6rem;
 }
 
-/* --- Navigation Knappar --- */
+
 .nav {
   background: none;
   border: none;
@@ -271,10 +270,10 @@ export default {
   opacity: 0.8;
 }
 
-/* Tablet / Liten Desktop (< 1200px) */
+
 @media (max-width: 1200px) {
   .card-wrapper {
-    flex-basis: 50%; /* 2 kort synliga */
+    flex-basis: 50%; 
   }
 
   .Text {
@@ -287,10 +286,10 @@ export default {
   }
 }
 
-/* Mobil (< 800px) */
+
 @media (max-width: 800px) {
   .card-wrapper {
-    flex-basis: 100%; /* 1 kort synligt */
+    flex-basis: 100%; 
   }
 
   .nav {
