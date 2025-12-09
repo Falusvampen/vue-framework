@@ -1,40 +1,38 @@
 <template>
   <div class="carousel-section">
     <div class="Text">
-      <router-link :to="link" class="title-link">
+      <RouterLink :to="link" class="title-link">
         <h1>
           {{ title }}
           <span class="Textarrow"> > </span>
         </h1>
-      </router-link>
+      </RouterLink>
     </div>
 
     <div class="carousel">
       <button @click="prevSlide" class="nav prev" :disabled="currentIndex === 0">‹</button>
 
-      <div class="carousel-window" ref="window">
-        <div
-          class="carousel-track"
-          ref="track"
-          :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
-        >
+      <div class="carousel-window">
+        <div class="carousel-track" :style="trackStyle">
           <RouterLink
-            class="card"
+            class="card-wrapper"
             v-for="(card, index) in cards"
-            :key="card.title + index"
+            :key="card.id || index"
             :to="`/recept/${card.id}/${card.slug}`"
           >
-            <img :src="card.imageSrc" :alt="card.altText" />
+            <article class="card">
+              <img :src="card.imageSrc" :alt="card.altText" />
 
-            <div class="card-content">
-              <h2>{{ card.title }}</h2>
-              <p>{{ card.description }}</p>
-            </div>
+              <div class="card-content">
+                <h2>{{ card.title }}</h2>
+                <p>{{ card.description }}</p>
+              </div>
 
-            <div class="card-footer">
-              <span>{{ card.ingredients }} | {{ card.time }}</span>
-              <span class="stars">{{ card.rating }}</span>
-            </div>
+              <div class="card-footer">
+                <span>{{ card.ingredients }} | {{ card.time }}</span>
+                <span class="stars">{{ card.rating }}</span>
+              </div>
+            </article>
           </RouterLink>
         </div>
       </div>
@@ -46,6 +44,7 @@
 
 <script>
 export default {
+  name: 'CardCarousel',
   props: {
     title: String,
     link: {
@@ -60,14 +59,21 @@ export default {
   data() {
     return {
       currentIndex: 0,
-      cardWidth: 0,
-      gap: 16,
-      visibleCount: 3,
+      visibleCount: 3, // Standardvärde
     }
   },
   computed: {
+    // Räknar ut om vi nått slutet
     isNextDisabled() {
-      return this.currentIndex + this.visibleCount >= this.cards.length
+      return this.currentIndex >= this.cards.length - this.visibleCount
+    },
+    // CSS-transform baserat på procent
+    trackStyle() {
+      // Om vi visar 3 kort, är varje "steg" 33.333% brett
+      const step = 100 / this.visibleCount
+      return {
+        transform: `translateX(-${this.currentIndex * step}%)`,
+      }
     },
   },
   methods: {
@@ -81,7 +87,8 @@ export default {
         this.currentIndex--
       }
     },
-    updateDimensions() {
+    // Uppdaterar visibleCount för att knapparna ska funka rätt
+    handleResize() {
       const width = window.innerWidth
       if (width < 800) {
         this.visibleCount = 1
@@ -91,38 +98,18 @@ export default {
         this.visibleCount = 3
       }
 
-      // Mät kortet och justera fönstret
-      const track = this.$refs.track
-      const windowEl = this.$refs.window
-
-      if (track && track.children.length > 0) {
-        // Läs av bredden som CSS gett kortet
-        this.cardWidth = track.children[0].offsetWidth
-
-        // Formel: (Kortbredd * Antal) + (Gap * (Antal - 1))
-        // Exempel: 3 kort och 2 mellanrum
-        const gapTotal = Math.max(0, this.visibleCount - 1) * this.gap
-        const exactWindowWidth = this.cardWidth * this.visibleCount + gapTotal
-
-        // Sätt bredden på fönstret så det klipper exakt rätt
-        windowEl.style.width = `${exactWindowWidth}px`
-      }
-
-      // 3. Återställ index om vi förminskar fönstret så vi inte hamnar utanför
-      if (this.currentIndex + this.visibleCount > this.cards.length) {
+      // Säkerhetskoll: Om fönstret krymps, se till att vi inte står på ett tomt index
+      if (this.currentIndex > this.cards.length - this.visibleCount) {
         this.currentIndex = Math.max(0, this.cards.length - this.visibleCount)
       }
     },
   },
   mounted() {
-    // Körs när komponenten laddas
-    this.updateDimensions()
-    // Lyssna på ändrad skärmstorlek
-    window.addEventListener('resize', this.updateDimensions)
+    this.handleResize()
+    window.addEventListener('resize', this.handleResize)
   },
   beforeUnmount() {
-    // Städa upp
-    window.removeEventListener('resize', this.updateDimensions)
+    window.removeEventListener('resize', this.handleResize)
   },
 }
 </script>
@@ -131,31 +118,20 @@ export default {
 .carousel-section {
   width: 100%;
   max-width: 1300px;
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
   box-sizing: border-box;
-  margin-bottom:3rem;
 }
 
 .carousel {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0;
   width: 100%;
-}
-
-.title-link {
-  color: #dfdfdf;
-}
-
-.Textarrow {
-  top: 0.2rem;
-  left: 0.2rem;
-  font-size: 2rem;
-  font-family: sans-serif;
+  position: relative;
 }
 
 .Text {
@@ -166,6 +142,18 @@ export default {
   color: white;
   margin-bottom: 1.5rem;
   margin-left: 3.5rem;
+}
+
+.title-link {
+  color: #dfdfdf;
+  text-decoration: none;
+}
+
+.Textarrow {
+  top: 0.2rem;
+  left: 0.2rem;
+  font-size: 2rem;
+  font-family: sans-serif;
 }
 
 .Text h1::after {
@@ -181,31 +169,37 @@ export default {
 
 .carousel-window {
   overflow: hidden;
+  width: 100%;
   padding: 10px 0;
-  transition: width 0.3s ease;
 }
 
 .carousel-track {
   display: flex;
-  gap: 1rem;
+  width: 100%;
   transition: transform 0.5s ease;
+}
+
+.card-wrapper {
+  flex-shrink: 0;
+  flex-grow: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+
+  /* Standard (Desktop): 3 kort = 33.333% bredd */
+  flex-basis: 33.3333%;
+  /* 8px padding på varje sida ger 16px "gap" totalt mellan korten */
+  padding: 0 8px;
 }
 
 .card {
   background: #ffffff;
   border-radius: 16px;
-  width: 23rem;
-  flex-shrink: 0;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  height: 100%;
   transition: transform 0.3s ease;
-  text-decoration: none;
-}
-
-a:hover {
-  opacity: 1;
 }
 
 .card:hover {
@@ -259,29 +253,32 @@ a:hover {
   font-size: 1.6rem;
 }
 
+/* --- Navigation Knappar --- */
 .nav {
   background: none;
   border: none;
-  font-size: 2.5rem;
+  font-size: 3rem;
   cursor: pointer;
   color: white;
   padding: 0 10px;
   z-index: 10;
-  min-width: 40px;
+  user-select: none;
+  transition: opacity 0.2s;
 }
 
 .nav:disabled {
-  opacity: 0.3;
+  opacity: 0.2;
   cursor: default;
 }
 
+.nav:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+/* Tablet / Liten Desktop (< 1200px) */
 @media (max-width: 1200px) {
-  .card {
-    width: 20rem;
-  }
-
-  .carousel-section {
-    align-items: center;
+  .card-wrapper {
+    flex-basis: 50%; /* 2 kort synliga */
   }
 
   .Text {
@@ -289,41 +286,24 @@ a:hover {
     text-align: center;
   }
 
-
-
+  .Text h1::after {
+    margin: 0.4rem auto;
+  }
 }
 
+/* Mobil (< 800px) */
 @media (max-width: 800px) {
-  .carousel-section {
-    align-items: center;
-  }
-
-  .Text {
-    margin-left: 0;
-    text-align: center;
-  }
-}
-
-@media (max-width: 500px) {
-  .carousel-section {
-    padding: 0;
+  .card-wrapper {
+    flex-basis: 100%; /* 1 kort synligt */
   }
 
   .nav {
-    font-size: 2rem;
-    padding: 0 2px;
-  }
-
-  .carousel {
-    gap: 0;
-  }
-
-  .card {
-    width: calc(100vw - 90px);
+    font-size: 2.5rem;
+    padding: 0 5px;
   }
 
   .card img {
-    height: 12rem;
+    height: 14rem;
   }
 }
 </style>
