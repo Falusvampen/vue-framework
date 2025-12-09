@@ -70,8 +70,8 @@ export default {
 <template>
   <main class="dashboard">
     <Fastsnacksheader header="Snabba Mellanmål" minitext="Checka in våra snabbaste recept" />
-    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
+    <div v-if="loading" style="color: white; padding: 2rem; margin-left:44%">Laddar recept...</div>
+    <div v-if="error" style="color: red; padding: 2rem; margin-left:44%">{{ error }}</div>
 
     <div class="fastsnackscards">
       <Fastsnacks

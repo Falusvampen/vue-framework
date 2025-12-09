@@ -172,8 +172,8 @@ export default {
       />
     </BaseHero>
 
-    <div v-if="loading" style="color: white; padding: 2rem">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem">{{ error }}</div>
+    <div v-if="loading" style="color: white; padding: 2rem; margin-left:44%;">Laddar recept...</div>
+    <div v-if="error" style="color: red; padding: 2rem; margin-left:44%">{{ error }}</div>
 
     <div class="Cards" v-if="!selectedCategory && !searchQuery">
       <CardCarousel v-if="!loading && recipes.length > 0" title="Senaste Recepten" link="/latest-products"
