@@ -83,6 +83,7 @@ export const transformCategory = (apiCategory) => {
   return {
     id: apiCategory.id,
     name: apiCategory.name,
+    description: apiCategory.description || 'Ingen beskrivning tillgänglig.',
   }
 }
 
