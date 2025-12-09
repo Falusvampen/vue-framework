@@ -1,15 +1,15 @@
 <script>
-import RecipeService from '@/services/RecipeService'
-
 export default {
   name: 'CategoriesComponent',
   props: {
-    // För att visa siffran (antal recept) bredvid namnet
+    categories: {
+      type: Array,
+      default: () => [],
+    },
     categoryCounts: {
       type: Object,
       default: () => ({}),
     },
-    // För att veta vilken knapp som ska lysa gult
     activeCategory: {
       type: String,
       default: null,
@@ -18,36 +18,27 @@ export default {
   emits: ['category-select'],
   data() {
     return {
-      categories: [],
       showAllCategories: false,
-      teamId: import.meta.env.VITE_TEAM_ID,
     }
   },
   computed: {
-    visibleCategories() {
-      return this.showAllCategories ? this.categories : this.categories.slice(0, 3)
+    // Spread Syntax är ... grejerna vi använder för att "sprida ut" en array eller ett objekt. Och sprida ut betyder att vi skapar en kopia och inte en referens.
+    // Vi skapar en sorterad kopia av prop-listan utan att ändra originalet.
+    sortedCategories() {
+      // Skydd om listan inte är laddad än
+      if (!this.categories) return []
+      // Vi gör en kopia och sorterar den alfabetiskt, det här ändrar inte originalet i props vilket är viktigt!
+      return [...this.categories].sort((a, b) => a.name.localeCompare(b.name))
     },
-  },
-  async created() {
-    await this.loadCategories()
+    visibleCategories() {
+      return this.showAllCategories ? this.sortedCategories : this.sortedCategories.slice(0, 3)
+    },
   },
   methods: {
-    async loadCategories() {
-      try {
-        const apiCategories = await RecipeService.getCategories(this.teamId)
-        if (Array.isArray(apiCategories)) {
-          this.categories = [...apiCategories].sort((a, b) => a.name.localeCompare(b.name))
-        }
-      } catch (error) {
-        console.error('Failed to fetch categories:', error)
-      }
-    },
     handleCategoryClick(category) {
-      // Om man klickar på den som redan är vald -> avmarkera (skicka null)
       if (this.activeCategory === category.name) {
         this.$emit('category-select', null)
       } else {
-        // Annars skicka hela objektet eller namnet, här skickar vi namnet för enkelhetens skull
         this.$emit('category-select', category.name)
       }
     },
@@ -64,7 +55,7 @@ export default {
           :class="{ active: activeCategory === category.name }"
         >
           {{ category.name }}
-          <span class="count">({{ categoryCounts[category.name] || 0 }})</span>
+          <span class="count">({{ categoryCounts?.[category.name] || 0 }})</span>
         </button>
       </li>
 

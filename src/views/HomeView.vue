@@ -19,24 +19,32 @@ export default {
     Searchbar,
     RecipeCard,
   },
+  // Det här är grejer vi kommer åt i template:en och metoderna
   data() {
     return {
       recipes: [],
       loading: false,
       error: null,
-      searchQuery: '',
+      categories: [],
+      searchQuery: '', // Kommer åt från Searchbar via emit/v-model
       selectedCategory: null,
+      selectedCategoryDescription: null,
       defaultTitle: 'Gymsnacks för alla tillfällen',
-      defaultDescription: 'Upptäck våra läckra, näringsrika och proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!',
+      defaultDescription:
+        'Upptäck våra läckra, näringsrika och proteinrika snacksrecept, perfekta för att hålla energinivån uppe under dagen!',
     }
   },
   computed: {
+    // Ändrar titeln till kategorins namn
     heroTitle() {
+      // return this.modelValue
       return this.selectedCategory ? this.selectedCategory : this.defaultTitle
     },
     // Denna variabel skickar vi nu till BaseHero som "description"
     displayDescription() {
-      return this.selectedCategory ? null : this.defaultDescription
+      return this.selectedCategoryDescription
+        ? this.selectedCategoryDescription
+        : this.defaultDescription
     },
     filteredRecipes() {
       return this.recipes.filter((recipe) => {
@@ -101,7 +109,13 @@ export default {
     this.loading = true
     try {
       // 1. Hämta listan som saknar detaljer
-      this.recipes = await RecipeService.getAllRecipes()
+      const [allRecipes, allCategories] = await Promise.all([
+        RecipeService.getAllRecipes(),
+        RecipeService.getCategories(),
+      ])
+
+      this.recipes = allRecipes
+      this.categories = allCategories // Spara kategorierna i data
 
       // 2. Släpp laddnings-spinnern så användaren ser sidan
       this.loading = false
@@ -147,12 +161,18 @@ export default {
         }
       }
     },
-    handleCategorySelect(category) {
-      if (this.selectedCategory === category) {
+    handleCategorySelect(categoryName) {
+      if (!categoryName) {
         this.selectedCategory = null
-      } else {
-        this.selectedCategory = category
+        this.selectedCategoryDescription = null
+        return
       }
+
+      this.selectedCategory = categoryName
+      const found = Array.isArray(this.categories)
+        ? this.categories.find((c) => c.name === categoryName)
+        : null
+      this.selectedCategoryDescription = found ? found.description : null
     },
   },
 }
@@ -160,27 +180,40 @@ export default {
 
 <template>
   <main class="dashboard">
-    <BaseHero :title="heroTitle" height="35em" :description="displayDescription" :overlay-opacity="0.3">
-      <Searchbar
-        v-model:search="searchQuery"
-        placeholder="Sök recept..."
-      />
+    <BaseHero
+      :title="heroTitle"
+      height="35em"
+      :description="displayDescription"
+      :overlay-opacity="0.3"
+    >
+      <Searchbar v-model="searchQuery" placeholder="Sök recept..." />
       <CategoriesComponent
+        :categories="categories"
         :category-counts="categoryCounts"
         :active-category="selectedCategory"
         @category-select="handleCategorySelect"
       />
     </BaseHero>
 
-    <div v-if="loading" style="color: white; padding: 2rem; margin-left:44%;">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem; margin-left:44%">{{ error }}</div>
+    <div v-if="loading" style="color: white; padding: 2rem; margin-left: 44%">Laddar recept...</div>
+    <div v-if="error" style="color: red; padding: 2rem; margin-left: 44%">{{ error }}</div>
 
     <div class="Cards" v-if="!selectedCategory && !searchQuery">
-      <CardCarousel v-if="!loading && recipes.length > 0" title="Senaste Recepten" link="/latest-products"
-        :cards="mappedRecipes" :visibleCount="3" />
+      <CardCarousel
+        v-if="!loading && recipes.length > 0"
+        title="Senaste Recepten"
+        link="/latest-products"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
 
-      <CardCarousel v-if="!loading && recipes.length > 0" title="Våra favoriter" link="/favorites"
-        :cards="mappedRecipes" :visibleCount="3" />
+      <CardCarousel
+        v-if="!loading && recipes.length > 0"
+        title="Våra favoriter"
+        link="/favorites"
+        :cards="mappedRecipes"
+        :visibleCount="3"
+      />
     </div>
 
     <div v-else class="recipe-grid-container">
@@ -193,11 +226,22 @@ export default {
       </div>
     </div>
 
-    <Textimagesplit title="ENKELT, SNABBT OCH SUPERGOTT." subtitle="Recept och tips" buttonText="Läs mer"
-      imageSrc="berry.png" imageSrc1="Pasta.jpg" link="/fastsnacks" />
+    <Textimagesplit
+      title="ENKELT, SNABBT OCH SUPERGOTT."
+      subtitle="Recept och tips"
+      buttonText="Läs mer"
+      imageSrc="berry.png"
+      imageSrc1="Pasta.jpg"
+      link="/fastsnacks"
+    />
 
-    <Textimagesplit1 title="Bäst rankade recepten" subtitle="Checka in våra bäst rankade recept!" buttonText="Utforska"
-      imageSrc="New.png" link="/Top-products" />
+    <Textimagesplit1
+      title="Bäst rankade recepten"
+      subtitle="Checka in våra bäst rankade recept!"
+      buttonText="Utforska"
+      imageSrc="New.png"
+      link="/Top-products"
+    />
   </main>
 </template>
 
