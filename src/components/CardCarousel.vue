@@ -14,26 +14,9 @@
 
       <div class="carousel-window">
         <div class="carousel-track" :style="trackStyle">
-          <RouterLink
-            class="card-wrapper"
-            v-for="(card, index) in cards"
-            :key="card.id || index"
-            :to="`/recept/${card.id}/${card.slug}`"
-          >
-            <article class="card">
-              <img :src="card.imageSrc" :alt="card.altText" />
-
-              <div class="card-content">
-                <h2>{{ card.title }}</h2>
-                <p>{{ card.description }}</p>
-              </div>
-
-              <div class="card-footer">
-                <span>{{ card.ingredients }} | {{ card.time }}</span>
-                <span class="stars">{{ card.rating }}</span>
-              </div>
-            </article>
-          </RouterLink>
+          <div class="card-wrapper" v-for="(card, index) in cards" :key="card.id || index">
+            <RecipeCard :card="card" />
+          </div>
         </div>
       </div>
 
@@ -43,8 +26,14 @@
 </template>
 
 <script>
+// Importera recipeCard komponenten här
+import RecipeCard from '@/components/RecipeCard.vue'
+
 export default {
   name: 'CardCarousel',
+  components: {
+    RecipeCard, // Registrera komponenten här
+  },
   props: {
     title: String,
     link: {
@@ -67,9 +56,8 @@ export default {
     isNextDisabled() {
       return this.currentIndex >= this.cards.length - this.visibleCount
     },
-    // CSS-transform baserat på procent
+    // css-transform för att flytta karusellen baserat på procent och antal synliga kort
     trackStyle() {
-      // Om vi visar 3 kort, är varje "steg" 33.333% brett
       const step = 100 / this.visibleCount
       return {
         transform: `translateX(-${this.currentIndex * step}%)`,
@@ -87,7 +75,7 @@ export default {
         this.currentIndex--
       }
     },
-    // Uppdaterar visibleCount för att knapparna ska funka rätt
+    // uppdatera visibleCount baserat på fönsterstorlek för att knapparna ska fungera rätt
     handleResize() {
       const width = window.innerWidth
       if (width < 800) {
@@ -99,7 +87,6 @@ export default {
       }
     },
   },
-
   mounted() {
     this.handleResize()
     window.addEventListener('resize', this.handleResize)
@@ -178,75 +165,17 @@ export default {
 .card-wrapper {
   flex-shrink: 0;
   flex-grow: 0;
-  text-decoration: none;
   box-sizing: border-box;
 
-  /* Standard (Desktop): 3 kort = 33.333% bredd */
+  /* Flex-basis hanterar bredden på varje "slot" i karusellen */
   flex-basis: 33.3333%;
-  /* 8px padding på varje sida ger 16px "gap" totalt mellan korten */
-  padding: 0 8px;
-}
 
-.card {
-  background: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Padding här skapar mellanrummet mellan korten */
+  padding: 0 10px;
+
+  /* Centrera kortet inuti wrappern */
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.02);
-}
-
-.card img {
-  width: 100%;
-  height: 17rem;
-  display: block;
-  object-fit: cover;
-  border-bottom: 1px solid #eee;
-}
-
-.card-content {
-  padding: 16px 20px 20px;
-  flex-grow: 1;
-}
-
-.card h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #222;
-}
-
-.card p {
-  margin-top: 5%;
-  color: #444;
-  font-size: 14px;
-  line-height: 1.5;
-  max-height: 4rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-footer {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff9e6;
-  padding: 10px 16px;
-  font-size: 13px;
-  color: #555;
-  border-top: 1px solid #eee;
-}
-
-.stars {
-  color: #f5c04f;
-  font-size: 1.6rem;
+  justify-content: center;
 }
 
 /* --- Navigation Knappar --- */
@@ -296,10 +225,6 @@ export default {
   .nav {
     font-size: 2.5rem;
     padding: 0 5px;
-  }
-
-  .card img {
-    height: 14rem;
   }
 }
 </style>

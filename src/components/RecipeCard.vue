@@ -1,21 +1,31 @@
 <script>
+import StarRating from '@/components/StarRating.vue'
+
 export default {
   name: 'RecipeCard',
+  components: {
+    StarRating,
+  },
   props: {
     card: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
+  computed: {
+    ingredientText() {
+      if (this.card.ingredients && this.card.ingredients.length > 0) {
+        return `${this.card.ingredients.length} ingredienser`
+      }
+      return 'Hämtar info...'
+    },
+  },
 }
 </script>
 
 <template>
-  <RouterLink
-    class="card"
-    :to="`/recept/${card.id}/${card.slug}`"
-  >
-    <img :src="card.imageSrc" :alt="card.altText" />
+  <RouterLink class="card" :to="`/recept/${card.id}/${card.slug}`">
+    <img :src="card.imageUrl" :alt="card.title" loading="lazy" />
 
     <div class="card-content">
       <h2>{{ card.title }}</h2>
@@ -23,87 +33,92 @@ export default {
     </div>
 
     <div class="card-footer">
-      <span>{{ card.ingredients }} | {{ card.time }}</span>
-      <span class="stars">{{ card.rating }}</span>
+      <span>{{ ingredientText }} | {{ card.time }}</span>
+
+      <StarRating
+        :model-value="card.averageRating || 0"
+        :readonly="true"
+        :max-stars="5"
+        class="card-stars"
+      />
     </div>
   </RouterLink>
 </template>
 
 <style scoped>
-
 .card-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    padding: 2rem;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+}
 
-  .card {
-    background: #ffffff;
-    border-radius: 16px;
-    width: 95%;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease;
-  }
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 95%;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
 
-  a:hover {
+a:hover {
   opacity: 1;
 }
 
-  .card img {
-    width: 100%;
-    height: 12rem;
-    object-fit: cover;
-    display: block;
-    border-bottom: 1px solid #eee;
-    border-radius: 2vh;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  }
+.card img {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #eee;
+  border-radius: 2vh;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  .card:hover {
-    transform: scale(1.04);
-  }
+.card:hover {
+  transform: scale(1.04);
+}
 
-  .card-content {
-    padding: 16px 20px 20px;
-    flex-grow:1;
-  }
+.card-content {
+  padding: 16px 20px 20px;
+  flex-grow: 1;
+}
 
-  .card h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: #222;
-  }
+.card h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
 
-  .card p {
-    margin-top: 5%;
-    color: #444;
-    font-size: 14px;
-    line-height: 1.5;
-    max-height: 4rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.card p {
+  margin-top: 5%;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff9e6;
-    padding: 10px 16px;
-    margin-top:0;
-    font-size: 13px;
-    color: #555;
-    border-top: 1px solid #eee;
-  }
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff9e6;
+  padding: 10px 16px;
+  margin-top: 0;
+  font-size: 13px;
+  color: #555;
+  border-top: 1px solid #eee;
+}
 
-  .stars {
-    color: #f5c04f;
-    font-size: 1.6rem;
-  }
-
+/* Vi kan justera storleken på stjärnorna i kortet specifikt om vi vill */
+.card-stars :deep(.star-icon) {
+  width: 18px; /* Lite mindre stjärnor i korten än på produktsidan kanske? */
+  height: 18px;
+}
 </style>

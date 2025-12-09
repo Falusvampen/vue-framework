@@ -27,7 +27,7 @@ export default {
       error: null,
       categories: [],
       searchQuery: '', // Kommer åt från Searchbar via emit/v-model
-      selectedCategory: null,
+      selectedCategory: null, // Kommer åt från CategoriesComponent via emit
       selectedCategoryDescription: null,
       defaultTitle: 'Gymsnacks för alla tillfällen',
       defaultDescription:
@@ -56,34 +56,6 @@ export default {
           : true
 
         return matchesSearch && matchesCategory
-      })
-    },
-    mappedRecipes() {
-      const filtered = this.filteredRecipes
-
-      return filtered.map((recipe) => {
-        // Logik för texten: Visa "Hämtar info..." tills vi fått datan
-        let ingredientText = ''
-
-        // Om vi har ingredienser = Visa antalet
-        if (recipe.ingredients && recipe.ingredients.length > 0) {
-          ingredientText = `${recipe.ingredients.length} ingredienser`
-        } else {
-          // Annars antar vi att den laddas i bakgrunden just nu
-          ingredientText = 'Hämtar info...'
-        }
-
-        return {
-          id: recipe.id,
-          imageSrc: recipe.imageUrl,
-          altText: recipe.title,
-          title: recipe.title,
-          slug: recipe.slug,
-          description: recipe.description,
-          ingredients: ingredientText,
-          time: recipe.time,
-          rating: this.convertToStars(recipe.averageRating),
-        }
       })
     },
 
@@ -130,12 +102,6 @@ export default {
     }
   },
   methods: {
-    convertToStars(rating) {
-      if (!rating) return '☆☆☆☆☆'
-      const score = Math.round(parseFloat(rating))
-      return '★'.repeat(score) + '☆'.repeat(5 - score)
-    },
-
     /**
      * Går igenom hela listan och hämtar detaljer (ingredienser/betyg)
      * för ett recept i taget.
@@ -203,7 +169,7 @@ export default {
         v-if="!loading && recipes.length > 0"
         title="Senaste Recepten"
         link="/latest-products"
-        :cards="mappedRecipes"
+        :cards="filteredRecipes"
         :visibleCount="3"
       />
 
@@ -211,17 +177,17 @@ export default {
         v-if="!loading && recipes.length > 0"
         title="Våra favoriter"
         link="/favorites"
-        :cards="mappedRecipes"
+        :cards="filteredRecipes"
         :visibleCount="3"
       />
     </div>
 
     <div v-else class="recipe-grid-container">
       <div class="recipe-grid">
-        <RecipeCard v-for="card in mappedRecipes" :key="card.id" :card="card" />
+        <RecipeCard v-for="recipe in filteredRecipes" :key="recipe.id" :card="recipe" />
       </div>
 
-      <div v-if="mappedRecipes.length === 0" class="no-results">
+      <div v-if="filteredRecipes.length === 0" class="no-results">
         Inga recept hittades som matchar dina val.
       </div>
     </div>
