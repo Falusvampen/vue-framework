@@ -135,7 +135,7 @@ export default {
   flex-direction: column-reverse;
   width: 100%;
   height: 70vh;
-  background-color: #D9D9D9;
+  background-color: #e7c5bc;
 }
 .text-section h3 {
   font-size: 1rem;
