@@ -184,7 +184,7 @@ export default {
       :title="heroTitle"
       height="35em"
       :description="displayDescription"
-      :overlay-opacity="0.3"
+      :overlay-opacity="0"
     >
       <Searchbar v-model="searchQuery" placeholder="Sök recept..." />
       <CategoriesComponent

@@ -30,13 +30,13 @@ export default {
   <div
     class="base-hero"
     :style="{
-      backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none', minHeight: height
+      backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+      minHeight: height,
     }"
   >
     <div class="overlay" :style="{ opacity: overlayOpacity }"></div>
 
     <div class="content-container">
-
       <div class="title-and-description-div">
         <h1 v-if="title">{{ title }}</h1>
         <p v-if="description">{{ description }}</p>
@@ -68,6 +68,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 1;
+  background-color: black;
 }
 
 .content-container {
@@ -81,7 +82,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top:4rem;
+  padding-top: 4rem;
 }
 
 .title-and-description-div {
