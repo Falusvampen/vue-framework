@@ -162,7 +162,7 @@ position: absolute;
 bottom: 1rem;
 left: 3rem;
 padding: 10px 20px;
-background-color: #707070;
+background-color: #b2acac3b;
 color: white;
 border: none;
 border-radius: 6px;

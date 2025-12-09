@@ -179,7 +179,7 @@ export default {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   color: #222;
-  border: 2px solid #333;
+  border: 2px solid #e2e2e2;
   position: relative;
   overflow: hidden;
   animation: fadeIn 0.6s ease-out;
