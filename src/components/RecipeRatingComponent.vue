@@ -91,6 +91,7 @@ export default {
 .rating-wrapper h3 {
   margin-bottom: 0.5rem;
   color: #333;
+  font-size:1.5rem;
 }
 
 .rate-instruction {
