@@ -7,6 +7,7 @@ import Searchbar from '@/components/Searchbar.vue'
 import RecipeCard from '@/components/RecipeCard.vue'
 import BaseHero from '@/components/BaseHero.vue'
 import CategoriesComponent from '@/components/CategoriesComponent.vue'
+import GymSpinner from '@/components/GymSpinner.vue'
 
 export default {
   name: 'HomeView',
@@ -18,6 +19,7 @@ export default {
     CategoriesComponent,
     Searchbar,
     RecipeCard,
+    GymSpinner,
   },
   // Det här är grejer vi kommer åt i template:en och metoderna
   data() {
@@ -27,7 +29,7 @@ export default {
       error: null,
       categories: [],
       searchQuery: '', // Kommer åt från Searchbar via emit/v-model
-      selectedCategory: null,
+      selectedCategory: null, // Kommer åt från CategoriesComponent via emit
       selectedCategoryDescription: null,
       defaultTitle: 'Gymsnacks för alla tillfällen',
       defaultDescription:
@@ -56,34 +58,6 @@ export default {
           : true
 
         return matchesSearch && matchesCategory
-      })
-    },
-    mappedRecipes() {
-      const filtered = this.filteredRecipes
-
-      return filtered.map((recipe) => {
-        // Logik för texten: Visa "Hämtar info..." tills vi fått datan
-        let ingredientText = ''
-
-        // Om vi har ingredienser = Visa antalet
-        if (recipe.ingredients && recipe.ingredients.length > 0) {
-          ingredientText = `${recipe.ingredients.length} ingredienser`
-        } else {
-          // Annars antar vi att den laddas i bakgrunden just nu
-          ingredientText = 'Hämtar info...'
-        }
-
-        return {
-          id: recipe.id,
-          imageSrc: recipe.imageUrl,
-          altText: recipe.title,
-          title: recipe.title,
-          slug: recipe.slug,
-          description: recipe.description,
-          ingredients: ingredientText,
-          time: recipe.time,
-          rating: this.convertToStars(recipe.averageRating),
-        }
       })
     },
 
@@ -130,12 +104,6 @@ export default {
     }
   },
   methods: {
-    convertToStars(rating) {
-      if (!rating) return '☆☆☆☆☆'
-      const score = Math.round(parseFloat(rating))
-      return '★'.repeat(score) + '☆'.repeat(5 - score)
-    },
-
     /**
      * Går igenom hela listan och hämtar detaljer (ingredienser/betyg)
      * för ett recept i taget.
@@ -179,7 +147,7 @@ export default {
 </script>
 
 <template>
-  <main class="dashboard">
+  <main class="dashboard" id="main-content">
     <BaseHero
       :title="heroTitle"
       height="35em"
@@ -195,15 +163,24 @@ export default {
       />
     </BaseHero>
 
-    <div v-if="loading" style="color: white; padding: 2rem; margin-left: 44%">Laddar recept...</div>
-    <div v-if="error" style="color: red; padding: 2rem; margin-left: 44%">{{ error }}</div>
+    <div class="status-container">
+      <GymSpinner v-if="loading" />
 
-    <div class="Cards" v-if="!selectedCategory && !searchQuery">
+      <div v-if="error" role="alert" class="error-msg">
+        {{ error }}
+      </div>
+    </div>
+
+    <section
+      class="Cards"
+      v-if="!selectedCategory && !searchQuery"
+      aria-label="Utvalda receptsamlingar"
+    >
       <CardCarousel
         v-if="!loading && recipes.length > 0"
         title="Senaste Recepten"
         link="/latest-products"
-        :cards="mappedRecipes"
+        :cards="filteredRecipes"
         :visibleCount="3"
       />
 
@@ -211,20 +188,20 @@ export default {
         v-if="!loading && recipes.length > 0"
         title="Våra favoriter"
         link="/favorites"
-        :cards="mappedRecipes"
+        :cards="filteredRecipes"
         :visibleCount="3"
       />
-    </div>
+    </section>
 
-    <div v-else class="recipe-grid-container">
+    <section v-else class="recipe-grid-container" aria-label="Sökresultat">
       <div class="recipe-grid">
-        <RecipeCard v-for="card in mappedRecipes" :key="card.id" :card="card" />
+        <RecipeCard v-for="recipe in filteredRecipes" :key="recipe.id" :card="recipe" />
       </div>
 
-      <div v-if="mappedRecipes.length === 0" class="no-results">
+      <div v-if="filteredRecipes.length === 0 && !loading" class="no-results" role="status">
         Inga recept hittades som matchar dina val.
       </div>
-    </div>
+    </section>
 
     <Textimagesplit
       title="ENKELT, SNABBT OCH SUPERGOTT."
@@ -260,41 +237,32 @@ export default {
   background-blend-mode: darken;
 }
 
+.status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+  min-height: 100px;
+}
+
+.error-msg {
+  background-color: rgba(255, 200, 200, 0.95);
+  color: #8b0000;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: 1rem;
+  border: 1px solid #8b0000;
+}
+
 .recipe-grid-container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto 4rem auto;
   display: flex;
   flex-direction: column;
-}
-
-.grid-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-}
-
-.grid-header h1 {
-  font-family: 'Holtwood One SC';
-  color: white;
-  font-size: 1.5rem;
-}
-
-.clear-btn {
-  background: transparent;
-  border: 1px solid white;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  margin-left: 1.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.clear-btn:hover {
-  background: white;
-  color: black;
 }
 
 .recipe-grid {
