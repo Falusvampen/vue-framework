@@ -1,6 +1,6 @@
 <script>
 import CardCarousel from '@/components/CardCarousel.vue'
-import RecipeService from '@/services/RecipeService'
+import recipeService from '@/services/RecipeService'
 import Textimagesplit1 from '@/components/Textimagesplit1.vue'
 import Textimagesplit from '@/components/Textimagesplit.vue'
 import Searchbar from '@/components/Searchbar.vue'
@@ -84,8 +84,8 @@ export default {
     try {
       // 1. Hämta listan som saknar detaljer
       const [allRecipes, allCategories] = await Promise.all([
-        RecipeService.getAllRecipes(),
-        RecipeService.getCategories(),
+        recipeService.getAllRecipes(),
+        recipeService.getCategories(),
       ])
 
       this.recipes = allRecipes
@@ -115,7 +115,7 @@ export default {
       for (const simpleRecipe of recipesToHydrate) {
         try {
           // Hämta detaljerad data för detta recept
-          const detailedRecipe = await RecipeService.getCompleteRecipe(simpleRecipe.id)
+          const detailedRecipe = await recipeService.getCompleteRecipe(simpleRecipe.id)
 
           // Hitta var receptet ligger i den aktuella listan (ifall sortering ändrats etc)
           const index = this.recipes.findIndex((r) => r.id === simpleRecipe.id)
@@ -148,12 +148,7 @@ export default {
 
 <template>
   <main class="dashboard" id="main-content">
-    <BaseHero
-      :title="heroTitle"
-      height="35em"
-      :description="displayDescription"
-      :overlay-opacity="0"
-    >
+    <BaseHero :title="heroTitle" :description="displayDescription" :overlay-opacity="0">
       <Searchbar v-model="searchQuery" placeholder="Sök recept..." />
       <CategoriesComponent
         :categories="categories"
@@ -244,7 +239,6 @@ export default {
   justify-content: center;
   padding: 1rem;
   width: 100%;
-  min-height: 100px;
 }
 
 .error-msg {
