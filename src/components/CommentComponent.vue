@@ -166,6 +166,8 @@ export default {
   position: relative;
   background: transparent;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .comment-section {
@@ -180,6 +182,7 @@ export default {
   position: relative;
   overflow: hidden;
   animation: fadeIn 0.6s ease-out;
+  box-sizing: border-box;
 }
 
 .comment-title-h2 {
@@ -233,6 +236,7 @@ export default {
     box-shadow 0.3s ease,
     transform 0.2s ease;
   box-shadow: none;
+  box-sizing: border-box;
 }
 .nameInput:focus,
 .commentArea:focus {
@@ -316,6 +320,7 @@ export default {
   transition: all 0.3s ease;
   position: relative;
   animation: slideIn 0.5s ease-out both;
+  box-sizing: border-box;
 }
 .comment-item:hover {
   transform: translateY(-2px);
@@ -338,6 +343,9 @@ export default {
   margin: 0;
   font-size: 0.95rem;
   letter-spacing: 0.3px;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .comment-text {
@@ -346,6 +354,11 @@ export default {
   color: #444;
   margin: 6px 0 0 0;
   font-size: 0.95rem;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .no-comments {
