@@ -28,7 +28,9 @@ export default {
 .instructions-card {
   border-radius: 16px;
   padding: 20px 24px;
-  width: 40rem;
+  width: 100%;
+  max-width: 40rem;
+  box-sizing: border-box;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -75,6 +77,10 @@ export default {
 
 .step-text {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 1rem;
   color: #444;

@@ -1,11 +1,9 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import HeaderComponent from './components/HeaderComponent.vue';
+import HeaderComponent from './components/HeaderComponent.vue'
 </script>
 
 <template>
-  
-    <HeaderComponent />
-
+  <HeaderComponent />
   <RouterView />
 </template>
