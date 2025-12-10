@@ -16,7 +16,7 @@ export default {
     },
     height: {
       type: String,
-      default: '450px',
+      default: '',
     },
     overlayOpacity: {
       type: Number,

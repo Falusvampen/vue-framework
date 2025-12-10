@@ -4,13 +4,13 @@
       <h2 class="comment-title-h2">
         Kommentarer <span class="count">({{ comments.length }})</span>
       </h2>
-      <hr>
+      <hr />
 
       <div class="commentForm" v-if="!submitted">
         <h4>Lämna en kommentar</h4>
 
         <form @submit.prevent="handleSubmit">
-          <input 
+          <input
             v-model="formData.name"
             type="text"
             placeholder="Ditt namn..."
@@ -20,7 +20,7 @@
           />
           <div v-if="validationErrors.name" class="validation-msg">{{ validationErrors.name }}</div>
 
-          <textarea 
+          <textarea
             v-model="formData.text"
             placeholder="Skriv din kommentar..."
             class="commentArea"
@@ -32,10 +32,7 @@
 
           <div v-if="error" class="error-msg">{{ error }}</div>
 
-          <button
-            type="submit"
-            :disabled="isSubmitting"
-            class="submit-btn">
+          <button type="submit" :disabled="isSubmitting" class="submit-btn">
             {{ isSubmitting ? 'Skickar...' : 'Skicka kommentar' }}
           </button>
         </form>
@@ -45,7 +42,7 @@
         <h3>Tack för din kommentar!</h3>
       </div>
 
-      <hr>
+      <hr />
 
       <div class="commentBox">
         <div class="comments-list" v-if="comments.length > 0">
@@ -78,7 +75,6 @@ export default {
   },
   data() {
     return {
-      teamId: import.meta.env.VITE_TEAM_ID,
       comments: [],
       formData: {
         name: '',
@@ -109,7 +105,6 @@ export default {
       }
     },
     async handleSubmit() {
-      
       this.validationErrors.name = ''
       this.validationErrors.text = ''
       this.error = null
@@ -132,9 +127,9 @@ export default {
 
       this.isSubmitting = true
 
-      const payload = { 
-        name: this.formData.name.trim(), 
-        comment: this.formData.text.trim() 
+      const payload = {
+        name: this.formData.name.trim(),
+        comment: this.formData.text.trim(),
       }
 
       try {
@@ -148,8 +143,11 @@ export default {
         console.error('Full error object:', err)
         console.error('Error response:', err.response?.data)
         console.error('Error status:', err.response?.status)
-        
-        const errorMsg = err.response?.data?.message || err.message || 'Kunde inte skicka kommentaren. Försök igen.'
+
+        const errorMsg =
+          err.response?.data?.message ||
+          err.message ||
+          'Kunde inte skicka kommentaren. Försök igen.'
         this.error = errorMsg
       } finally {
         this.isSubmitting = false
@@ -159,12 +157,11 @@ export default {
       this.formData.name = ''
       this.formData.text = ''
     },
-  }
+  },
 }
 </script>
 
 <style>
-
 .comment-wrapper {
   position: relative;
   background: transparent;
@@ -185,8 +182,6 @@ export default {
   animation: fadeIn 0.6s ease-out;
 }
 
-
-
 .comment-title-h2 {
   font-size: 1.6rem;
   margin-bottom: 8px;
@@ -200,8 +195,6 @@ export default {
   animation: slideDown 0.5s ease-out;
 }
 
-
-
 .count {
   color: #555;
   font-weight: 600;
@@ -211,8 +204,6 @@ export default {
   padding: 2px 8px;
   box-shadow: none;
 }
-
-
 
 .commentForm {
   margin-top: 16px;
@@ -227,9 +218,8 @@ export default {
   animation: slideUp 0.6s ease-out 0.2s both;
 }
 
-
-
-.nameInput, .commentArea {
+.nameInput,
+.commentArea {
   width: 100%;
   padding: 10px;
   border: 1.5px solid #ddd;
@@ -238,17 +228,19 @@ export default {
   font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
   background: #fff;
   color: #222;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
   box-shadow: none;
 }
-.nameInput:focus, .commentArea:focus {
+.nameInput:focus,
+.commentArea:focus {
   border-color: #333;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
   outline: none;
   transform: translateY(-1px);
 }
-
-
 
 .submit-btn {
   padding: 10px 24px;
@@ -271,8 +263,6 @@ export default {
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-
 
 .error-msg {
   color: #d32f2f;
@@ -305,23 +295,17 @@ export default {
   margin: 0;
 }
 
-
-
 .commentBox {
   margin-top: 16px;
   color: #222;
   animation: fadeIn 0.6s ease-out 0.4s both;
 }
 
-
-
 .comments-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-
-
 
 .comment-item {
   background: #fafafa;
@@ -339,8 +323,6 @@ export default {
   border-color: #333;
 }
 
-
-
 .comment-header {
   display: flex;
   justify-content: flex-start;
@@ -348,8 +330,6 @@ export default {
   gap: 10px;
   margin-bottom: 4px;
 }
-
-
 
 .comment-name {
   font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
@@ -360,8 +340,6 @@ export default {
   letter-spacing: 0.3px;
 }
 
-
-
 .comment-text {
   font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
   font-weight: 400;
@@ -369,8 +347,6 @@ export default {
   margin: 6px 0 0 0;
   font-size: 0.95rem;
 }
-
-
 
 .no-comments {
   text-align: center;
@@ -382,7 +358,6 @@ export default {
   box-shadow: none;
   animation: fadeIn 0.6s ease-out;
 }
-
 
 @media (max-width: 480px) {
   .comment-section {
@@ -426,7 +401,6 @@ export default {
   }
 }
 
-
 @media (min-width: 481px) and (max-width: 768px) {
   .comment-section {
     max-width: 95%;
@@ -444,7 +418,8 @@ export default {
     margin-bottom: 12px;
     padding: 12px 10px;
   }
-  .nameInput, .commentArea {
+  .nameInput,
+  .commentArea {
     padding: 10px;
     font-size: 0.98rem;
   }
@@ -475,7 +450,6 @@ export default {
     font-size: 0.95rem;
   }
 }
-
 
 @keyframes fadeIn {
   from {
@@ -536,7 +510,8 @@ export default {
     margin-bottom: 20px;
     padding: 18px 16px;
   }
-  .nameInput, .commentArea {
+  .nameInput,
+  .commentArea {
     padding: 12px;
     font-size: 1rem;
   }
