@@ -102,7 +102,7 @@ export default {
 <style scoped>
 .carousel-section {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1000px;
   margin: 0 auto 3rem auto;
   display: flex;
   flex-direction: column;
@@ -154,7 +154,8 @@ export default {
 
 .carousel-window {
   overflow: hidden;
-  width: 100%;
+  flex: 1;
+  width: auto;
   padding: 10px 0;
 }
 
@@ -182,6 +183,7 @@ export default {
 
 /* --- Navigation Knappar --- */
 .nav {
+  flex-shrink: 0;
   background: none;
   border: none;
   font-size: 3rem;
@@ -200,6 +202,10 @@ export default {
 
 .nav:hover:not(:disabled) {
   opacity: 0.8;
+}
+.card-wrapper :deep(.card) {
+  max-width: 350px;
+  width: 100%;
 }
 
 /* Tablet / Liten Desktop (< 1200px) */
@@ -220,6 +226,11 @@ export default {
 
 /* Mobil (< 800px) */
 @media (max-width: 800px) {
+  .carousel {
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
   .card-wrapper {
     flex-basis: 100%; /* 1 kort synligt */
   }
