@@ -89,9 +89,11 @@ export default {
   },
   mounted() {
     this.handleResize()
+    // Registrera resize-event för att uppdatera visibleCount automatiskt när fönstret ändras
     window.addEventListener('resize', this.handleResize)
   },
   beforeUnmount() {
+    // Viktigt att ta bort lyssnaren för att undvika memory leaks när komponenten tas bort
     window.removeEventListener('resize', this.handleResize)
   },
 }
