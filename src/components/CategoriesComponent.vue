@@ -126,8 +126,7 @@ button.active {
 }
 
 .toggle-button {
-  background-color: #888888;
-  color: white;
+  background-color: #ffffff;
 }
 
 .toggle-button:hover {
