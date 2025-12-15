@@ -17,15 +17,15 @@
 
 <script>
 export default {
-  name: "TextImageSplit1",
+  name: 'TextImageSplit1',
   props: {
     title: String,
     subtitle: String,
     buttonText: String,
     imageSrc: String,
-    imageAlt: { type: String, default: "Bild" },
-    link: { type: String, required: true }
-  }
+    imageAlt: { type: String, default: 'Bild' },
+    link: { type: String, required: true },
+  },
 }
 </script>
 
@@ -46,9 +46,9 @@ export default {
 }
 .text-section h1 {
   font-size: 2.5rem;
-  font-family: "Holtwood One SC";
+  font-family: 'Holtwood One SC';
   margin-bottom: 1rem;
-  color: #4A4040;
+  color: #4a4040;
 }
 .text-section h3 {
   font-size: 1rem;
@@ -57,7 +57,7 @@ export default {
 }
 .button-link {
   background-color: rgb(53 53 53);
-  color: white ;
+  color: white;
   border: none;
   border-radius: 16vh;
   padding: 0.7rem 1.5rem;
@@ -84,85 +84,70 @@ export default {
 }
 
 @media (max-width: 800px) {
+  .text-section h1 {
+    font-size: 2rem;
+    font-family: 'Holtwood One SC';
+    margin-bottom: 1rem;
+    color: #4a4040;
+  }
+  .text-section h3 {
+    font-size: 0.8rem;
+    margin-bottom: 1.7rem;
+    color: #2c2c2c;
+  }
 
-  
-.text-section h1 {
-  font-size: 2.0rem;
-  font-family: "Holtwood One SC";
-  margin-bottom: 1rem;
-  color: #4A4040;
-}
-.text-section h3 {
-  font-size: 0.8rem;
-  margin-bottom: 1.7rem;
-  color: #2c2c2c;
-}
-
-.image-section img {
-  max-width: 86%;
-  max-height: 70%;
-  object-fit: contain;
-}
-  
-
-
-   
-  
-
-  
+  .image-section img {
+    max-width: 86%;
+    max-height: 70%;
+    object-fit: contain;
+  }
 }
 
 @media (max-width: 600px) {
-
   .image-section img {
-  max-width: 50%;
-  max-height: 70%;
-  object-fit: contain;
-  margin:auto;
-  top:2rem;
-}
+    max-width: 50%;
+    max-height: 70%;
+    object-fit: contain;
+    margin: auto;
+    top: 2rem;
+  }
 
-.text-section {
-  flex: 1;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  .text-section {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-.Text-image-Split {
-  display: flex;
-  flex-direction: column-reverse;
-  width: 100%;
-  height: 70vh;
-  background-color: #e7c5bc;
-}
-.text-section h3 {
-  font-size: 1rem;
-  margin-bottom: 1.7rem;
-  color: #2c2c2c;
-}
-
-
+  .Text-image-Split {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    height: 70vh;
+    background-color: #e7c5bc;
+  }
+  .text-section h3 {
+    font-size: 1rem;
+    margin-bottom: 1.7rem;
+    color: #2c2c2c;
+  }
 }
 
 @media (max-width: 450px) {
-
   .image-section img {
-  max-width: 50%;
-  max-height: 70%;
-  object-fit: contain;
-  align-items: center;
-}
+    max-width: 50%;
+    max-height: 70%;
+    object-fit: contain;
+    align-items: center;
+  }
 
-.text-section {
-  flex: 1;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-
+  .text-section {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 </style>
