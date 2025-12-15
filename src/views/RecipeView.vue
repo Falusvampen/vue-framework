@@ -53,7 +53,7 @@ export default {
       this.error = null
 
       try {
-        this.recipe = await apiService.getCompleteRecipe(this.$route.params.id)
+        this.recipe = await apiService.getRecipe(this.$route.params.id)
       } catch (err) {
         console.error(err)
         this.error = 'Kunde inte hitta receptet.'
@@ -69,11 +69,6 @@ export default {
   <main class="recipe-container" id="main-content">
     <div v-if="loading" class="state-container">
       <GymSpinner />
-    </div>
-
-    <div v-else-if="error" class="state-container" role="alert">
-      <p class="error-msg">{{ error }}</p>
-      <button class="retry-btn" @click="fetchRecipeData">Försök igen</button>
     </div>
 
     <div v-else>
