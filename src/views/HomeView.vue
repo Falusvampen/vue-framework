@@ -51,29 +51,35 @@ export default {
     filteredRecipes() {
       return this.recipes.filter((recipe) => {
         const matchesSearch = recipe.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-        const matchesCategory = this.selectedCategory
-          ? Array.isArray(recipe.categories)
-            ? recipe.categories.includes(this.selectedCategory)
-            : recipe.category === this.selectedCategory
-          : true
+
+        let matchesCategory = true
+
+        if (this.selectedCategory) {
+          if (Array.isArray(recipe.categories)) {
+            matchesCategory = recipe.categories.includes(this.selectedCategory)
+          } else {
+            matchesCategory = recipe.category === this.selectedCategory
+          }
+        }
 
         return matchesSearch && matchesCategory
       })
     },
 
-    /**
-     * Räkna antal recept per kategori baserat på det vi har i `recipes`.
-     * Nycklar är kategorinamn, värden är antal.
-     */
     categoryCounts() {
       const counts = {}
       for (const recipe of this.recipes) {
+        const increment = (catName) => {
+          const name = catName
+          counts[name] = (counts[name] || 0) + 1
+        }
+
         if (Array.isArray(recipe.categories)) {
           for (const c of recipe.categories) {
-            counts[c] = (counts[c] || 0) + 1
+            increment(c)
           }
         } else if (recipe.category) {
-          counts[recipe.category] = (counts[recipe.category] || 0) + 1
+          increment(recipe.category)
         }
       }
       return counts
@@ -82,7 +88,6 @@ export default {
   async created() {
     this.loading = true
     try {
-      // 1. Hämta listan som saknar detaljer
       const [allRecipes, allCategories] = await Promise.all([
         recipeService.getAllRecipes(),
         recipeService.getCategories(),
@@ -91,44 +96,15 @@ export default {
       this.recipes = allRecipes
       this.categories = allCategories // Spara kategorierna i data
 
-      // 2. Släpp laddnings-spinnern så användaren ser sidan
+      // Släpp laddnings-spinnern så användaren ser sidan
       this.loading = false
-
-      // 3. Starta processen att ladda
-      // Vi använder inte 'await' här eftersom vi vill att UI:t ska vara levande under tiden.
-      this.hydrateAllRecipes()
     } catch (err) {
+      // dubbel error men aja
       console.error(err)
-      this.error = 'Kunde inte hämta recepten.'
       this.loading = false
     }
   },
   methods: {
-    /**
-     * Går igenom hela listan och hämtar detaljer (ingredienser/betyg)
-     * för ett recept i taget.
-     */
-    async hydrateAllRecipes() {
-      // Vi kopierar referensen till listan för att loopa säkert
-      const recipesToHydrate = [...this.recipes]
-
-      for (const simpleRecipe of recipesToHydrate) {
-        try {
-          // Hämta detaljerad data för detta recept
-          const detailedRecipe = await recipeService.getCompleteRecipe(simpleRecipe.id)
-
-          // Hitta var receptet ligger i den aktuella listan (ifall sortering ändrats etc)
-          const index = this.recipes.findIndex((r) => r.id === simpleRecipe.id)
-
-          if (index !== -1) {
-            // VIKTIGT: Använd splice för att Vue ska reagera direkt och uppdatera kortet
-            this.recipes.splice(index, 1, detailedRecipe)
-          }
-        } catch (e) {
-          console.warn(`Kunde inte ladda detaljer för ${simpleRecipe.title}`, e)
-        }
-      }
-    },
     handleCategorySelect(categoryName) {
       if (!categoryName) {
         this.selectedCategory = null
@@ -160,10 +136,6 @@ export default {
 
     <div class="status-container">
       <GymSpinner v-if="loading" />
-
-      <div v-if="error" role="alert" class="error-msg">
-        {{ error }}
-      </div>
     </div>
 
     <section
