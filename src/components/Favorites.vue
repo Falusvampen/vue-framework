@@ -5,35 +5,42 @@
 
 
   <template>
-    <div class="card-grid">
-      <router-link
-        class="card"
-        v-for="(card, index) in cards"
-        :key="card.title + index"
-        :to="`/recept/${card.id}/${card.slug}`"
-      >
-        <img :src="card.imageSrc" :alt="card.altText" />
+  <div class="card-grid">
+    <router-link
+      class="card"
+      v-for="(card, index) in limitedCards"
+      :key="card.title + index"
+      :to="`/recept/${card.id}/${card.slug}`"
+    >
+      <img :src="card.imageSrc" :alt="card.altText" />
 
-        <div class="card-content">
-          <h2>{{ card.title }}</h2>
-          <p>{{ card.description }}</p>
-        </div>
+      <div class="card-content">
+        <h2>{{ card.title }}</h2>
+        <p>{{ card.description }}</p>
+      </div>
 
-        <div class="card-footer">
-          <span>{{ card.ingredients }} | {{ card.time }}</span>
-          <span class="stars">{{ card.rating }}</span>
-        </div>
-      </router-link>
-    </div>
-  </template>
+      <div class="card-footer">
+        <span>{{ card.ingredients }} | {{ card.time }}</span>
+        <span class="stars">{{ card.rating }}</span>
+      </div>
+    </router-link>
+  </div>
+</template>
 
-  <script>
-  export default {
-    props: {
-      cards: { type: Array, required: true }
+<script>
+export default {
+  props: {
+    cards: { type: Array, required: true },
+    limit: { type: Number, default: null }
+  },
+  computed: {
+    limitedCards() {
+      return this.limit ? this.cards.slice(0, this.limit) : this.cards
     }
   }
-  </script>
+}
+</script>
+
 
   <style scoped>
   .card-grid {
