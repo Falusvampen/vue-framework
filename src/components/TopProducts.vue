@@ -2,7 +2,7 @@
   <div class="card-grid">
     <router-link
       class="card"
-      v-for="(card, index) in cards"
+      v-for="(card, index) in topRankedCards"
       :key="card.title + index"
       :to="`/recept/${card.id}/${card.slug}`"
     >
@@ -18,6 +18,10 @@
         <span class="stars">{{ card.rating }}</span>
       </div>
     </router-link>
+
+    <div v-if="topRankedCards.length === 0" class="no-products">
+      Inga rankade produkter hittades.
+    </div>
   </div>
 </template>
 
@@ -25,6 +29,21 @@
 export default {
   props: {
     cards: { type: Array, required: true }
+  },
+  computed: {
+    topRankedCards() {
+      // Filtrera bort produkter utan rating
+      const filtered = this.cards.filter(
+        card => card.averageRating && card.averageRating > 0
+      )
+
+      // Sortera efter högst rating
+      const sorted = [...filtered].sort(
+        (a, b) => (b.averageRating || 0) - (a.averageRating || 0)
+      )
+
+      return sorted
+    }
   }
 }
 </script>
@@ -35,12 +54,7 @@ export default {
   grid-template-columns: repeat(4, 1fr); 
   gap: 2rem;
   padding: 2rem;
-
 }
-
-
-
-
 
 .card {
   background: #ffff;
@@ -110,54 +124,33 @@ a:hover {
   font-size: 1.6rem;
 }
 
-
 @media (max-width: 1200px) {
-
   .card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 2rem;
-  padding: 2rem;
-
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 2rem;
+    padding: 2rem;
+  }
 }
-
-
-
-
-
-
-}
-
 
 @media (max-width: 800px) {
-
-
   .card-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  gap: 2rem;
-  justify-items:center;
-
-}
-
-.card {
-  width: 80%;
-  display: flex;
-}
-
-
-
-
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 2rem;
+    justify-items:center;
+  }
+  .card {
+    width: 80%;
+    display: flex;
+  }
 }
 
 @media (max-width: 700px) {
-
-
   .card-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-
-}
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+  }
 }
 
 .card {
@@ -167,27 +160,25 @@ a:hover {
 }
 
 @media (max-width: 600px) {
-
-
   .card-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); 
-  gap: 2rem;
-  justify-items:center;
-
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); 
+    gap: 2rem;
+    justify-items:center;
+  }
+  .card {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-.card {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
+.no-products {
+  color: #fff;
+  background: #444;
+  padding: 1rem;
+  border-radius: 6px;
+  grid-column: 1 / -1;
+  text-align: center;
 }
-
-
-
-
-}
-
-
-
 </style>

@@ -153,7 +153,7 @@ export default {
 
       <CardCarousel
         v-if="!loading && recipes.length > 0"
-        title="Våra favoriter"
+        title="Våra 20 favoriter"
         link="/favorites"
         :cards="filteredRecipes"
         :visibleCount="3"
