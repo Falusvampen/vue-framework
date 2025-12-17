@@ -55,7 +55,7 @@ export default {
           :class="{ active: activeCategory === category.name }"
         >
           {{ category.name }}
-          <span class="count">({{ categoryCounts?.[category.name] || 0 }})</span>
+          <span class="count">{{ categoryCounts?.[category.name] || 0 }}</span>
         </button>
       </li>
 
@@ -131,6 +131,7 @@ button.active {
 
 .toggle-button:hover {
   background-color: #666666;
+  color: white;
 }
 
 .fade-enter-active,

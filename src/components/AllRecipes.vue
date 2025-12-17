@@ -1,9 +1,4 @@
 <template>
-
-
-
-
-
   <div class="card-grid">
     <router-link
       class="card"
@@ -35,20 +30,13 @@ export default {
 </script>
 
 <style scoped>
-
-
-
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); 
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   padding: 2rem;
 
 }
-
-
-
-
 
 .card {
   background: #ffffff;
@@ -119,51 +107,32 @@ a:hover {
 }
 
 @media (max-width: 1200px) {
-
   .card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   padding: 2rem;
-
 }
-
-
-
-
-
-
 }
-
 
 @media (max-width: 800px) {
-
-
   .card-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   justify-items:center;
-
 }
 
 .card {
   width: 80%;
   display: flex;
 }
-
-
-
-
 }
 
 @media (max-width: 700px) {
-
-
   .card-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-
+  grid-template-columns: repeat(2, 1fr);
 }
 }
 
@@ -174,14 +143,11 @@ a:hover {
 }
 
 @media (max-width: 600px) {
-
-
   .card-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr); 
+  grid-template-columns: repeat(1, 1fr);
   gap: 2rem;
   justify-items:center;
-
 }
 
 .card {
@@ -189,11 +155,5 @@ a:hover {
   display: flex;
   flex-direction: column;
 }
-
-
-
-
 }
-
-
 </style>
