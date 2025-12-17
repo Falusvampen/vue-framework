@@ -1,13 +1,13 @@
 <script>
-import LatestProductsheader from '@/components/LatestProductsheader.vue'
-import LatestProducts from '@/components/LatestProducts.vue'
+import AllRecipesHeader from '@/components/AllRecipesHeader.vue'
+import AllRecipes from '@/components/AllRecipes.vue'
 import RecipeService from '@/services/RecipeService'
 
 export default {
-  name: 'LatestProductsView',
+  name: 'AllRecipesView',
   components: {
-    LatestProducts,
-    LatestProductsheader,
+    AllRecipes,
+    AllRecipesHeader,
   },
   data() {
     return {
@@ -68,30 +68,14 @@ export default {
 
 <template>
   <main class="dashboard">
-    <LatestProductsheader header="Senaste Nyheter" minitext="Checka in det senaste nytt" />
+    <AllRecipesHeader header="Alla recept" minitext="" />
     <div v-if="loading" style="color: white; padding: 2rem; margin-left:44%">Laddar recept...</div>
     <div v-if="error" style="color: red; padding: 2rem; margin-left:44%">{{ error }}</div>
 
     <div class="fastsnackscards">
-      <LatestProducts
+      <AllRecipes
         v-if="!loading && recipes.length > 0"
-        title="Snabba Fastsnacks"
         :cards="mappedRecipes"
-        :visibleCount="3"
-      />
-
-      <LatestProducts
-        v-if="!loading && recipes.length > 0"
-        title="Snabba Fastsnacks"
-        :cards="mappedRecipes"
-        :visibleCount="3"
-      />
-
-      <LatestProducts
-        v-if="!loading && recipes.length > 0"
-        title="Snabba Fastsnacks"
-        :cards="mappedRecipes"
-        :visibleCount="3"
       />
     </div>
   </main>

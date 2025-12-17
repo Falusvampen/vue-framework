@@ -145,8 +145,8 @@ export default {
     >
       <CardCarousel
         v-if="!loading && recipes.length > 0"
-        title="Senaste Recepten"
-        link="/latest-products"
+        title="Alla recept"
+        link="/all-recipes"
         :cards="filteredRecipes"
         :visibleCount="3"
       />

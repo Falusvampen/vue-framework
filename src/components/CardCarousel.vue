@@ -4,7 +4,11 @@
       <RouterLink :to="link" class="title-link">
         <h1>
           {{ title }}
-          <span class="Textarrow"> > </span>
+          <svg class="Textarrow" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+          </svg>
         </h1>
       </RouterLink>
     </div>
@@ -144,7 +148,7 @@ export default {
 .Text h1::after {
   content: '';
   display: block;
-  width: 100%;
+  width: 100% auto;
   max-width: 22rem;
   height: 3.8px;
   background-color: #aaa8a8;
@@ -203,6 +207,7 @@ export default {
 .nav:hover:not(:disabled) {
   opacity: 0.8;
 }
+
 .card-wrapper :deep(.card) {
   max-width: 350px;
   width: 100%;
@@ -211,7 +216,8 @@ export default {
 /* Tablet / Liten Desktop (< 1200px) */
 @media (max-width: 1200px) {
   .card-wrapper {
-    flex-basis: 50%; /* 2 kort synliga */
+    flex-basis: 50%;
+    /* 2 kort synliga */
   }
 
   .Text {
@@ -232,7 +238,8 @@ export default {
   }
 
   .card-wrapper {
-    flex-basis: 100%; /* 1 kort synligt */
+    flex-basis: 100%;
+    /* 1 kort synligt */
   }
 
   .nav {

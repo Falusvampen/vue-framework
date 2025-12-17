@@ -3,16 +3,12 @@
         props: {
             header: String,
             minitext: String
-
-            
         }
-        
     }
 </script>
 
-
-    <template>
-  <div class="LatestProductheader">
+<template>
+  <div class="AllRecipesHeader">
     <div class="header-box">
       <h1>{{ header }}</h1>
       <p>{{ minitext }}</p>
@@ -20,24 +16,15 @@
   </div>
 </template>
 
-
-
-
-
 <style scoped>
-
-
-.LatestProductheader {
+.AllRecipesHeader {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   height: 20rem;
   margin-bottom: 3rem;
- 
 }
-
-
 
 .header-box {
   z-index: 2;
@@ -55,13 +42,9 @@
   padding-bottom: 0.5rem;
 }
 
-
 .header-box p {
   color: white;
   font-size: 1.2rem;
   margin: 0;
 }
-
-
-
 </style>
