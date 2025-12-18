@@ -4,18 +4,11 @@
       <div class="text-section">
         <h3>{{ subtitle }}</h3>
         <h1>{{ title }}</h1>
-        <router-link :to="link" class="button-link" >
-
-          {{ buttonText }}
-        </router-link>
       </div>
       <div class="image-section">
         <img :src="imageSrc" :alt="imageAlt" />
       </div>
     </div>
-
-    
-
   </main>
 </template>
 
@@ -32,33 +25,23 @@ export default {
       type: String,
       default: "Bild"
     },
-    link: { 
+    link: {
       type: String,
-      required: true
+      required: false,
     }
-
-   
-
-
   }
 }
 </script>
 
 <style scoped>
-
-
-
 .Text-image-Split {
   display: flex;
   flex-direction: row;
-  width: 100%; 
-  height: 100vh;  
+  width: 100%;
+  height: 100vh;
   background-color: #1e1e1e;
   color: white;
   margin-top: 5rem;
-
-
-  
 }
 
 .text-section {
@@ -83,25 +66,6 @@ export default {
   font-weight: bold;
 }
 
-.button-link {
-  background-color: white;
-  color: #2c2c2c;
-  border: none;
-  border-radius: 16vh;
-  padding: 0.7rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  width: fit-content;
-  transition: background-color 0.3s;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.button-link:hover {
-  background-color: #ddd;
-}
-
-
 .image-section {
   flex: 2;
   overflow: hidden;
@@ -113,17 +77,10 @@ export default {
   object-fit: cover;
 }
 
-
-
-
-
-
 @media (max-width: 870px) {
-
   .text-section h3 {
   font-size: 0.8rem;
   margin-bottom: 0.7rem;
-  
 }
 
 .text-section h1 {
@@ -132,35 +89,18 @@ export default {
   font-weight: bold;
   width: 80%s;
 }
-
-  
-
-
-   
-  
-
-  
 }
 
 @media (max-width: 600px) {
-
   .Text-image-Split {
   display: flex;
   flex-direction: column-reverse;
-  width: 100%; 
-  height: 100vh;  
+  width: 100%;
+  height: 100vh;
   background-color: #1e1e1e;
   color: white;
   margin-top: 5rem;
   border-top: 10px solid #c0ab8e;
-
-
-  
 }
-
-  
-
 }
-
-
 </style>

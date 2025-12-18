@@ -172,11 +172,7 @@ export default {
 
     <Textimagesplit
       title="ENKELT, SNABBT OCH SUPERGOTT."
-      subtitle="Recept och tips"
-      buttonText="Läs mer"
       imageSrc="berry.png"
-      imageSrc1="Pasta.jpg"
-      link="/fastsnacks"
     />
 
     <Textimagesplit1
