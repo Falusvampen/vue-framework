@@ -154,10 +154,12 @@ export default {
 .recipe-description {
   font-size: 1.15rem;
   line-height: 1.6;
-  color: #f0f0f0;
+  color: #ffffff;
   max-width: 700px;
   margin-top: 10px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.9),
+    0 0 10px rgba(0,0,0,0.7);
 }
 
 .floating-stats-container {

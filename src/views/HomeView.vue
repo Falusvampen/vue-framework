@@ -173,6 +173,7 @@ export default {
     <Textimagesplit
       title="ENKELT, SNABBT OCH SUPERGOTT."
       imageSrc="berry.png"
+      imageAlt="Skål med färska bär och yoghurt" />
     />
 
     <Textimagesplit1
